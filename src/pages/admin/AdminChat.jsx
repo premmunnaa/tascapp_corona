@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 // import './index.css';
 import { Link, useHistory } from "react-router-dom";
-import { List, Avatar,Card,Button } from 'antd';
+import { List, Avatar,Card,Button,Row,Col } from 'antd';
 import { Chat } from 'react-chat-popup';
 import  { useEffect, useState } from 'react';
 import * as firebase from 'firebase';
@@ -85,9 +85,43 @@ const chatfunc=(id)=>{
 });
 }
 
-var testElements = document.getElementsByClassName('test');
-var testDivs = Array.prototype.filter.call(testElements, function(testElement){
-  return testElement.nodeName === 'DIV';
-});
+return(
+  <div>
+  <div className  = "font-header" style={{paddingLeft:10}}>Let's Chat</div>
+  <Row style = {{paddingTop:10,paddingRight:15}}>
+    <Col span={24} style={{paddingRight:15,paddingLeft:10}}>
+    <List
+      itemLayout="horizontal"
+      dataSource={message}
+      renderItem={item => (
+        <List.Item
+        
+        onClick = {() => {
+          console.log("List on click")
+          history.push({
+                pathname: '/ChatAdmin',
+                state: {vendorid:item}
+          })
+        }}
+        >
+         
+       
+        
+          {/* <Button onClick={() =>chatfunc(item)} > */}
+        
+          <List.Item.Meta
+            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+            title={item}
+            description="hi this is prem"
+            extra = "Chat"
+          />
+          {/* </Button> */}
+        </List.Item>
+      )}
+    />
+    </Col>
+    </Row>
+  </div>
+  );
 }
 export default AdminChats;
