@@ -85,24 +85,9 @@ const chatfunc=(id)=>{
 });
 }
 
-return(
-
-  <List
-    itemLayout="horizontal"
-    dataSource={message}
-    renderItem={item => (
-      <List.Item>
-        <Button onClick={() =>chatfunc(item)} >
-        <List.Item.Meta
-          avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-          title={item}
-          description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-        />
-        </Button>
-      </List.Item>
-    )}
-  />
-
-);
+var testElements = document.getElementsByClassName('test');
+var testDivs = Array.prototype.filter.call(testElements, function(testElement){
+  return testElement.nodeName === 'DIV';
+});
 }
 export default AdminChats;

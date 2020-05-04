@@ -191,6 +191,7 @@ const VendorChat=props=>  {
        
       })
     }else if(index!==len){
+      console.log("type",data[index-1].type)
         if(data[index-1].type==="customer"){
             addResponseMessage(data[index-1].text);
             }
