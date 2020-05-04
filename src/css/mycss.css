@@ -1,0 +1,278 @@
+body{
+    background: radial-gradient(#e5e5e5,#ffff,#e5e5e5);
+}
+.card{
+    width: 20rem;
+    height: 23rem;
+}
+
+.card:hover{
+    box-shadow: 5px 10px 20px 1px rgba(0,0,0,0.253)!important;
+    color: chocolate;
+}
+
+.card-body{
+    padding: 3rem 0!important;
+    
+}
+.row-form{
+    padding-top: 1rem;
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+}
+
+.card-text{
+    font-size: large;
+    padding: 0.4rem 1.9rem;
+}
+
+.container-fluid.row{
+    padding-top:2rem;
+    padding-left: 15rem;
+}
+
+.overflow{
+    overflow: hidden;
+}
+
+.card-img-top{
+    transform: scale(1);
+    transition: transform 0;
+}
+
+.card-img-top:hover{
+    transform: scale(1.3);
+}
+
+.font-format{
+    font-size: larger;
+    font-weight: 500;
+}
+
+.cascader-format{
+    float: right;
+    padding-top: 25px;
+    padding-right: 1rem;
+}
+.vendorDisplayCard{
+    width: 80%;
+    line-height: 1.2;
+}
+
+.container-format{
+    width: 100%;
+}
+.image-row{
+   
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.font-header{
+    font-size: 20px;
+    font-weight: normal;
+    padding-top: 1rem;
+    
+    flex-direction: row;
+}
+.font-subheader{
+    font-size: 20px;
+    font-weight: normal;
+    padding-top: 1rem;
+    
+    flex-direction: row;
+
+}
+
+* {box-sizing: border-box;}
+body {font-family: Verdana, sans-serif;}
+.mySlides {display: block;}
+img {flex: 1;resize : horizontal;}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Caption text */
+
+
+/* Number text (1/3 etc) */
+
+
+/* The dots/bullets/indicators */
+
+
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .text {font-size: 11px}
+}
+
+.font-product{
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+.popup-format{
+    padding-top: 2rem;
+    padding-right: 2rem;
+}
+.font-heading{
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+/* Card Component */
+.vendorDisplayCard {
+    width: 100%;
+    max-height: 100%;
+}
+.ant-card-bordered{
+    border: 0px solid #f0f0f0;
+}
+.ant-card{
+    font-size: 13px;
+    width: 100%;
+    line-height: 1.2,
+    
+}
+.ant-upload.ant-upload-select-picture-card {
+    width: 150px
+    
+}
+.ant-upload{
+    line-height: 4.7;
+    width: 104px
+    
+}
+.location_icon{
+    width: 20px;
+    height: 15px;
+}
+.instock{
+    font-size: larger;
+    font-weight: 500;
+   /* padding-left: 5rem; */
+}
+.SearchBar{
+    padding-left: 4rem;
+    background-color: white;
+}
+.ant-input {
+    background-color: white;
+    line-height: 2.9715;
+    color: black;
+}
+.ant-input-affix-wrapper{
+    line-height: 2.5715;
+
+}
+.ant-cascader-picker{
+    background-color:white;
+    line-height: 1.5;
+    color: black;
+}
+
+.cascader{
+    background-color:black;
+    padding-left: 2rem;
+}
+.ant-upload-list-picture-card-container {
+    width: 200;
+    height: 200;
+}
+.ant-upload-list-picture-card .ant-upload-list-item {
+    width: 200;
+    height: 200;
+}
+
+.img-border{
+    border-style: ridge;
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+.font-subheadings{
+   
+    font-size: 22;
+    font-weight: 700;
+    color: black;
+}
+.ant-select-single:not(.ant-select-customize-input) .ant-select-selector{
+    height: 43px;
+}
+.textarea.ant-input-affix-wrapper{
+    line-height: 4.245;
+}
+.ant-upload {
+    line-height: 4.7;
+}
+.ant-btn{
+    height: 50.5;
+}
+.ant-upload.ant-upload-drag{
+    width: 100%;
+    height: 100%;
+}
+.ant-upload.ant-upload-drag p.ant-upload-drag-icon .anticon{
+    font-size: 80px;
+}
+.ant-card-meta-description {
+overflow:hidden;
+white-space:nowrap;
+text-overflow:ellipsis;
+
+}
+.cardbody{
+    overflow:hidden;
+white-space:nowrap;
+text-overflow:ellipsis;
+}
+.ant-card-meta-title {
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    font-size: 15px;
+    
+}
+.addButton {
+    
+    border-radius: 12px;
+    width: 25;
+    height: 25;
+    border: none;
+    
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+  .carousel{
+    border-style: ridge;
+    width: 100%;
+    height: 30vw;
+    object-fit: cover;
+  }
