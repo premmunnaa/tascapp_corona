@@ -1,6 +1,9 @@
 import React from 'react';
+import {  useHistory } from "react-router-dom";
+import * as firebase from 'firebase';
 import 'antd/dist/antd.css';
 import '../css/index.css';
+// import { withRouter } from 'react-router-dom';
 import { Layout, Col, Row, Space, Menu, Tooltip, Input } from 'antd';
 //import { white } from 'material-ui/styles/colors';
 import {
@@ -14,6 +17,16 @@ const { Header} = Layout;
 const { Search } = Input;
 class SiderMenuVendor extends React.Component {
   render() {
+   
+    function Signout(){
+      
+      firebase.auth().signOut().then(function() {
+        console.log("Hi buddy")
+      }, function(error) {
+        // An error happened.
+      });
+    }
+   
     return (
         <Header className="site-layout-background" >
           <Row>
@@ -43,8 +56,8 @@ class SiderMenuVendor extends React.Component {
                 <Tooltip placement="bottom" title={"Account"}>
                 <Link to='/VendorInfo'> <UserOutlined /></Link>
                 </Tooltip>
-                <Tooltip placement="bottom" title={"Logout"}>
-                <Link to ='/'><LogoutOutlined /></Link>  
+                <Tooltip placement="bottom" title={"Logout"} >
+              <Link to = '/'><a onClick ={Signout}><LogoutOutlined /></a>  </Link>
                 </Tooltip>
               </Space>
             </Col>

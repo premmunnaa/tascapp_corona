@@ -1,6 +1,7 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import '../css/index.css';
+import * as firebase from 'firebase';
 import { Layout, Col, Row, Space, Menu, Tooltip, Input } from 'antd';
 //import { white } from 'material-ui/styles/colors';
 import {
@@ -14,6 +15,14 @@ const { Header} = Layout;
 const { Search } = Input;
 class SiderMenuAdmin extends React.Component {
   render() {
+    function Signout(){
+      
+      firebase.auth().signOut().then(function() {
+        console.log("Hi buddy")
+      }, function(error) {
+        // An error happened.
+      });
+    }
     return (
         <Header className="site-layout-background" >
           <Row>
@@ -43,7 +52,7 @@ class SiderMenuAdmin extends React.Component {
                 <Link to = '/AdminProfile'> <UserOutlined /></Link>
                 </Tooltip>
                 <Tooltip placement="bottom" title={"Logout"}>
-                <Link to = '/'> <LogoutOutlined /></Link>
+                <Link to = '/'><a onClick ={Signout}><LogoutOutlined /></a>  </Link>
                 </Tooltip>
               </Space>
             </Col>
