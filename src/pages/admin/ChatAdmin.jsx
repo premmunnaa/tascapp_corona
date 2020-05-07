@@ -166,15 +166,16 @@ const ChatAdmin=props=>  {
  console.log("vendorchat",location.state.vendorid); 
  let vendorid=location.state.vendorid;
   useEffect(()=>{
+    var unsub;
     const db = firebase.firestore();
         var UserId;
-            firebase.auth().onAuthStateChanged((user) => {
+        const unsubscribe= firebase.auth().onAuthStateChanged((user) => {
                 if (user) {
                   // User logged in already or has just logged in.
                   UserId = user.uid;
                   console.log(UserId);
-              var collRef=  db.collection("User").doc(UserId).collection("Chat");
-                collRef.onSnapshot(querySnapshot => {
+                  const collRef=  db.collection("User").doc(UserId).collection("Chat");
+                   unsub=   collRef.onSnapshot(querySnapshot => {
                   let changes = querySnapshot.docChanges();
                   changes.forEach((change)=>{
                      console.log("change",change.doc);
@@ -185,9 +186,13 @@ const ChatAdmin=props=>  {
                     }      
                   })
                 })
+               
                 } else {
-                  // User not logged in or has just logged out.
+                  unsubscribe();
+                  unsub();
+                  console.log("logout");
                 }
+              
               });
             
       
@@ -219,7 +224,7 @@ const ChatAdmin=props=>  {
 const handleNewUserMessage = (newMessage) => {
   const db = firebase.firestore();
   console.log(`New message incoming..! ${newMessage}`);
-  firebase.auth().onAuthStateChanged(function(user) {
+  const unsubscribe= firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       console.log(user.uid);
       //sending to vendor document
@@ -241,6 +246,10 @@ const handleNewUserMessage = (newMessage) => {
             type:"customer"
           })
         }, {merge: true});
+    }
+    else{
+      unsubscribe();
+      console.log("logout");
     }
   });
 }

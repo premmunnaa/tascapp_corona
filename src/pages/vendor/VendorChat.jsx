@@ -151,23 +151,27 @@ const VendorChat=props=>  {
  console.log("vendorchat",location.state.vendorid); 
  let vendorid=location.state.vendorid;
   useEffect(()=>{
+    var unsub;
     const db = firebase.firestore();
         var UserId;
-            firebase.auth().onAuthStateChanged((user) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
                 if (user) {
                   // User logged in already or has just logged in.
                   UserId = user.uid;
                   console.log(UserId);
-              var collRef=  db.collection("User").doc(UserId).collection("Chat").doc(vendorid);
-                collRef.onSnapshot(querySnapshot => {
+              const collRef=  db.collection("User").doc(UserId).collection("Chat").doc(vendorid);
+               unsub=    collRef.onSnapshot(querySnapshot => {
                   let changes = querySnapshot.data();
                      console.log("change",changes);
                       getdata(changes.messages);
                       len=changes.messages.length;
                 })
                 } else {
-                  // User not logged in or has just logged out.
+                  unsubscribe();
+                  unsub();
+                  console.log("logout");
                 }
+                
               });
             
       
@@ -193,6 +197,7 @@ const VendorChat=props=>  {
     }else if(index!==len){
       console.log("type",data[index-1].type)
         if(data[index-1].type==="customer"){
+          console.log("respose from customer");
             addResponseMessage(data[index-1].text);
             }
     }
@@ -202,7 +207,7 @@ const VendorChat=props=>  {
 const handleNewUserMessage = (newMessage) => {
   const db = firebase.firestore();
   console.log(`New message incoming..! ${newMessage}`);
-  firebase.auth().onAuthStateChanged(function(user) {
+  const unsubscribe= firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       console.log(user.uid);
       //sending to vendor document
@@ -224,6 +229,10 @@ const handleNewUserMessage = (newMessage) => {
             type:"vendor"
           })
         }, {merge: true});
+    }
+    else{
+      console.log("logout");
+      unsubscribe();
     }
   });
 }

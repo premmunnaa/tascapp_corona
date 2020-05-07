@@ -17,17 +17,18 @@ const ChatComp=props=>  {
   } = props;
   let datacheck=0;
 
-  
+ 
   useEffect(()=>{
+    let unsub;
     const db = firebase.firestore();
         var UserId;
-            firebase.auth().onAuthStateChanged((user) => {
+        const  unsubscribe=   firebase.auth().onAuthStateChanged((user) => {
                 if (user) {
                   // User logged in already or has just logged in.
                   UserId = user.uid;
                   console.log(UserId);
               var collRef=  db.collection("User").doc(UserId).collection("Chat");
-                collRef.doc(vendorid).onSnapshot(querySnapshot => {
+               unsub= collRef.doc(vendorid).onSnapshot(querySnapshot => {
                   let changes = querySnapshot.data();
                   console.log("check",querySnapshot);
                   if(querySnapshot.exists){
@@ -38,6 +39,8 @@ const ChatComp=props=>  {
                 })
                 } else {
                   // User not logged in or has just logged out.
+                  unsubscribe();
+                  unsub();
                 }
               });
             
@@ -69,7 +72,7 @@ const ChatComp=props=>  {
 const handleNewUserMessage = (newMessage) => {
   const db = firebase.firestore();
   console.log(`New message incoming..! ${newMessage}`);
-  firebase.auth().onAuthStateChanged(function(user) {
+ const unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       console.log(user.uid);
       //sending to vendor document
@@ -97,6 +100,9 @@ const handleNewUserMessage = (newMessage) => {
             type:"customer"
           })
         },{merge: true});
+    }
+    else{
+      unsubscribe();
     }
   });
 }

@@ -18,17 +18,18 @@ const[message,UpdateMessage] = useState([]);
 const[MainChanges,UpdateChanges] = useState([])
 console.log("Main Changes :",MainChanges)
 useEffect(()=>{
+  let unsub;
     const db = firebase.firestore();
       var UserId;
-          firebase.auth().onAuthStateChanged((user) => {
+      const  unsubscribe = firebase.auth().onAuthStateChanged((user) => {
               if (user) {
                 // User logged in already or has just logged in.
                 UserId = user.uid;
                 console.log(UserId);
                      
-                var  collRef=  db.collection("User").doc(UserId).collection("Chat");
-              collRef.onSnapshot(querySnapshot => {
-                  console.log("Chagesssssss")
+                const  collRef=  db.collection("User").doc(UserId).collection("Chat");
+                unsub = collRef.onSnapshot(querySnapshot => {
+                console.log("Chagesssssss")
                 let changes = querySnapshot.docChanges();
                if(changes)
                 {
@@ -47,12 +48,16 @@ useEffect(()=>{
              
               console.log("inside",data);
               
+              
               } else {
                 // User not logged in or has just logged out.
+                unsubscribe();
+                unsub();
               }
+             
             });
           
-          
+           
 },[])
 
 const getdata=(data)=>{
@@ -77,13 +82,7 @@ UpdateMessage(value)
  
 }
 console.log("getDat contents: ",message);
-const chatfunc=(id)=>{
-  console.log("My id is :",id)
-  history.push({
-    pathname: '/ChatAdmin',
-    state: {vendorid:id}
-});
-}
+
 
 return(
   <div>
