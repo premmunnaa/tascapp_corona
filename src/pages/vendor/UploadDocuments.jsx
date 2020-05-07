@@ -17,7 +17,7 @@ const UploadDocuments = ()=>{
   const mainpage = ()=>{
     console.log(files[0].originFileObj);
     const db = firebase.firestore();
-    firebase.auth().onAuthStateChanged((user) => {
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         const storageRef = firebase.storage().ref();
 
@@ -49,6 +49,9 @@ const UploadDocuments = ()=>{
            })
         });
       
+      }
+      else{
+        unsubscribe();
       }
     })
     

@@ -24,7 +24,7 @@ componentDidMount(){
     var UserId;
     var dataarr=[];
     let promises =new Promise((Suceed,fail)=>{
-        firebase.auth().onAuthStateChanged((user) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             if (user) {
               // User logged in already or has just logged in.
               UserId = user.uid;
@@ -42,6 +42,7 @@ componentDidMount(){
            
           
             } else {
+                unsubscribe();
               // User not logged in or has just logged out.
             }
           });

@@ -76,7 +76,7 @@ const handleNewUserMessage = (newMessage) => {
     if (user) {
       console.log(user.uid);
       //sending to vendor document
-      console.log("new log",vendorid);
+      console.log("new log",vendorid,user.uid);
       var adminchat = db.collection("User").doc(vendorid).collection('Chat').doc(user.uid);
       var vendorchat = db.collection("User").doc(user.uid).collection('Chat').doc(vendorid);
         adminchat.set({
