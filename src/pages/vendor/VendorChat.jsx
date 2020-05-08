@@ -12,169 +12,41 @@ import { changeConfirmLocale } from 'antd/lib/modal/locale';
 import { Drawer, List, Divider, Col, Row } from 'antd';
 
 
-
-const pStyle = {
-    fontSize: 20,
-    lineHeight: '24px',
-    display: 'block',
-    marginBottom: 25,
-    fontWeight:500,
-  };
-  
-  const DescriptionItem = ({ title, content }) => (
-    <div
-      className="site-description-item-profile-wrapper"
-      style={{
-        fontSize: 14,
-        lineHeight: '22px',
-        marginBottom: 15,
-      }}
-    >
-      <p
-        className="site-description-item-profile-p"
-        style={{
-          marginRight: 8,
-       
-          display: 'inline-block',
-        }}
-      >
-        {title}:
-      </p>
-      {content}
-    </div>
-  );
-  
-  const UserProfile = props=>{
-  //   constructor(props) {
-  //     super(props);
-  //     this.state = {
-  //       InputData: [],
-  //     };
-  //   }
-  const{
-        vendorid
-  }=props
-  console.log("Userprofid",vendorid);
-  const[DataInp,UpdateDbdata] = useState([]);
-  const[Inp,Update] = useState(0);
-//   let DataInp = [];
-  console.log("DataInp : ",DataInp)
-  var FireData=[];
-  useEffect(()=>{
-  const db = firebase.firestore();
-        var docRef = db.collection("User").doc(vendorid);
-        docRef.get().then(function(doc) {
-          FireData = doc.data();
-        // DataInp=FireData;
-            console.log("Firedata: ",FireData);
-         console.log("DataInp: ",DataInp);
-         
-   UpdateDbdata(FireData);
-  
-      }).catch(function(error) {
-          console.log("Error getting document:", error);
-      });
-        
-    
- 
-  },[Inp])
-  console.log("DataInp: ",DataInp);
-      return (
-        
-            
-         <Col span = {24} style = {{paddingTop:"2rem",paddingLeft:"4rem"}}>
-          
-            <p className="site-description-item-profile-p" style={{ ...pStyle, marginBottom: 24 }}>
-              User Profile
-            </p>
-            <p className="site-description-item-profile-p" style={pStyle}>
-              Personal
-            </p>
-         
-            <Row style = {{paddingTop:"1rem"}}>
-              <Col span={8}>
-                <DescriptionItem title="Full Name" content={DataInp.firstname} />
-              </Col>
-              <Col span={8}>
-                <DescriptionItem title="Account" content={DataInp.email} />
-              </Col>
-            </Row>
-            <Row>
-              <Col span={8}>
-                <DescriptionItem title="City" content={DataInp.city} />
-              </Col>
-              <Col span={8}>
-                <DescriptionItem title="Country" content={DataInp.country} />
-              </Col>
-            </Row>
-            <Row>
-              <Col span={8}>
-                <DescriptionItem title="Website" content={DataInp.website} />
-              </Col>
-            </Row>
-           
-           
-            <p className="site-description-item-profile-p" style={pStyle}>
-              Contacts
-            </p>
-            <Row>
-              <Col span={8}>
-                <DescriptionItem title="Email" content={DataInp.email} />
-              </Col>
-              <Col span={8}>
-                <DescriptionItem title="Phone Number" content={DataInp.phone} />
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <DescriptionItem
-                  title="Address"
-                 content = {DataInp.address}
-                />
-              </Col>
-            </Row>
-          </Col>
-        
-      );
-    }
-  
-
-
-   
  
 const VendorChat=props=>  {
-  
+  const{
+vendorid
+  }=props
+console.log("vendoechat",vendorid);
+
   let datacheck=0;
   let len=0;
-    const location = useLocation();
    
- console.log("vendorchat",location.state.vendorid); 
- let vendorid=location.state.vendorid;
   useEffect(()=>{
     var unsub;
-    const db = firebase.firestore();
-        var UserId;
-        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-                if (user) {
-                  // User logged in already or has just logged in.
-                  UserId = user.uid;
-                  console.log(UserId);
-              const collRef=  db.collection("User").doc(UserId).collection("Chat").doc(vendorid);
-               unsub=    collRef.onSnapshot(querySnapshot => {
-                  let changes = querySnapshot.data();
-                     console.log("change",changes);
-                      getdata(changes.messages);
-                      len=changes.messages.length;
-                })
-                } else {
-                  unsubscribe();
-                  unsub();
-                  console.log("logout");
-                }
-                
-              });
-            
-      
+    if(vendorid!==undefined){
+      const db = firebase.firestore();
+      var UserId;
+      const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+              if (user) {
+                // User logged in already or has just logged in.
+                UserId = user.uid;
+                console.log(UserId);
+            const collRef=  db.collection("User").doc(UserId).collection("Chat").doc(vendorid);
+             unsub  =  collRef.onSnapshot(querySnapshot => {
+                let changes = querySnapshot.data();
+                   console.log("change",changes);
+                    getdata(changes.messages);
+              })
+              } else {
+                unsubscribe();
+                unsub();
+                console.log("logout");
+              }
+              
+            });
+          
+    }
   })
 
   const getdata = (data) => {
@@ -188,16 +60,17 @@ const VendorChat=props=>  {
       data.forEach((msg)=>{
           if(msg.type==="customer"){
             addResponseMessage(msg.text);
+            console.log("customer msg",msg.text);
           }
           else if(msg.type==="vendor"){
             addUserMessage(msg.text);
           }
        
       })
-    }else if(index!==len){
+    }else {
       console.log("type",data[index-1].type)
         if(data[index-1].type==="customer"){
-          console.log("respose from customer");
+          console.log("respose from customer",data[index-1].text);
             addResponseMessage(data[index-1].text);
             }
     }
@@ -238,8 +111,6 @@ const handleNewUserMessage = (newMessage) => {
 }
 
   return (
-      <div>
-          <UserProfile vendorid={vendorid}/>
     <div className="App">
       <Chat
     //   fullScreenMode={true}
@@ -249,7 +120,6 @@ const handleNewUserMessage = (newMessage) => {
         subtitle="And my cool subtitle"
          badge ={setBadgeCount}
       />
-    </div>
     </div>
   );
 }

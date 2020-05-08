@@ -19,32 +19,35 @@ const ChatComp=props=>  {
 
  
   useEffect(()=>{
-    let unsub;
-    const db = firebase.firestore();
-        var UserId;
-        const  unsubscribe=   firebase.auth().onAuthStateChanged((user) => {
-                if (user) {
-                  // User logged in already or has just logged in.
-                  UserId = user.uid;
-                  console.log(UserId);
-              var collRef=  db.collection("User").doc(UserId).collection("Chat");
-               unsub= collRef.doc(vendorid).onSnapshot(querySnapshot => {
-                  let changes = querySnapshot.data();
-                  console.log("check",querySnapshot);
-                  if(querySnapshot.exists){
-                    getdata(changes.messages);
+    if(vendorid!==undefined){
+      let unsub;
+      const db = firebase.firestore();
+          var UserId;
+          const  unsubscribe=   firebase.auth().onAuthStateChanged((user) => {
+                  if (user) {
+                    // User logged in already or has just logged in.
+                    UserId = user.uid;
+                    console.log(UserId);
+                var collRef=  db.collection("User").doc(UserId).collection("Chat");
+                 unsub= collRef.doc(vendorid).onSnapshot(querySnapshot => {
+                    let changes = querySnapshot.data();
+                    console.log("check",querySnapshot);
+                    if(querySnapshot.exists){
+                      getdata(changes.messages);
+                    }
+                   
+                  
+                  })
+                  } else {
+                    // User not logged in or has just logged out.
+                    unsubscribe();
+                    unsub();
                   }
-                 
-                
-                })
-                } else {
-                  // User not logged in or has just logged out.
-                  unsubscribe();
-                  unsub();
-                }
-              });
-            
-      
+                });
+              
+        
+    }
+   
   },)
 
   const getdata = (data) => {

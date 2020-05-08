@@ -6,6 +6,7 @@ import { Link, useHistory } from "react-router-dom";
 import { List, Avatar,Card,Button,Row,Col } from 'antd';
 import { Chat } from 'react-chat-popup';
 import  { useEffect, useState } from 'react';
+import ChatAdmin from '../admin/ChatAdmin';
 import * as firebase from 'firebase';
 const { Meta } = Card;
 
@@ -15,7 +16,10 @@ const AdminChats = ()=>{
     
 var check = 0;
 const[message,UpdateMessage] = useState([]);
+const[Vendorid,UpdateVendor] = useState(undefined);
 const[MainChanges,UpdateChanges] = useState([])
+const[count,UpdateCount] = useState({})
+
 console.log("Main Changes :",MainChanges)
 useEffect(()=>{
   let unsub;
@@ -70,7 +74,7 @@ data.forEach((change)=>{
 var count = {};
 value.map((i)=> { count[i] = (count[i]||0) + 1;});
 console.log("Count : ",count);
-
+UpdateCount(count)
 console.log("Before filter : ",value)
 value = value.filter((data,index)=>value.indexOf(data)==index)
 console.log("After filter : ",value)
@@ -82,7 +86,22 @@ UpdateMessage(value)
  
 }
 console.log("getDat contents: ",message);
-
+const ChatPopup= ()=>{
+  console.log("helo Dudde")
+  var testElements = document.getElementsByClassName('App');
+  var testDivs = Array.prototype.filter.call(testElements, function(testElement){
+    return testElement.nodeName === 'DIV';
+  });
+  console.log("Test Elements ..: ",testElements)
+  console.log("Test Element chilnodes : ",testElements.childNodes)
+  console.log("The test divs are ",testDivs,testDivs[0],testDivs[0].childNodes[0],testDivs[0].childNodes[0].childNodes);
+  let temp = testDivs[0].childNodes[0].childNodes[0];
+  // if(Chatbutton==0)
+  // {
+  // UpdateButton(temp);
+  // }
+  temp.click();
+}
 
 return(
   <div>
@@ -94,25 +113,28 @@ return(
       dataSource={message}
       renderItem={item => (
         <List.Item
-        
+        actions={[<font color="red">{count[item]}</font>]}
         onClick = {() => {
-          console.log("List on click")
-          history.push({
-                pathname: '/ChatAdmin',
-                state: {vendorid:item}
-          })
+          // console.log("List on click")
+          UpdateVendor(item);
+          ChatPopup();
+          // history.push({
+          //       pathname: '/ChatVendor',
+          //       state: {vendorid:item}
+          // })
         }}
+        
         >
          
        
         
           {/* <Button onClick={() =>chatfunc(item)} > */}
-        
+     
           <List.Item.Meta
             avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
             title={item}
-            description="hi this is prem"
-            extra = "Chat"
+            description={" hi bruh..!"}
+            
           />
           {/* </Button> */}
         </List.Item>
@@ -120,6 +142,9 @@ return(
     />
     </Col>
     </Row>
+    <ChatAdmin
+    vendorid = {Vendorid}
+    />
   </div>
   );
 }
