@@ -28,29 +28,42 @@ const LoginForm = () => {
     const history = useHistory();
 
     const onFinish = values => {
-      firebase
-      .auth()
-      .signInWithEmailAndPassword(values.email, values.password)
-      .then(res => {
-        if (res.user){
-          
-          var docRef = db.collection("User").doc(res.user.uid);
-          docRef.get().then(function(doc) {
-            if (doc.data().type == "Buyer") {
-              history.replace("/AdminInventory");
-            } else if(doc.data().type == "Seller") {
-              history.replace("/SellerCart");
-            }
-        }).catch(function(error) {
-            console.log("Error getting document:", error);
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+      .then(function() {
+        // Existing and future Auth states are now persisted in the current
+        // session only. Closing the window would clear any existing state even
+        // if a user forgets to sign out.
+        // ...
+        // New sign-in will be persisted with session persistence.
+        return firebase
+        .auth()
+        .signInWithEmailAndPassword(values.email, values.password)
+        .then(res => {
+          if (res.user){
+            
+            var docRef = db.collection("User").doc(res.user.uid);
+            docRef.get().then(function(doc) {
+              if (doc.data().type === "Buyer") {
+                history.replace("/AdminInventory");
+              } else if(doc.data().type === "Seller") {
+                history.replace("/SellerCart");
+              }
+          }).catch(function(error) {
+              console.log("Error getting document:", error);
+          });
+            
+          }
+        })
+        .catch(e => {
+          console.log(e.message);
         });
-          
-        }
       })
-      .catch(e => {
-        console.log(e.message);
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        
       });
-      console.log('Received values of form: ', values);
     };  
       // console.log('Received values of form: ', values);
       // history.replace("/SellerCart");  // base page for Vendor 
