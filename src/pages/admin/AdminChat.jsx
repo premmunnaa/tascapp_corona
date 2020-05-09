@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
+import SiderMenuAdmin from '../../components/SiderMenuAdmin';
 // import './index.css';
 import { Link, useHistory } from "react-router-dom";
 import { List, Avatar,Card,Button,Row,Col } from 'antd';
@@ -76,7 +77,7 @@ value.map((i)=> { count[i] = (count[i]||0) + 1;});
 console.log("Count : ",count);
 UpdateCount(count)
 console.log("Before filter : ",value)
-value = value.filter((data,index)=>value.indexOf(data)==index)
+value = value.filter((data,index)=>value.indexOf(data)===index)
 console.log("After filter : ",value)
 UpdateMessage(value) 
 
@@ -87,6 +88,7 @@ UpdateMessage(value)
 }
 console.log("getDat contents: ",message);
 const ChatPopup= ()=>{
+  console.log("Admin chat",Vendorid);
   console.log("helo Dudde")
   var testElements = document.getElementsByClassName('App');
   var testDivs = Array.prototype.filter.call(testElements, function(testElement){
@@ -104,7 +106,9 @@ const ChatPopup= ()=>{
 }
 
 return(
+ 
   <div>
+    <SiderMenuAdmin/>
   <div className  = "font-header" style={{paddingLeft:10}}>Let's Chat</div>
   <Row style = {{paddingTop:10,paddingRight:15}}>
     <Col span={24} style={{paddingRight:15,paddingLeft:10}}>

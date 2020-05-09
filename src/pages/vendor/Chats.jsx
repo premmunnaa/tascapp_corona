@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
+import SiderMenuVendor from '../../components/SiderMenuVendor'
 // import './index.css';
 import { Link, useHistory } from "react-router-dom";
 import { List, Avatar,Card,Button,Row,Col} from 'antd';
@@ -135,6 +136,7 @@ const Counting = (id)=>{
 }
 return(
 <div>
+<SiderMenuVendor/>
 <div className  = "font-header" style={{paddingLeft:10}}>Let's Chat</div>
 <Row style = {{paddingTop:10,paddingRight:15}}>
   <Col span={24} style={{paddingRight:15,paddingLeft:10}}>
