@@ -40,7 +40,7 @@ return(
       <List.Item>
        
         <span>
-        <Checkbox style = {{fontSize:12}}  value={item.title}>{item.title}
+        <Checkbox style = {{fontSize:12, fontWeight: 500}}  value={item.title}>{item.title}
      
        </Checkbox></span>
       </List.Item></Row>

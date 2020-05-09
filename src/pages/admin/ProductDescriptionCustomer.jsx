@@ -34,9 +34,61 @@ const ProductDescriptionCustomer = props=>{
         <SiderMenuAdmin/>
             <Content>
                 <Row>
-                <Col style = {{paddingTop:"2rem",paddingLeft:"2rem"}} span={10}>
-                     
-                     <Carousel autoplay>
+                <Col style = {{paddingTop:"2rem",paddingLeft:"2rem"}} span={12}>
+                <div style = {{paddingBottom : "2rem"}} className  = "font-header">PRODUCT IMAGES</div> 
+                <div class="container">
+                
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+   
+    <ol class="carousel-indicators">
+    {
+             image.map((index)=>(
+                 index==0 ? (
+                    <li data-target="#myCarousel" data-slide-to={index} class="active"></li>
+                 ):(
+                    <li data-target="#myCarousel" data-slide-to={index}></li>
+                 )
+     
+     
+     
+             ),)
+        }
+    </ol>
+
+   
+    <div class="carousel-inner">
+        {
+             image.map((img,index)=>(
+                    index==0 ? (
+                        <div class="item active">
+                        <img src={img} alt="Los Angeles" style={{width:"100%"}}/>
+                      </div>
+                    ):(
+                        <div class="item">
+        <img src={img} alt="Los Angeles" style={{width:"100%"}}/>
+      </div>
+                    )
+      
+
+    
+             ),)
+    }
+    </div>
+
+    
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
+</Col>
+                     {/* <Carousel autoplay>
                          {
                              image.map((img)=>(
                                 //  <div>
@@ -51,9 +103,9 @@ const ProductDescriptionCustomer = props=>{
                          }
                     
                      
-                 </Carousel>
-                                             </Col>
-                                             <Col span = {3}></Col>
+                 </Carousel> */}
+                                            
+                                             <Col span = {2}><div class="headerDivider"></div></Col>
                                              <Col span={6} style = {{paddingTop:"2rem",paddingRight:"1rem"}}>
                                              <ProductDetailsCustomer
                                                 Name = {location.state.product}
@@ -77,7 +129,7 @@ const ProductDescriptionCustomer = props=>{
                
                
                 <Row>
-                    <Row style={{width:"100%",marginTop:"10%"}}>
+                    <Row style={{width:"100%",marginTop:"10%",paddingLeft:"2rem"}}>
                     <div className  = "font-header">PRODUCTS YOU MIGHT LIKE</div>
                     </Row>
         <Row style={{width:"100%"}}>          

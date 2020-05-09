@@ -12,7 +12,7 @@ import {
   UserOutlined,
   ShoppingCartOutlined
 } from '@ant-design/icons';
-import { Link, Router } from 'react-router-dom';
+import { NavLink, Router } from 'react-router-dom';
 const { Header} = Layout;
 const { Search } = Input;
 class SiderMenuVendor extends React.Component {
@@ -37,9 +37,9 @@ class SiderMenuVendor extends React.Component {
             </Col>
             <Col span={17}>
               <Space direction={"horizontal"} size={40}>
-              <Link to='/SellerCart'> <span>Home</span></Link>
-               <Link to='/SellerProductReport'> <span>Product Report </span></Link>
-               <Link to='/vendorchat'> <span>Chats </span></Link>
+              <NavLink to='/SellerCart' activeClassName="your-active-class" className="link"> <span>Home</span></NavLink>
+               <NavLink to='/SellerProductReport' activeClassName="your-active-class" className="link"> <span>Product Report </span></NavLink>
+               <NavLink to='/vendorchat' activeClassName="your-active-class" className="link"> <span>Chats </span></NavLink>
                
                 
                
@@ -51,13 +51,13 @@ class SiderMenuVendor extends React.Component {
                   <AppstoreOutlined />
                 </Tooltip>
                 <Tooltip placement="bottom" title={"Cart"}>
-                <Link to='/SellerCart'>  <ShoppingCartOutlined /></Link>
+                <NavLink to='/SellerCart' activeClassName="your-active-class" className="link">  <ShoppingCartOutlined /></NavLink>
                 </Tooltip>
                 <Tooltip placement="bottom" title={"Account"}>
-                <Link to='/VendorInfo'> <UserOutlined /></Link>
+                <NavLink to='/VendorInfo' activeClassName="your-active-class" className="link"> <UserOutlined /></NavLink>
                 </Tooltip>
                 <Tooltip placement="bottom" title={"Logout"} >
-              <Link to = '/'><a onClick ={Signout}><LogoutOutlined /></a>  </Link>
+              <NavLink to = '/' activeClassName="your-active-class" className="link"><a onClick ={Signout}><LogoutOutlined /></a>  </NavLink>
                 </Tooltip>
               </Space>
             </Col>
