@@ -36,7 +36,11 @@ console.log("vendoechat",vendorid);
              unsub  =  collRef.onSnapshot(querySnapshot => {
                 let changes = querySnapshot.data();
                    console.log("change",changes);
+                   if(querySnapshot.exists){
                     getdata(changes.messages);
+                  }else{
+                    dropMessages();
+                  }
               })
               } else {
                 unsubscribe();
@@ -86,22 +90,48 @@ const handleNewUserMessage = (newMessage) => {
       //sending to vendor document
     var adminchat = db.collection("User").doc(vendorid).collection('Chat').doc(user.uid);
      var vendorchat = db.collection("User").doc(user.uid).collection('Chat').doc(vendorid);
-        adminchat.set({
-          messages:firebase.firestore.FieldValue.arrayUnion({
-            // time:firebase.firestore.FieldValue.serverTimestamp(),
-            text:newMessage,
-            type:"vendor"
+     adminchat.get()
+      .then((docSnapshot) => {
+          if(docSnapshot.exists){
+            db.runTransaction(transaction => {
+              return transaction.get(adminchat).then(snapshot => {
+                var largerArray = snapshot.get('messages');
+                largerArray.push({text:newMessage,type:"customer"});
+                transaction.update(adminchat, 'messages', largerArray);
+              });
+            });
+          }
+          else{
+          adminchat.set({
+            messages:[{
+              text:newMessage,
+              type:"vendor"
+          }]
+        })
+           
+          }
+      });
+
+      vendorchat.get()
+      .then((docSnapshot) => {
+          if(docSnapshot.exists){
+            db.runTransaction(transaction => {
+              return transaction.get(vendorchat).then(snapshot => {
+                var largerArray = snapshot.get('messages');
+                largerArray.push({text:newMessage,type:"customer"});
+                transaction.update(vendorchat, 'messages', largerArray);
+              });
+            });
+          }
+          else{
+            vendorchat.set({
+              messages:[{
+                text:newMessage,
+                type:"vendor"
+            }]
           })
-          
-    
-         }, {merge: true});
-         vendorchat.set({
-          messages:firebase.firestore.FieldValue.arrayUnion({
-            // time:firebase.firestore.FieldValue.serverTimestamp(),
-            text:newMessage,
-            type:"vendor"
-          })
-        }, {merge: true});
+          }
+        });
     }
     else{
       console.log("logout");
