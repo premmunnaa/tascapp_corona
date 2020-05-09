@@ -152,7 +152,7 @@ this.setState({InputData : Input})
                 <Form.Item
                   name="name"
                   label="Name"
-                  rules={[{ required: true, message: 'Please enter user name' }]}
+                  // rules={[{ required: true, message: 'Please enter user name' }]}
                 >
                   <Input placeholder="Please enter user name" />
                 </Form.Item>
@@ -161,7 +161,7 @@ this.setState({InputData : Input})
                 <Form.Item
                   name="email"
                   label="EmailID"
-                  rules={[{ required: true, message: 'Please enter Emailid' }]}
+                  // rules={[{ required: true, message: 'Please enter Emailid' }]}
                 >
                   <Input
                     style={{ width: '100%' }}
@@ -176,7 +176,7 @@ this.setState({InputData : Input})
               <Form.Item
                   name="address"
                   label="Address"
-                  rules={[{ required: true, message: 'Please enter address' }]}
+                  // rules={[{ required: true, message: 'Please enter address' }]}
                 >
                   <Input placeholder="Please enter address" />
                 </Form.Item>
@@ -187,7 +187,7 @@ this.setState({InputData : Input})
               <Form.Item
                   name="city"
                   label="City"
-                  rules={[{ required: true, message: 'Please Choose city' }]}
+                  // rules={[{ required: true, message: 'Please Choose city' }]}
                 >
                    <Input placeholder="Please enter city" />
                 </Form.Item>
@@ -200,7 +200,7 @@ this.setState({InputData : Input})
               <Form.Item
                   name="website"
                   label="Website"
-                  rules={[{ required: true, message: 'Please enter Website' }]}
+                  // rules={[{ required: true, message: 'Please enter Website' }]}
                 >
                   <Input placeholder="Please enter Website" />
                 </Form.Item>
@@ -211,7 +211,7 @@ this.setState({InputData : Input})
               <Form.Item
                   name="Country"
                   label="Country"
-                  rules={[{ required: true, message: 'Please Choose Country' }]}
+                  // rules={[{ required: true, message: 'Please Choose Country' }]}
                 >
                    <Input placeholder="Please enter Country" />
                 </Form.Item>
@@ -224,7 +224,7 @@ this.setState({InputData : Input})
               <Form.Item
                   name="phone"
                   label="phone"
-                  rules={[{ required: true, message: 'Please enter phone' }]}
+                  // rules={[{ required: true, message: 'Please enter phone' }]}
                 >
                   <Input placeholder="Please enter phone" />
                 </Form.Item>

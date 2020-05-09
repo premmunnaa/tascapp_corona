@@ -109,10 +109,12 @@ return(
   <Row style = {{paddingTop:10,paddingRight:15}}>
     <Col span={24} style={{paddingRight:15,paddingLeft:10}}>
     <List
+      
       itemLayout="horizontal"
       dataSource={message}
       renderItem={item => (
         <List.Item
+      
         actions={[<font color="red">{count[item]}</font>]}
         onClick = {() => {
           // console.log("List on click")
