@@ -14,14 +14,18 @@ const { Meta } = Card;
 const Chats = ()=>{
   const history = useHistory()
     let data = [];
-    
+    let status = "Read";
+    let color = "green";  
 var msgcount = [];
 
 const[message,UpdateMessage] = useState([]);
+
 const[MainChanges,UpdateChanges] = useState([])
-const[Vendorid,UpdateVendor] = useState(undefined)
-const[count,UpdateCount] = useState({});
+const[Vendor,UpdateVendor] = useState({name:"say",count:1,id:undefined})
+
+let count = {};
 console.log("Main Changes :",MainChanges)
+console.log("Message start :",message)
 
 useEffect(()=>{
     
@@ -76,21 +80,26 @@ data.forEach((change)=>{
 
 console.log("Values ..!,",value)
 
-let prom = new Promise((succeed,fail)=>{
-  value.map((i)=> { count[i] = (count[i]||0) + 1;
-    console.log(i + " : ",count[i]);
+let promis = new Promise((succeed,fail)=>{
+  
+  value.map((i,index)=> { count[i] = (count[i]||0) + 1;
+    console.log("Major :",i + " : ",count[i]);
     obj["id"]=i;
     obj["count"]=count[i];
     var  collRef=  db.collection("User").doc(i);
     collRef.get().then((data)=>{
       obj["name"]=data.data().firstname;
+      console.log("Inside Promise : ",obj["name"])
     })
   });
   msg.push(obj);
+  console.log("Then Promise : ",msg.name)
   succeed(msg);
 })
-prom.then((data)=>{
+promis.then((data)=>{
   console.log("prem",data);
+ 
+  
   UpdateMessage(data) 
 }) 
 
@@ -105,8 +114,8 @@ prom.then((data)=>{
 }
 console.log("getDat contents: ",message);
 
-const ChatPopup= ()=>{
-  console.log("helo Dudde")
+const ChatPopup= (item)=>{
+  console.log("Inside Chat popup : ",item)
   var testElements = document.getElementsByClassName('App');
   var testDivs = Array.prototype.filter.call(testElements, function(testElement){
     return testElement.nodeName === 'DIV';
@@ -120,21 +129,13 @@ const ChatPopup= ()=>{
   // UpdateButton(temp);
   // }
   temp.click();
+ 
 }
-const Counting = (id)=>{
-    //UpdateCount(id)
-  //   let value = [];
-  //   console.log("Helo Counting")
-  //   MainChanges.forEach((change)=>{
-  //     value.push(change.doc.id);
-      
-  //  })
-  //  console.log("Values ..!,",value)
-   
-  //  value.map((i)=> { count[i] = (count[i]||0) + 1;
-  //    console.log("Inside Counting "+i + " : ",count[i]);
-  //  });
-  //   return 
+const Counting = (item)=>{
+  console.log("Inside Counting ",item,typeof(item)) 
+  console.log("Inside Counting ",item.name)
+  // console.log("Counting name ",)
+   return item.name
 }
 return(
 <div>
@@ -149,15 +150,16 @@ return(
       <List.Item
       actions={[<font color="red">{item.count}</font>]}
       onClick = {() => {
-        UpdateVendor(item.id);
-        ChatPopup();
+        UpdateVendor(item);
+        
+        ChatPopup(item);
       }}
       
       >
      <List.Item.Meta
           avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-          title={item.name}
-          description={" hi bruh..!"}
+          title={Counting(item)}
+          description={ item.count<=1 ? (<font color = "green">Read</font>):(<font color = "red">New</font>) }
           
         />
      
@@ -166,9 +168,7 @@ return(
   />
   </Col>
   </Row>
-  <VendorChat
-  vendorid = {Vendorid}
-  />
+  <VendorChat vendor = {Vendor}/>
 </div>
 );
 }

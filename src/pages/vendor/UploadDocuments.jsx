@@ -14,8 +14,13 @@ const { Dragger } = Upload;
 var files =[];
 const UploadDocuments = ()=>{
   const history = useHistory()
+
   const mainpage = ()=>{
+
+    if(files.length!==0)
+    {
     console.log(files[0].originFileObj);
+   
     const db = firebase.firestore();
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -50,11 +55,18 @@ const UploadDocuments = ()=>{
         });
       
       }
+
       else{
         unsubscribe();
       }
-    })
     
+    })
+    }
+    else
+    {
+      message.error(`No file Uploaded...`);
+      console.log("nope")
+    }
   }
 const props = {
   name: 'file',
@@ -119,7 +131,7 @@ return(
    <Col span = {8}></Col>
    <Col span = {4} style = {{paddingTop:"5rem"}}>
    <Button type="primary" htmlType = "submit" style={{float:"Right"}} onClick = {mainpage}>
-     Back to main Page
+     Submit
    </Button></Col></Row>
    </div>
 );

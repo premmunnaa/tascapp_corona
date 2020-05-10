@@ -135,7 +135,7 @@ var UserId;
       // User not logged in or has just logged out.
     }
   });
-},[FireData])
+},[])
 
     const history = useHistory()  
     const ProfilePage = ()=>{
@@ -156,7 +156,7 @@ var UserId;
         
                     <Col span={10}></Col>
                     <Col span={6}></Col>
-                    <Col span={4}><Button type="primary" htmlType="submit" onClick = {ProfilePage}>
+                    <Col span={4}><Button  type="primary" htmlType="submit" onClick = {ProfilePage}>
                       Edit Profile
                    </Button></Col> 
                     </Row>
@@ -180,8 +180,9 @@ var UserId;
                             <Col span={6}></Col> 
                             <Col span = {10} style = {{paddingRight:10}}>
                             
-                            <div className = "container-fluid.row" >
+                            <div style = {{paddingTop:20}} className = "container-fluid.row" >
                     <Card
+
                     hoverable
                     className = "vendorDisplayCard"
                     

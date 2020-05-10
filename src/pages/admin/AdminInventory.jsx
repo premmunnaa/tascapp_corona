@@ -245,7 +245,8 @@ const CategoryFilter = (value) => {
                     {
                         Loader ? ( 
                             displayVendors.length===0 ? (
-                                <Empty/>
+                                <div>
+                               <Col span = {8}></Col> <Col style = {{paddingTop:"10rem",paddingLeft:"15rem"}}><Empty/></Col></div>
                             ) : (
                                 displayVendors.map((item) => 
                     
