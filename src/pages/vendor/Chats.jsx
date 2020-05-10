@@ -66,29 +66,37 @@ useEffect(()=>{
 const getdata=(data)=>{
   const db = firebase.firestore();
     let value = [];
+    let msg =[];
+    let obj={};
 data.forEach((change)=>{
 
    value.push(change.doc.id);
    
 })
-value.map((id)=>{
-  
-  var  collRef=  db.collection("User").doc(id);
-  collRef.get().then((data)=>{
-    console.log("Names : ",data.data().firstname)
-  })
-})
+
 console.log("Values ..!,",value)
 
-value.map((i)=> { count[i] = (count[i]||0) + 1;
-  console.log(i + " : ",count[i]);
-});
-UpdateCount(count)
+let prom = new Promise((succeed,fail)=>{
+  value.map((i)=> { count[i] = (count[i]||0) + 1;
+    console.log(i + " : ",count[i]);
+    obj["id"]=i;
+    obj["count"]=count[i];
+    var  collRef=  db.collection("User").doc(i);
+    collRef.get().then((data)=>{
+      obj["name"]=data.data().firstname;
+    })
+  });
+  msg.push(obj);
+  succeed(msg);
+})
+prom.then((data)=>{
+  console.log("prem",data);
+  UpdateMessage(data) 
+}) 
 
-console.log("Before filter : ",value)
-value = value.filter((data,index)=>value.indexOf(data)==index)
-console.log("After filter : ",value)
-UpdateMessage(value) 
+
+
+
 
   
  console.log("Data inside GetData  : ",data,typeof(data))
@@ -96,13 +104,7 @@ UpdateMessage(value)
  
 }
 console.log("getDat contents: ",message);
-// const chatfunc=(id)=>{
-//   console.log("My id is :",id)
-//   history.push({
-//     pathname: '/ChatVendor',
-//     state: {vendorid:id}
-// });
-// }
+
 const ChatPopup= ()=>{
   console.log("helo Dudde")
   var testElements = document.getElementsByClassName('App');
@@ -145,30 +147,20 @@ return(
     dataSource={message}
     renderItem={item => (
       <List.Item
-      actions={[<font color="red">{count[item]}</font>]}
+      actions={[<font color="red">{item.count}</font>]}
       onClick = {() => {
-        // console.log("List on click")
-        UpdateVendor(item);
+        UpdateVendor(item.id);
         ChatPopup();
-        // history.push({
-        //       pathname: '/ChatVendor',
-        //       state: {vendorid:item}
-        // })
       }}
       
       >
-       
-     
-      
-        {/* <Button onClick={() =>chatfunc(item)} > */}
-   
-        <List.Item.Meta
+     <List.Item.Meta
           avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-          title={item}
+          title={item.name}
           description={" hi bruh..!"}
           
         />
-        {/* </Button> */}
+     
       </List.Item>
     )}
   />

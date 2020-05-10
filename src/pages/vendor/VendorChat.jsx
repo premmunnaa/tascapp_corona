@@ -35,7 +35,7 @@ console.log("vendoechat",vendorid);
             const collRef=  db.collection("User").doc(UserId).collection("Chat").doc(vendorid);
              unsub  =  collRef.onSnapshot(querySnapshot => {
                 let changes = querySnapshot.data();
-                   console.log("change",changes);
+                   console.log("prem change",querySnapshot);
                    if(querySnapshot.exists){
                     getdata(changes.messages);
                   }else{
@@ -96,7 +96,7 @@ const handleNewUserMessage = (newMessage) => {
             db.runTransaction(transaction => {
               return transaction.get(adminchat).then(snapshot => {
                 var largerArray = snapshot.get('messages');
-                largerArray.push({text:newMessage,type:"customer"});
+                largerArray.push({text:newMessage,type:"vendor"});
                 transaction.update(adminchat, 'messages', largerArray);
               });
             });
@@ -118,7 +118,7 @@ const handleNewUserMessage = (newMessage) => {
             db.runTransaction(transaction => {
               return transaction.get(vendorchat).then(snapshot => {
                 var largerArray = snapshot.get('messages');
-                largerArray.push({text:newMessage,type:"customer"});
+                largerArray.push({text:newMessage,type:"vendor"});
                 transaction.update(vendorchat, 'messages', largerArray);
               });
             });
