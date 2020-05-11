@@ -69,7 +69,7 @@ const CardComp = props =>{
       description={category +" by "+company}
      
     /><br></br>
-      <Row><Col span = {2}><EnvironmentOutlined /> </Col><Col span = {10}><font className = "cardbody" size="small">{city}</font> </Col><Col span={6}></Col> <Col span={4} className = "instock"><font color ="green">Instock</font></Col>
+      <Row><Col span = {2}><EnvironmentOutlined /> </Col><Col span = {10}><font className = "cardbody" size="small">{city}</font> </Col><Col span={2}></Col> <Col span={6} className = "instock"><font color ="green">Instock</font></Col>
       </Row> 
    
      

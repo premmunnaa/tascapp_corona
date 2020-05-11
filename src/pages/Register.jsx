@@ -424,13 +424,13 @@ return (
 class Register extends React.Component {
     render() {
         return ( 
-            <Layout style={{ minHeight: '100vh' }} className="bg">
+            <Layout style={{ minHeight: '150vh' }} className="bg">
                 <Layout className="site-layout">
                     <Affix><HeaderMenu /></Affix>
                     
                     <div className="site-card-border-less-wrapper" className="bg">
                         <Row  className="row-form">
-                            <Card title="Registration" bordered={true} style={{ width: 500, height:850,}}>
+                            <Card title="Registration" bordered={true} style={{ width: 500}}>
                                 <RegistrationForm />
                             </Card>
                         </Row>

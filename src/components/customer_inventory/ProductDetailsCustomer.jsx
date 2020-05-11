@@ -73,7 +73,7 @@ const Tovendor =()=>{
         <div>
 
        
-    <font className = "font-header"> {Name}</font> </div>
+    <font className = "font-header" style = {{paddingTop:10}}> {Name}</font> </div>
     <div class="ant-card-meta-description" style = {{paddingLeft:"5rem"}}>{Category} by {Company}</div>
     <div class="ant-card-meta-description" style = {{paddingLeft:"5rem",paddingTop:"1rem"}}>{ShortDes}</div>
     <br></br>
@@ -81,10 +81,10 @@ const Tovendor =()=>{
     
  
     <br></br>
-    <div style={{paddingTop : "3rem"}} ><font className = "font-subheadings" >PRODUCT DETAILS </font></div>
+    <div style={{paddingTop : "3rem"}} ><font className = "font-subheader" >Product Details </font></div>
     
     <p className ="ant-card-meta-description" style = {{paddingRight:10,paddingTop:10}}>{ProductDetails}</p>
-        <div ><font className = "font-subheadings" >DESIGN DETAILS </font> </div>
+        <div ><font className = "font-subheader" >Design Details </font> </div>
         <p className ="ant-card-meta-description" style = {{paddingRight:10,paddingTop:10
         }}>
             <ul>

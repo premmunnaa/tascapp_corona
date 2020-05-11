@@ -15,16 +15,17 @@ import { Drawer, List, Divider, Col, Row } from 'antd';
  
 const VendorChat=props=>  {
   const{
-vendorid
+vendor,
+count
   }=props
-console.log("vendoechat",vendorid);
+console.log("vendoechat",vendor);
 
   let datacheck=0;
   let len=0;
    
   useEffect(()=>{
     var unsub;
-    if(vendorid!==undefined){
+    if(vendor.id!==undefined){
       const db = firebase.firestore();
       var UserId;
       const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
@@ -32,7 +33,7 @@ console.log("vendoechat",vendorid);
                 // User logged in already or has just logged in.
                 UserId = user.uid;
                 console.log(UserId);
-            const collRef=  db.collection("User").doc(UserId).collection("Chat").doc(vendorid);
+            const collRef=  db.collection("User").doc(UserId).collection("Chat").doc(vendor.id);
              unsub  =  collRef.onSnapshot(querySnapshot => {
                 let changes = querySnapshot.data();
                    console.log("prem change",querySnapshot);
@@ -88,8 +89,8 @@ const handleNewUserMessage = (newMessage) => {
     if (user) {
       console.log(user.uid);
       //sending to vendor document
-    var adminchat = db.collection("User").doc(vendorid).collection('Chat').doc(user.uid);
-     var vendorchat = db.collection("User").doc(user.uid).collection('Chat').doc(vendorid);
+    var adminchat = db.collection("User").doc(vendor.id).collection('Chat').doc(user.uid);
+     var vendorchat = db.collection("User").doc(user.uid).collection('Chat').doc(vendor.id);
      adminchat.get()
       .then((docSnapshot) => {
           if(docSnapshot.exists){
@@ -146,9 +147,9 @@ const handleNewUserMessage = (newMessage) => {
     //   fullScreenMode={true}
         handleNewUserMessage={handleNewUserMessage}
       //  profileAvatar={kefi}
-        title="Lets Chat"
+        title={vendor.name}
         subtitle="And my cool subtitle"
-         badge ={setBadgeCount}
+         badge ={vendor.count}
       />
     </div>
   );

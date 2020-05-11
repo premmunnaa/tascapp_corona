@@ -76,7 +76,7 @@ body{
     flex-direction: row;
 }
 .font-subheader{
-    font-size: 20px;
+    font-size: 18px;
     font-weight: normal;
     padding-top: 1rem;
     
@@ -165,10 +165,7 @@ img {flex: 1;resize : horizontal;}
     width: 104px
     
 }
-.location_icon{
-    width: 20px;
-    height: 15px;
-}
+
 .instock{
     font-size: larger;
     font-weight: 500;
@@ -273,6 +270,48 @@ text-overflow:ellipsis;
   .carousel{
     border-style: ridge;
     width: 100%;
-    height: 30vw;
+    height: 31vw;
     object-fit: cover;
   }
+
+  
+  .container {
+      width: 621px;
+  }
+  .carousel-indicators li {
+      margin-right: "1rem";
+      margin-left: "1rem";
+      margin-top: "1rem";
+      margin-bottom: "1rem";
+  }
+
+.headerDivider {
+    border-left:1px solid #38546d; 
+    border-right:1px solid #16222c; 
+    height:90%;
+    position:absolute;
+    
+    top:10px; 
+}
+a.link:hover {
+    /*Any style you want to have link on mouse over*/
+   color: yellow;
+  }
+  .your-active-class{
+   /*Any style you want to have link that is active*/
+   color: yellow;
+   }
+   
+.ant-list-item-meta{
+    cursor: pointer;
+   }
+
+.carousel-inner>.item>img {
+    height: -webkit-fill-available;
+    object-fit: cover;
+}
+
+.ant-form-item-label > label{
+    font-weight: 500;
+}
+       

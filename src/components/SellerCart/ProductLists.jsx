@@ -3,7 +3,7 @@ import React from 'react'
 import  '../../css/mycss.css'
 import 'antd/dist/antd.css';
 import * as firebase from 'firebase';
-import { Col, Row ,Button,Form,InputNumber} from "antd";
+import { Col, Row ,Button,Form,InputNumber,Input} from "antd";
 import { useState } from 'react';
 import { useEffect } from 'react';
 const db = firebase.firestore();
@@ -36,7 +36,8 @@ const ViewProducts = props=>{
   const [EditMode,UpdateMode] = useState(false)
   console.log("ProductArray : ",ProductArray)
   console.log("Products : ",props.products)
- const ChangeMode = () =>{
+ 
+  const ChangeMode = () =>{
     UpdateMode(true);
   }
  useEffect(() => {
@@ -127,7 +128,8 @@ const onFinish = (values)=>{
                       // ]}
                       >
                     <Col span={6}>     
-                      <InputNumber 
+                      <Input 
+                        style = {{width:200}}
                         defaultValue = {Number(product.count)}
                         
                         />
@@ -145,7 +147,7 @@ const onFinish = (values)=>{
          <Col span={8}></Col>
          
           <Form.Item >
-            <Button  type = "primary" htmlType="submit" >Submit</Button>
+            <Button  type = "primary" htmlType="submit" style = {{width:170,height:50}} >Submit</Button>
             </Form.Item>
        </Row>
  </Form>

@@ -102,7 +102,11 @@ useEffect(()=>{
             }
           });
     }
+<<<<<<< HEAD
 
+=======
+  });
+>>>>>>> 82bb0c6788edc0314026f32910160b4fb3fe9f6d
 },[])
 
     const history = useHistory()  
@@ -124,7 +128,7 @@ useEffect(()=>{
         
                     <Col span={10}></Col>
                     <Col span={6}></Col>
-                    <Col span={4}><Button type="primary" htmlType="submit" onClick = {ProfilePage}>
+                    <Col span={4}><Button  type="primary" htmlType="submit" onClick = {ProfilePage}>
                       Edit Profile
                    </Button></Col> 
                     </Row>
@@ -148,8 +152,9 @@ useEffect(()=>{
                             <Col span={6}></Col> 
                             <Col span = {10} style = {{paddingRight:10}}>
                             
-                            <div className = "container-fluid.row" >
+                            <div style = {{paddingTop:20}} className = "container-fluid.row" >
                     <Card
+
                     hoverable
                     className = "vendorDisplayCard"
                     

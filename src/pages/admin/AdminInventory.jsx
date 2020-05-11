@@ -202,7 +202,7 @@ const CategoryFilter = (value) => {
                 <div className="site-card-wrapper">
                 <Row>
                     
-                <Col span={4} style={{paddingLeft:20,paddingTop:10}}>CATEGORIES</Col>
+                <Col span={4} style={{paddingLeft:10,paddingTop:20}}><font className = "font-subheader">CATEGORIES</font></Col>
                     <Col span={10} style={{paddingTop:10,paddingLeft:20}}>
                     <AutoComplete
                             options={options}
@@ -245,7 +245,8 @@ const CategoryFilter = (value) => {
                     {
                         Loader ? ( 
                             displayVendors.length===0 ? (
-                                <Empty/>
+                                <div>
+                               <Col span = {8}></Col> <Col style = {{paddingTop:"10rem",paddingLeft:"15rem"}}><Empty/></Col></div>
                             ) : (
                                 displayVendors.map((item) => 
                     
