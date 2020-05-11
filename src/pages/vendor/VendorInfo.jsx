@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory,useLocation } from "react-router-dom";
 import firebase from 'firebase';
 import ProfileImage from '../../components/VendorInfo/ProfileImage'
 import 'antd/dist/antd.css';
@@ -16,6 +16,7 @@ import SiderMenuVendor from '../../components/SiderMenuVendor';
 import Cart from '../../components/SellerCart/Cart'
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
+import ViewDoc from '../../components/customer_inventory/ViewDocuments';
 const { Meta } = Card;
 const {Content} = Layout;
 const antIcon = <LoadingOutlined style={{ fontSize: 50,paddingLeft:"20rem",paddingTop:"10rem" }} spin />
@@ -27,122 +28,89 @@ var Address = "No 40/1 bunder garden main st"
 var Place = "chennai"
 var Image = comp_image;
 
-const toggle_variable = 1; // from DB
-
-const CartData = [
-    {
-       
-            title: "Masks",
-            company : "Amazon",
-            city : "Chennai",
-            products: [{
-                subtype : "SurgicalMask",
-               count : 30,
-                
-            },
-            {
-                subtype : "N95mask",
-                count : 50
-            }
-        ]
-        
-    },
-    {
-       
-        title: "Injections",
-        company : "Amazon",
-        city : "Chennai",
-        products: [{
-            subtype : "Antiseptics",
-           count : 9,
-            
-        },
-        {
-            subtype : "TT Injection",
-            count : 50
-        }
-    ]
-    
-},
-
-    {
-       
-        title: "Suits",
-        company : "Flipper",
-        city : "Chennai",
-        products: [
-            {
-                subtype : "Gowns",
-                count : 5
-            },
-           {
-                    subtype :"DoctorSuits",
-                    count : 10
-           }
-        
-    ]
-    
-},
-
-{
-  title: "Ventilators",
-  company : "Zomato",
-  city : "Chennai",
-    products: [
-        
-            {
-                subtype : "Gowns",
-                count : 5
-            },
-           
-
-    ]
-}
+// from DB
 
 
-]
   
-const VendorInfo = () =>{
-
+const VendorInfo =props=>{
+    console.log("Props are ..!",props);
+    let location = useLocation();
+    const toggle_variable = location.state.toggle_variable; 
     const[Loader,UpdateLoader] = useState(false)
     const[DataInp,UpdateDbdata] = useState([]);
+    const[Products,UpdateProducts] = useState([]);
 console.log("DataInp : ",DataInp)
 var FireData=[];
+let dataarr=[];
 useEffect(()=>{
-const db = firebase.firestore();
-//    Input = this.state.InputData.slice;
-var UserId;
 
-// let Promises  = new Promise((succeed,fail)=>{
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      // User logged in already or has just logged in.
-      UserId = user.uid;
-      console.log(UserId);
-      var docRef = db.collection("User").doc(UserId);
-      docRef.get().then(function(doc) {
-        FireData = doc.data();
-       
-       console.log("Firedata: ",FireData)
-  UpdateDbdata(FireData);
-  UpdateLoader(true);
-
-    }).catch(function(error) {
-        console.log("Error getting document:", error);
-    });
-      
-    } else {
-      // User not logged in or has just logged out.
+    if(toggle_variable===0){
+        const db = firebase.firestore();
+       let vendorid = location.state.vendorid;
+        console.log(vendorid);
+        var docRef = db.collection("User").doc(vendorid);
+        var collRef=  db.collection("User").doc(vendorid).collection("Products");
+        collRef.get().then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                dataarr.push(doc.data());
+            });
+          })
+        docRef.get().then(function(doc) {
+          FireData = doc.data();
+         
+         console.log("Firedata: ",FireData)
+    UpdateDbdata(FireData);
+    UpdateProducts(dataarr);
+    UpdateLoader(true);
+  
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+      });
+        
+    }else{
+        const db = firebase.firestore();
+        //    Input = this.state.InputData.slice;
+        var UserId;
+        
+        // let Promises  = new Promise((succeed,fail)=>{
+          firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              // User logged in already or has just logged in.
+              UserId = user.uid;
+              console.log(UserId);
+              var docRef = db.collection("User").doc(UserId);
+              var collRef=  db.collection("User").doc(UserId).collection("Products");
+              collRef.get().then(querySnapshot => {
+                  querySnapshot.forEach(doc => {
+                      dataarr.push(doc.data());
+                  });
+                })
+              docRef.get().then(function(doc) {
+                FireData = doc.data();
+               
+               console.log("Firedata: ",FireData)
+          UpdateDbdata(FireData);
+          UpdateProducts(dataarr);
+          UpdateLoader(true);
+        
+            }).catch(function(error) {
+                console.log("Error getting document:", error);
+            });
+              
+            } else {
+              // User not logged in or has just logged out.
+            }
+          });
     }
-  });
-},[FireData])
+
+},[])
 
     const history = useHistory()  
     const ProfilePage = ()=>{
    
     history.push('/VendorProfile')
     }
-    if(toggle_variable == 1)
+    if(toggle_variable === 1)
     {
         return  <Layout style={{ minHeight: '100vh' }}>
                 
@@ -240,7 +208,7 @@ var UserId;
         </Content>
     </Layout>
     }
-    else if(toggle_variable ==0)
+    else if(toggle_variable ===0)
     {
         return  <Layout style={{ minHeight: '100vh' }}>
                 
@@ -263,15 +231,16 @@ var UserId;
                             <Col span ={8} style ={{paddingLeft:20,paddingTop:"1rem"}}>
                         
                             <MainList 
-                            name = {Name_of_organisation} 
-                            emailid = {Emailid}
-                            number = {Contact_number}
-                            place = {Place}
-                            address = {Address}
-                            website = {Website}
+                           name = {DataInp.company} 
+                           emailid = {DataInp.email}
+                           number = {DataInp.phone}
+                           place = {DataInp.city}
+                           address = {DataInp.address}
+                           website = {DataInp.website}
+                           
                             />
-                            
-                            
+                        <Row><font className = "font-heading">Documents</font> </Row>
+                        <Row><ViewDoc vendorid={location.state.vendorid}/></Row>
                             </Col>
                             <Col span={6}></Col> 
                             <Col span = {10} style = {{paddingRight:10}}>
@@ -281,12 +250,12 @@ var UserId;
                     hoverable
                     className = "vendorDisplayCard"
                     // cover = {<Col span={20} style = {{paddingRight:10}}><ProfileImage/></Col>}
-                    cover={<img alt="example" src={comp_image} className="card-img-top"/>}
+                    cover={Loader ?(<img alt="example" src={DataInp.profileImg} className="card-img-top"/>):(<Spin indicator={antIcon} />)}
                     >
                     <Meta
 
-                    title={Name_of_organisation}
-                    description="Ranked 10th in global market"
+                    title={DataInp.company}
+                    description={DataInp.shortdescription}
 
                     /><br></br><br></br>
                     <Card style ={{lineHeight:2}} type="inner" title="Description">
@@ -308,24 +277,27 @@ var UserId;
                         <Col span ={24} style={{paddingLeft:10}}>
                     <Row style = {{paddingTop:"1rem"}}>
                         {
-                    CartData.map((data)=>
-                    data.products.map((item,index)=>
-                            
+                    Products.map((item)=>
+                  
                     <Col span={6} style={{paddingLeft:10,paddingTop:"2rem"}}>
                                         
                     <Cart
-                        imgsrc = {data.image} 
-                        category = {data.title}
-                        Name = {item.subtype} 
+                        imgsrc = {item.imgurls} 
+                        category = {item.title}
+                        proddetails={item.productdetails}
+                        desdetails={item.designdetails}
+                        shortdes={item.shortdescription}
+                        Name = {item.sub_type} 
                         count = {item.count}
-                        city ={data.city}
-                        company = {data.company}
-                        
+                        city ={item.city}
+                        company = {item.company}
+                        toggle = {0}
+                        vendorid={location.state.vendorid}
                         />
 
                     </Col>
                     )
-                    )
+                    
                     }            
                     </Row>      
                     </Col>

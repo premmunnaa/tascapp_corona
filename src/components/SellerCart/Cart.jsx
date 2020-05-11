@@ -24,16 +24,26 @@ const Cart = props =>{
         category,
         proddetails,
         desdetails,
-        shortdes
+        toggle,
+        shortdes,
+        vendorid
     } = props
-    const prod_description = ()=>{
+    // console.log("prem",props)
+    const prod_edit = ()=>{
         history.push({
             pathname: '/Product_edit',
             state: { imgurls:imgsrc,id:id,subprod:Name,category:category,shortdes:shortdes,proddetails:proddetails,desdetails:desdetails,count:count }
         });
+    }
+      const prod_description = ()=>{
+            history.push({
+                pathname: '/Product_description',
+                state: { vendorid:vendorid,id:id,product:Name,category:category,shortdescription:shortdes,productdetails:proddetails,designdetails:desdetails,count:count,company:company,city:city,image:imgsrc}
+            });
+        }
     //  history.push('Product_edit',{id:id,subprod:Name,category:category,shortdes:shortdes,proddetails:proddetails,desdetails:desdetails,count:count})
     // history.push('/Product_edit');
-    }
+    
     let status;
     let color;
      if(count>100)
@@ -56,7 +66,7 @@ const Cart = props =>{
                 
                 <Card
                 style = {{lineHeight:1.2}}
-                onClick = {prod_description}
+                onClick = {toggle===0?(prod_description):(prod_edit)}
                 size = "small"
                 hoverable
                 className = "vendorDisplayCard"

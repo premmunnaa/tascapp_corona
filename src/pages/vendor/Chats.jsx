@@ -74,24 +74,34 @@ data.forEach((change)=>{
    
 })
 
-console.log("Values ..!,",value)
+console.log("Values ..!,",value);
 
-let prom = new Promise((succeed,fail)=>{
-  value.map((i)=> { count[i] = (count[i]||0) + 1;
-    console.log(i + " : ",count[i]);
+
+Promise.all(value.map((i)=> { count[i] = (count[i]||0) + 1;
+    console.log("prem",i + " : ",count[i]);
+    obj={};
     obj["id"]=i;
     obj["count"]=count[i];
-    var  collRef=  db.collection("User").doc(i);
-    collRef.get().then((data)=>{
-      obj["name"]=data.data().firstname;
+    // obj["name"]="prem";
+    // 
+    // }).then(()=>{
+    //   msg.push(obj);
+    // })
+   return obj;
+  })).then((data)=>{
+    Promise.all( data.map((obj,index)=>{
+      var  collRef=  db.collection("User").doc(obj.id);
+      collRef.get().then((data)=>{
+        obj["name"]=data.data().firstname;
+        console.log("prem name:",obj);
+      })
+      console.log("prem index",data[index]);
+      return obj;
+    })).then((newdata)=>{
+      console.log("premkumar",newdata);
+      UpdateMessage(newdata) 
     })
-  });
-  msg.push(obj);
-  succeed(msg);
-})
-prom.then((data)=>{
-  console.log("prem",data);
-  UpdateMessage(data) 
+   
 }) 
 
 

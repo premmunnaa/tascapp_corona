@@ -54,7 +54,9 @@ class SiderMenuVendor extends React.Component {
                 <Link to='/SellerCart'>  <ShoppingCartOutlined /></Link>
                 </Tooltip>
                 <Tooltip placement="bottom" title={"Account"}>
-                <Link to='/VendorInfo'> <UserOutlined /></Link>
+                <Link to={{pathname:"/VendorInfo",
+                   state:{toggle_variable:1}
+              }}> <UserOutlined /></Link>
                 </Tooltip>
                 <Tooltip placement="bottom" title={"Logout"} >
               <Link to = '/'><a onClick ={Signout}><LogoutOutlined /></a>  </Link>

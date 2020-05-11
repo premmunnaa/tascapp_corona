@@ -27,10 +27,10 @@ const ProductDetailsCustomer = props =>{
 
     const history = useHistory();
 
-const ToChat =()=>{
+const Tovendor =()=>{
   history.push({
-    pathname: '/check',
-    state: { id:id,vendorid:vendorid}
+    pathname: '/VendorInfo',
+    state: { toggle_variable:0,vendorid:vendorid}
 });
 }
 
@@ -77,7 +77,8 @@ const ToChat =()=>{
     <div class="ant-card-meta-description" style = {{paddingLeft:"5rem"}}>{Category} by {Company}</div>
     <div class="ant-card-meta-description" style = {{paddingLeft:"5rem",paddingTop:"1rem"}}>{ShortDes}</div>
     <br></br>
-    <Button type = "submit" style = {{width : 300, height : 50}}  className = "ant-btn ant-btn-primary" onClick = {ToCart}>Add to Cart</Button>
+  <span><Col span ={4}> <Button type = "submit" style = {{width : 300, height : 50,paddingRight:20}}  className = "ant-btn ant-btn-primary" onClick = {ToCart}>Add to Cart</Button></Col><Col span = {4} style = {{paddingLeft:10}}><Button type = "submit" style = {{width : 300, height : 50}}  className = "ant-btn ant-btn-primary" onClick = {Tovendor}>Vendor Infomation</Button></Col></span> 
+    
  
     <br></br>
     <div style={{paddingTop : "3rem"}} ><font className = "font-subheadings" >PRODUCT DETAILS </font></div>
