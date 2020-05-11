@@ -80,7 +80,6 @@ data.forEach((change)=>{
 
 console.log("Values ..!,",value);
 
-<<<<<<< HEAD
 
 Promise.all(value.map((i)=> { count[i] = (count[i]||0) + 1;
     console.log("prem",i + " : ",count[i]);
@@ -107,31 +106,7 @@ Promise.all(value.map((i)=> { count[i] = (count[i]||0) + 1;
       UpdateMessage(newdata) 
     })
    
-=======
-let promis = new Promise((succeed,fail)=>{
-  
-  value.map((i,index)=> { count[i] = (count[i]||0) + 1;
-    console.log("Major :",i + " : ",count[i]);
-    obj["id"]=i;
-    obj["count"]=count[i];
-    var  collRef=  db.collection("User").doc(i);
-    collRef.get().then((data)=>{
-      obj["name"]=data.data().firstname;
-      console.log("Inside Promise : ",obj["name"])
-    })
-  });
-  msg.push(obj);
-  console.log("Then Promise : ",msg.name)
-  succeed(msg);
-})
-promis.then((data)=>{
-  console.log("prem",data);
- 
-  
-  UpdateMessage(data) 
->>>>>>> 82bb0c6788edc0314026f32910160b4fb3fe9f6d
-}) 
-
+  })
 
 
 
