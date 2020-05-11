@@ -54,7 +54,13 @@ class SiderMenuVendor extends React.Component {
                 <NavLink to='/SellerCart' activeClassName="your-active-class" className="link">  <ShoppingCartOutlined /></NavLink>
                 </Tooltip>
                 <Tooltip placement="bottom" title={"Account"}>
+<<<<<<< HEAD
+                <Link to={{pathname:"/VendorInfo",
+                   state:{toggle_variable:1}
+              }}> <UserOutlined /></Link>
+=======
                 <NavLink to='/VendorInfo' activeClassName="your-active-class" className="link"> <UserOutlined /></NavLink>
+>>>>>>> 82bb0c6788edc0314026f32910160b4fb3fe9f6d
                 </Tooltip>
                 <Tooltip placement="bottom" title={"Logout"} >
               <NavLink to = '/' activeClassName="your-active-class" className="link"><a onClick ={Signout}><LogoutOutlined /></a>  </NavLink>
