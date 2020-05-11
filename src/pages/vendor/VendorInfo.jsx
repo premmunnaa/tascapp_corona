@@ -102,11 +102,7 @@ useEffect(()=>{
             }
           });
     }
-<<<<<<< HEAD
 
-=======
-  });
->>>>>>> 82bb0c6788edc0314026f32910160b4fb3fe9f6d
 },[])
 
     const history = useHistory()  
