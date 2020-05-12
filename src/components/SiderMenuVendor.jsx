@@ -3,6 +3,8 @@ import {  Link,useHistory } from "react-router-dom";
 import * as firebase from 'firebase';
 import 'antd/dist/antd.css';
 import '../css/index.css';
+import '../css/mycss.css';
+import image from '../images/TASC.jpeg'
 // import { withRouter } from 'react-router-dom';
 import { Layout, Col, Row, Space, Menu, Tooltip, Input } from 'antd';
 //import { white } from 'material-ui/styles/colors';
@@ -32,7 +34,7 @@ class SiderMenuVendor extends React.Component {
           <Row>
             <Col span={4}>
               <Space direction={"horizontal"} size={"large"} style = {{color:"white"}}>
-                <span>Corona Essentials</span>
+              <span><a href = "https://www.worldometers.info/coronavirus/" target="_blank" activeClassName="your-active-class" className="link"><img style={{width:70,height:45}} className = "card-img-logo" src = {image}></img></a></span>
               </Space>
             </Col>
             <Col span={17}>

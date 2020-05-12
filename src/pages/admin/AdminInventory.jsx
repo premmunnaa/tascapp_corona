@@ -202,12 +202,12 @@ const CategoryFilter = (value) => {
                 <div className="site-card-wrapper">
                 <Row>
                     
-                <Col span={4} style={{paddingLeft:10,paddingTop:20}}><font className = "font-subheader">CATEGORIES</font></Col>
-                    <Col span={10} style={{paddingTop:10,paddingLeft:20}}>
+                <Col span={3} style={{paddingLeft:10,paddingTop:20}}><font className = "font-subheader">CATEGORIES</font></Col>
+                    <Col span={10} style={{paddingTop:10,paddingLeft:15}}>
                     <AutoComplete
                             options={options}
                             style={{
-                                width: 400
+                                width: 450
                             }}
                             allowClear
                             onChange = {onChange}

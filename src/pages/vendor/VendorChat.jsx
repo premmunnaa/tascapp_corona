@@ -97,7 +97,7 @@ const handleNewUserMessage = (newMessage) => {
             db.runTransaction(transaction => {
               return transaction.get(adminchat).then(snapshot => {
                 var largerArray = snapshot.get('messages');
-                largerArray.push({text:newMessage,type:"vendor"});
+                largerArray.push({text:newMessage,type:"vendor",read:false});
                 transaction.update(adminchat, 'messages', largerArray);
               });
             });
@@ -106,7 +106,8 @@ const handleNewUserMessage = (newMessage) => {
           adminchat.set({
             messages:[{
               text:newMessage,
-              type:"vendor"
+              type:"vendor",
+              read:false
           }]
         })
            
@@ -119,7 +120,7 @@ const handleNewUserMessage = (newMessage) => {
             db.runTransaction(transaction => {
               return transaction.get(vendorchat).then(snapshot => {
                 var largerArray = snapshot.get('messages');
-                largerArray.push({text:newMessage,type:"vendor"});
+                largerArray.push({text:newMessage,type:"vendor",read:false});
                 transaction.update(vendorchat, 'messages', largerArray);
               });
             });
@@ -128,7 +129,8 @@ const handleNewUserMessage = (newMessage) => {
             vendorchat.set({
               messages:[{
                 text:newMessage,
-                type:"vendor"
+                type:"vendor",
+                read:false
             }]
           })
           }

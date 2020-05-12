@@ -82,7 +82,10 @@ const onFinish = (values)=>{
 }
  
    console.log("Props are ...",props)
-
+const Update = ()=>{
+  console.log("Cleared")
+  UpdateMode(false)
+}
    
     return (
       
@@ -95,9 +98,10 @@ const onFinish = (values)=>{
             <Col span={4}></Col>
             {
               EditMode ? (
-               <Col></Col>
+              <Col style = {{paddingLeft:10}} span= {4}><Button type = "submit" className = "ant-btn ant-btn-primary" onClick={Update}>Clear</Button></Col>
               ):(
                 <Col span ={4}><Button type = "submit" className = "ant-btn ant-btn-primary" onClick={ChangeMode}>Edit</Button></Col>
+                
               )
             }
             
@@ -106,6 +110,8 @@ const onFinish = (values)=>{
     
     {
   EditMode ? (
+    <div>
+    
     <Form {...layout}   name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
     {
     ProductArray.map((product,index)=>
@@ -149,11 +155,12 @@ const onFinish = (values)=>{
           <Form.Item >
             <Button  type = "primary" htmlType="submit" style = {{width:170,height:50}} >Submit</Button>
             </Form.Item>
+          
        </Row>
  </Form>
 
      
-    
+  </div>  
   ) :  (
     
     ProductArray.map((product)=>{

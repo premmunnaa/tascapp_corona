@@ -35,24 +35,48 @@ const validateMessages = {
 const EditProfile = () => {
 
   const history = useHistory()  
+  const[temp,updatetemp] = useState({});
+ let object = [];
+  useEffect(()=>{
+    const db = firebase.firestore();
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        const userRef = db.collection("User").doc(user.uid);
+        console.log("Id ",user.uid)
+       userRef.get().then(function(doc) {
+            object = doc.data();
+            console.log("MyObject : ",object)
+            updatetemp(object)
+        })
+        
+      }
+    })
+  },[])
+
+  console.log("Tha : ",temp)
+
   const onFinish = values => {
     console.log('Success:', values);
     const db = firebase.firestore();
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         const userRef = db.collection("User").doc(user.uid);
+
         userRef.get().then(function(doc) {
           userRef.update({
-           company:values.name_of_organisation,
-           email:values.emailid,
-           address:values.address,
-           shortdescription:values.short_description,
-           phone:values.contact_number,
-           description:values.description,
-           website:values.website
+           company:values.name_of_organisation===undefined ? (temp.company):(values.name_of_organisation),
+           email:values.emailid === undefined ? temp.email:values.emailid,
+           address:values.address===undefined? temp.address: values.address,
+           shortdescription:values.short_description===undefined ? temp.shortdescription:values.short_description,
+           phone:values.contact_number ===undefined ? temp.phone:values.contact_number,
+           description:values.description===undefined ? temp.description:values.description,
+           website:values.website===undefined ? temp.website:values.website
            }).then(function() {
              console.log("Document successfully written!");
-             history.push('/VendorInfo');
+              history.push({
+              pathname: '/VendorInfo',
+              state: { toggle_variable:1,vendorid:user.uid}
+              });
             console.log("Form values : ",values);
           
          })
@@ -106,7 +130,7 @@ const EditProfile = () => {
         name="name_of_organisation"
         
       >
-        <Input placeholder="Enter your Name Of Organisation"/>
+        <Input placeholder={temp.company}/>
       </Form.Item>
 
       <Form.Item
@@ -114,7 +138,7 @@ const EditProfile = () => {
         name="emailid"
        
       >
-        <Input placeholder="Enter your EmailID" />
+        <Input placeholder={temp.email} />
       </Form.Item>
 
       
@@ -123,7 +147,7 @@ const EditProfile = () => {
         name="contact_number"
        
       >
-        <Input placeholder="Enter your Contact Number" />
+        <Input placeholder={temp.phone} />
       </Form.Item>
 
       <Form.Item
@@ -131,7 +155,7 @@ const EditProfile = () => {
         label="Website"
        
       >
-        <AutoComplete options={websiteOptions} onChange={onWebsiteChange} placeholder="Website"  >
+        <AutoComplete options={websiteOptions} onChange={onWebsiteChange} placeholder={temp.website}>
           <Input />
         </AutoComplete>
       </Form.Item>
@@ -141,7 +165,7 @@ const EditProfile = () => {
         name="address"
        
       >
-        <Input placeholder="Enter your Address"  />
+        <Input placeholder={temp.address} />
       </Form.Item>
 
       <Form.Item
@@ -149,11 +173,11 @@ const EditProfile = () => {
         name="short_description"
        
       >
-        <Input  placeholder="Enter your Short Description"/>
+        <Input  placeholder={temp.shortdescription}/>
       </Form.Item>
 
       <Form.Item name="description"  label="Description">
-        <Input.TextArea placeholder="Enter your description"/>
+        <Input.TextArea placeholder={temp.description}/>
       </Form.Item>
       
       <Form.Item {...tailLayout} style = {{paddingLeft:"2rem",paddingTop:"2rem"}}>

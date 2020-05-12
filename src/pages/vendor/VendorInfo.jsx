@@ -33,34 +33,44 @@ var Image = comp_image;
 
   
 const VendorInfo =props=>{
-    console.log("Props are ..!",props);
+    console.log("Vendor Info Props are ..!",props);
     let location = useLocation();
+    const vendorid = location.state.vendorid
     const toggle_variable = location.state.toggle_variable; 
+    const[UserId,UpdateUser] = useState(undefined);
     const[Loader,UpdateLoader] = useState(false)
     const[DataInp,UpdateDbdata] = useState([]);
     const[Products,UpdateProducts] = useState([]);
+    console.log("Toggle : ",toggle_variable)
+    console.log("Vendorid : ",vendorid)
 console.log("DataInp : ",DataInp)
 var FireData=[];
 let dataarr=[];
+console.log("user : ",UserId)
 useEffect(()=>{
 
     if(toggle_variable===0){
         const db = firebase.firestore();
        let vendorid = location.state.vendorid;
-        console.log(vendorid);
+        console.log("Inside : ",vendorid);
         var docRef = db.collection("User").doc(vendorid);
         var collRef=  db.collection("User").doc(vendorid).collection("Products");
         collRef.get().then(querySnapshot => {
             querySnapshot.forEach(doc => {
                 dataarr.push(doc.data());
+                console.log("DOC Data ",doc.data(),typeof(doc.data()));
+                console.log("DOC DataArray ",dataarr,typeof(dataarr))
             });
+          }).then(()=>{
+            console.log("Data Array: ",dataarr)
+            UpdateProducts(dataarr);
           })
         docRef.get().then(function(doc) {
           FireData = doc.data();
          
-         console.log("Firedata: ",FireData)
+        
     UpdateDbdata(FireData);
-    UpdateProducts(dataarr);
+   
     UpdateLoader(true);
   
       }).catch(function(error) {
@@ -77,6 +87,7 @@ useEffect(()=>{
             if (user) {
               // User logged in already or has just logged in.
               UserId = user.uid;
+              UpdateUser(UserId)
               console.log(UserId);
               var docRef = db.collection("User").doc(UserId);
               var collRef=  db.collection("User").doc(UserId).collection("Products");
@@ -143,11 +154,13 @@ useEffect(()=>{
                             website = {DataInp.website}
                             />
                             
-                            
+                            <Row style = {{paddingTop:20}}><font className = "font-heading">Documents</font> </Row>
+                        <Row><ViewDoc vendorid={UserId}/></Row> 
                             </Col>
                             <Col span={6}></Col> 
                             <Col span = {10} style = {{paddingRight:10}}>
-                            
+
+                           
                             <div style = {{paddingTop:20}} className = "container-fluid.row" >
                     <Card
 
@@ -174,43 +187,17 @@ useEffect(()=>{
                     </Col>
                     </Row>
 
-                    {/* <Row style = {{paddingTop : 20,paddingLeft : 10}}>
-                    <Col span= {8} style ={{paddingLeft : 10}}>
-                    <div className = "font-heading">List Of Produts</div></Col></Row>
-                    <Row style = {{paddingTop : 20,paddingLeft : 5}}>
-                        <Col span ={24} style={{paddingLeft:10}}>
-                    <Row style = {{paddingTop:"1rem"}}>
-                        {
-                    CartData.map((data)=>
-                    data.products.map((item,index)=>
-                            
-                    <Col span={6} style={{paddingLeft:10,paddingTop:"2rem"}}>
-                                        
-                    <Cart
-                        imgsrc = {data.image} 
-                        category = {data.title}
-                        Name = {item.subtype} 
-                        count = {item.count}
-                        city ={data.city}
-                        company = {data.company}
-                        
-                        />
-
-                    </Col>
-                    )
-                    )
-                    }            
-                    </Row>      
-                    </Col>
-                    </Row> */}
+                   
                                 <Row style = {{height:50}}>
 
                                 </Row>
         </Content>
     </Layout>
     }
+   
     else if(toggle_variable ===0)
     {
+        console.log("Products : ",Products)
         return  <Layout style={{ minHeight: '100vh' }}>
                 
         <SiderMenuAdmin/>
@@ -240,7 +227,7 @@ useEffect(()=>{
                            website = {DataInp.website}
                            
                             />
-                        <Row><font className = "font-heading">Documents</font> </Row>
+                        <Row style = {{paddingTop:20}}><font className = "font-heading">Documents</font> </Row>
                         <Row><ViewDoc vendorid={location.state.vendorid}/></Row>
                             </Col>
                             <Col span={6}></Col> 
@@ -279,7 +266,7 @@ useEffect(()=>{
                     <Row style = {{paddingTop:"1rem"}}>
                         {
                     Products.map((item)=>
-                  
+                        
                     <Col span={6} style={{paddingLeft:10,paddingTop:"2rem"}}>
                                         
                     <Cart
@@ -293,7 +280,7 @@ useEffect(()=>{
                         city ={item.city}
                         company = {item.company}
                         toggle = {0}
-                        vendorid={location.state.vendorid}
+                        vendorid={vendorid}
                         />
 
                     </Col>

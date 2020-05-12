@@ -69,15 +69,15 @@ const Tovendor =()=>{
         
     }
     return(
-        <div>
-        <div>
+        <Col span = {24}>
 
        
-    <font className = "font-header" style = {{paddingTop:10}}> {Name}</font> </div>
+   <div> <font className = "font-header" style = {{paddingTop:10}}> {Name}</font> </div>
     <div class="ant-card-meta-description" style = {{paddingLeft:"5rem"}}>{Category} by {Company}</div>
     <div class="ant-card-meta-description" style = {{paddingLeft:"5rem",paddingTop:"1rem"}}>{ShortDes}</div>
     <br></br>
-  <span><Col span ={4}> <Button type = "submit" style = {{width : 300, height : 50,paddingRight:20}}  className = "ant-btn ant-btn-primary" onClick = {ToCart}>Add to Cart</Button></Col><Col span = {4} style = {{paddingLeft:10}}><Button type = "submit" style = {{width : 300, height : 50}}  className = "ant-btn ant-btn-primary" onClick = {Tovendor}>Vendor Infomation</Button></Col></span> 
+  <Row> <Col span = {8}><Button type = "submit" style = {{width : 200, height : 40}}  className = "ant-btn ant-btn-primary" onClick = {ToCart}>Add to Cart</Button></Col><Col span = {2}></Col> 
+  <Col span = {8} ><Button type = "submit" style = {{width : 200, height : 40}}  className = "ant-btn ant-btn-primary" onClick = {Tovendor}>Vendor Infomation</Button></Col></Row> 
     
  
     <br></br>
@@ -92,7 +92,7 @@ const Tovendor =()=>{
             </ul>
         
         </p>
-    </div>
+    </Col>
     )
 }
 export default ProductDetailsCustomer

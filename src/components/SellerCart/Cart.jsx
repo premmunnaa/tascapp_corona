@@ -5,6 +5,7 @@ import 'antd/dist/antd.css';
 
 import mask from '../../images/facemask.jpg'
 import { Col, Row ,Card} from "antd";
+import { Empty } from 'antd';
 import{
 EnvironmentOutlined,
 } from '@ant-design/icons';
@@ -28,7 +29,7 @@ const Cart = props =>{
         shortdes,
         vendorid
     } = props
-    // console.log("prem",props)
+     console.log("Cart Props ",props)
     const prod_edit = ()=>{
         history.push({
             pathname: '/Product_edit',
@@ -53,13 +54,14 @@ const Cart = props =>{
      }
      else if(count>10 && count<100)
      {
-        status = "Hurry"
+        status = "AlmostSold"
         color = "orange";
      }
      else{
          status = "OutOfstock"
          color = "red";
      }
+     console.log("Image : ",imgsrc[0])
     return(
         <div>
            
@@ -70,7 +72,7 @@ const Cart = props =>{
                 size = "small"
                 hoverable
                 className = "vendorDisplayCard"
-                cover={<img alt="example" src={imgsrc[0]} className="img-border" />}
+                cover={ imgsrc[0]===undefined ? (<Empty  />):(<img  src={imgsrc[0]} className="img-border" />)}
               >
                  <Meta
              

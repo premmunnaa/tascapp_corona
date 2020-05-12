@@ -44,6 +44,7 @@ const UserProfile = ()=>{
 //     };
 //   }
 const[DataInp,UpdateDbdata] = useState([]);
+const[Nope,UpdateNope] = useState(0)
 console.log("DataInp : ",DataInp)
 var FireData=[];
 useEffect(()=>{
@@ -72,7 +73,7 @@ var UserId;
       // User not logged in or has just logged out.
     }
   });
-},[FireData])
+},[])
     return (
       
           

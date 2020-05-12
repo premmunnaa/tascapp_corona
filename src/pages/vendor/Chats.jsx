@@ -9,6 +9,7 @@ import { Chat } from 'react-chat-popup';
 import VendorChat from '../../pages/vendor/VendorChat'
 import  { useEffect, useState } from 'react';
 import * as firebase from 'firebase';
+import { zIndex } from 'material-ui/styles';
 const { Meta } = Card;
 
 const Chats = ()=>{
@@ -38,22 +39,19 @@ useEffect(()=>{
                 console.log(UserId);
                      
                 var  collRef=  db.collection("User").doc(UserId).collection("Chat");
-              collRef.onSnapshot(querySnapshot => {
-                  console.log("Chagesssssss")
+                collRef.onSnapshot(querySnapshot => {
+                console.log("Chagesssssss")
                 let changes = querySnapshot.docChanges();
-               if(changes)
+                if(changes)
                 {
-               UpdateChanges(changes)
+                UpdateChanges(changes)
                 }
-                console.log("Changes is this ",changes)
+                 console.log("Changes is this ",changes)
                
-                   console.log("change",changes);
-              Array.prototype.push.apply(data,changes)
-                  console.log("Data type " , data,typeof(data)); 
-                 
-                
-               
-                getdata(data)
+                 console.log("change",changes);
+                 Array.prototype.push.apply(data,changes)
+                 console.log("Data type " , data,typeof(data)); 
+                 getdata(data)
               })
              
               console.log("inside",data);
@@ -68,54 +66,63 @@ useEffect(()=>{
 
 
 const getdata=(data)=>{
+  
   const db = firebase.firestore();
     let value = [];
     let msg =[];
     let obj={};
 data.forEach((change)=>{
+//   let array =[];
+//   Array.prototype.push.apply(array,change.doc.data().messages);
+//   console.log("False ",array)
+// let falsecount = 0;
+//   array.map((item)=>{
+    
+//     if (item.type===false)
+//     {
+//       falsecount++;
+//     }
+//   })
 
+//   console.log("False Count : ",falsecount)
    value.push(change.doc.id);
-   
+   count[change.doc.id] = (count[change.doc.id]||0) + 1;
+   console.log("prem",change.doc.id + " : ",count[change.doc.id]);
 })
 
+value = value.filter((item,index) =>value.indexOf(item)===index)
 console.log("Values ..!,",value);
+let Names = {};
 
-
-Promise.all(value.map((i)=> { count[i] = (count[i]||0) + 1;
-    console.log("prem",i + " : ",count[i]);
-    obj={};
-    obj["id"]=i;
-    obj["count"]=count[i];
-    // obj["name"]="prem";
-    // 
-    // }).then(()=>{
-    //   msg.push(obj);
-    // })
-   return obj;
-  })).then((data)=>{
-    Promise.all( data.map((obj,index)=>{
-      var  collRef=  db.collection("User").doc(obj.id);
-      collRef.get().then((data)=>{
-        obj["name"]=data.data().firstname;
-        console.log("prem name:",obj);
-      })
-      console.log("prem index",data[index]);
-      return obj;
-    })).then((newdata)=>{
-      console.log("premkumar",newdata);
-      UpdateMessage(newdata) 
-    })
-   
-  })
-
-
-
-
-  
- console.log("Data inside GetData  : ",data,typeof(data))
- console.log("Data[1] : ",data[0])
- 
+const dynamics = (value,item)=>{
+  console.log("Names dynamics key : ",value,item)
+  obj = {};
+  obj["id"] = item
+  obj["count"] = count[item]
+  obj["name"] = value
+  msg.push(obj)
 }
+
+  value.map((item,index)=>{
+    var  collRef=  db.collection("User").doc(item);
+      collRef.get().then((data)=>{
+      Names[item]=data.data().firstname;
+      console.log("names[item]",Names[item])
+      console.log("Names : ",Object.keys(Names)," : ",Object.values(Names));
+      dynamics(Names[item],item)
+      console.log("Names path: ",index)
+
+      if(index===value.length-1)
+      {
+        console.log("Names helo")
+        console.log("New Data : ",msg);
+        UpdateMessage(msg) 
+      }
+  })
+  
+})
+}
+
 console.log("getDat contents: ",message);
 
 const ChatPopup= (item)=>{
@@ -128,10 +135,7 @@ const ChatPopup= (item)=>{
   console.log("Test Element chilnodes : ",testElements.childNodes)
   console.log("The test divs are ",testDivs,testDivs[0],testDivs[0].childNodes[0],testDivs[0].childNodes[0].childNodes);
   let temp = testDivs[0].childNodes[0].childNodes[0];
-  // if(Chatbutton==0)
-  // {
-  // UpdateButton(temp);
-  // }
+  
   temp.click();
  
 }
@@ -141,6 +145,8 @@ const Counting = (item)=>{
   // console.log("Counting name ",)
    return item.name
 }
+console.log("Message : ",message);
+console.log("Message Vendor : ",Vendor)
 return(
 <div>
 <SiderMenuVendor/>
