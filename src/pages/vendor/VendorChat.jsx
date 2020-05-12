@@ -58,40 +58,9 @@ console.log("bage : ",badgecount)
   })
 
   const getdata = (data,collRef) => {
-    //  collRef.update({
-    //    messages : [{
-    //      text : data.
-    //      read : true
-    //    }]
-    //  })
-    const db = firebase.firestore();
-    collRef.get().then(function(doc){
-      
-      doc.data().messages.map((item,index)=>{
-        if(item.read===false && item.type ==="customer")
-        {
-          // collRef.update({
-          //   messages : [{
-          //     text : item.text,
-          //     read : true,
-          //     type:item.type  
-          //   }]
-
-            console.log("Index : ",index)
-          db.runTransaction(transaction => {
-            return transaction.get(collRef).then(snapshot => {
-              var largerArray = snapshot.get('messages');
-              largerArray.push({text:item.text,type:"customer",read:true});
-              transaction.update(collRef, 'messages', largerArray);
-            });
-          });
-           
-          
-          console.log("Check : ",item,item.read)
-        }
-      })
-      })
-    
+    collRef.update({
+      seen : true
+    })
     let index = data.length;
     if(datacheck===0){
       dropMessages();
@@ -134,8 +103,9 @@ const handleNewUserMessage = (newMessage) => {
             db.runTransaction(transaction => {
               return transaction.get(adminchat).then(snapshot => {
                 var largerArray = snapshot.get('messages');
-                largerArray.push({text:newMessage,type:"vendor",read:false});
+                largerArray.push({text:newMessage,type:"vendor"});
                 transaction.update(adminchat, 'messages', largerArray);
+                transaction.update(adminchat, "seen", false);
               });
             });
           }
@@ -143,8 +113,8 @@ const handleNewUserMessage = (newMessage) => {
           adminchat.set({
             messages:[{
               text:newMessage,
-              type:"vendor",
-              read:false
+              type:"vendor"
+             
           }]
         })
            
@@ -157,8 +127,9 @@ const handleNewUserMessage = (newMessage) => {
             db.runTransaction(transaction => {
               return transaction.get(vendorchat).then(snapshot => {
                 var largerArray = snapshot.get('messages');
-                largerArray.push({text:newMessage,type:"vendor",read:false});
+                largerArray.push({text:newMessage,type:"vendor"});
                 transaction.update(vendorchat, 'messages', largerArray);
+                transaction.update(vendorchat, "seen", false);
               });
             });
           }
@@ -167,7 +138,7 @@ const handleNewUserMessage = (newMessage) => {
               messages:[{
                 text:newMessage,
                 type:"vendor",
-                read:false
+                
             }]
           })
           }

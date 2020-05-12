@@ -14,7 +14,7 @@ const { Meta } = Card;
 
 const Chats = ()=>{
   const history = useHistory()
-  let PersonChatCount = 0;
+  
     let data = [];
     let status = "Read";
     let color = "green";  
@@ -22,6 +22,7 @@ var msgcount = [];
 
 const[message,UpdateMessage] = useState([]);
 const[PersonCount,UpdatePersonCount] = useState(0)
+const[Seen,UpdateSeen] = useState({});
 const[MainChanges,UpdateChanges] = useState([])
 const[Vendor,UpdateVendor] = useState({name:"say",count:1,id:undefined})
 
@@ -40,6 +41,7 @@ useEffect(()=>{
                 console.log(UserId);
                      
                 var  collRef=  db.collection("User").doc(UserId).collection("Chat");
+                var  babyRef=  db.collection("User").doc(UserId).collection("Chat").where("seen","==",false);
                 collRef.onSnapshot(querySnapshot => {
                 console.log("Chagesssssss")
                 let changes = querySnapshot.docChanges();
@@ -52,7 +54,7 @@ useEffect(()=>{
                  console.log("change",changes);
                  Array.prototype.push.apply(data,changes)
                  console.log("Data type " , data,typeof(data)); 
-                 getdata(data)
+                 getdata(data,babyRef)
               })
              
               console.log("inside",data);
@@ -66,34 +68,29 @@ useEffect(()=>{
 },[])
 
 
-const getdata=(data)=>{
+const getdata=(data,babyRef)=>{
+  babyRef.get().then(function (doc){
+    console.log("Doc : ",doc.docs.length)
+    UpdatePersonCount(doc.docs.length)
+  })
   let falsecount = {};
   const db = firebase.firestore();
     let value = [];
     let msg =[];
     let obj={};
+    let Seen_variable = {};
 data.forEach((change)=>{
  
-
+   Seen_variable={};
   
    value.push(change.doc.id);
    count[change.doc.id] = (count[change.doc.id]||0) + 1;
    console.log("prem",change.doc.id + " : ",count[change.doc.id]);
-
-   let array =[];
-   Array.prototype.push.apply(array,change.doc.data().messages);
-   console.log("False ",array)
-   let x=0;
-   array.map((item,index)=>{
-     
-     if (item.read===false && item.type==="customer")
-     {
-      x++;
-     }
-     falsecount[change.doc.id] = x;
-   })
-   console.log(change.doc.id ," False Count : ",falsecount[change.doc.id])
+   Seen_variable[change.doc.id] =  change.doc.data().seen;
+   console.log("Seen variable : ",Seen_variable);
+   
 })
+
 
 value = value.filter((item,index) =>value.indexOf(item)===index)
 console.log("Values ..!,",value);
@@ -105,10 +102,8 @@ const dynamics = (value,item)=>{
   obj["id"] = item
   obj["count"] = falsecount[item]
   obj["name"] = value
-  if(falsecount[item]>0)
-  {
-    PersonChatCount++;
-  }
+  obj["seen"] = Seen_variable[item];
+  console.log("Helo",item , ":",Seen_variable[item])
   msg.push(obj)
 }
 
@@ -126,7 +121,8 @@ const dynamics = (value,item)=>{
         console.log("Names helo")
         console.log("New Data : ",msg);
         UpdateMessage(msg);
-        UpdatePersonCount(PersonChatCount)
+        
+        UpdateSeen(Seen_variable);
       }
   })
   
@@ -147,13 +143,13 @@ const ChatPopup= (item)=>{
   let temp = testDivs[0].childNodes[0].childNodes[0];
   
   temp.click();
-  PersonChatCount--;
-  UpdatePersonCount(PersonChatCount)
+ 
  
 }
 
 console.log("Message : ",message);
 console.log("Message Vendor : ",Vendor)
+console.log("Final : ",PersonCount)
 
 return(
 <div>
@@ -177,7 +173,7 @@ return(
      <List.Item.Meta
           avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
           title={item.name}
-          description={ item.count>0 ? (<font color = "red">New</font>):(<font color = "green">Read</font>) }
+          description={ item.seen===false ? (<font color = "red">New</font>):(<font color = "green">Read</font>) }
           
         />
      
