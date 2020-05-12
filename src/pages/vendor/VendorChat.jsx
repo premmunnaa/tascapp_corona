@@ -15,16 +15,19 @@ import { Drawer, List, Divider, Col, Row } from 'antd';
  
 const VendorChat=props=>  {
   const{
-vendorid
+vendor,
+badgecount
   }=props
-console.log("vendoechat",vendorid);
+console.log("vendorchat",vendor);
+console.log("bage : ",badgecount)
 
   let datacheck=0;
   let len=0;
    
+
   useEffect(()=>{
     var unsub;
-    if(vendorid!==undefined){
+    if(vendor.id!==undefined){
       const db = firebase.firestore();
       var UserId;
       const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
@@ -32,11 +35,16 @@ console.log("vendoechat",vendorid);
                 // User logged in already or has just logged in.
                 UserId = user.uid;
                 console.log(UserId);
-            const collRef=  db.collection("User").doc(UserId).collection("Chat").doc(vendorid);
+            const collRef=  db.collection("User").doc(UserId).collection("Chat").doc(vendor.id);
+           
              unsub  =  collRef.onSnapshot(querySnapshot => {
                 let changes = querySnapshot.data();
-                   console.log("change",changes);
-                    getdata(changes.messages);
+                   console.log("prem change",querySnapshot);
+                   if(querySnapshot.exists){
+                    getdata(changes.messages,collRef);
+                  }else{
+                    dropMessages();
+                  }
               })
               } else {
                 unsubscribe();
@@ -49,7 +57,40 @@ console.log("vendoechat",vendorid);
     }
   })
 
-  const getdata = (data) => {
+  const getdata = (data,collRef) => {
+    //  collRef.update({
+    //    messages : [{
+    //      text : data.
+    //      read : true
+    //    }]
+    //  })
+    const db = firebase.firestore();
+    collRef.get().then(function(doc){
+      
+      doc.data().messages.map((item,index)=>{
+        if(item.read===false && item.type ==="customer")
+        {
+          // collRef.update({
+          //   messages : [{
+          //     text : item.text,
+          //     read : true,
+          //     type:item.type  
+          //   }]
+
+            console.log("Index : ",index)
+          db.runTransaction(transaction => {
+            return transaction.get(collRef).then(snapshot => {
+              var largerArray = snapshot.get('messages');
+              largerArray.push({text:item.text,type:"customer",read:true});
+              transaction.update(collRef, 'messages', largerArray);
+            });
+          });
+           
+          
+          console.log("Check : ",item,item.read)
+        }
+      })
+      })
     
     let index = data.length;
     if(datacheck===0){
@@ -60,6 +101,7 @@ console.log("vendoechat",vendorid);
       data.forEach((msg)=>{
           if(msg.type==="customer"){
             addResponseMessage(msg.text);
+          
             console.log("customer msg",msg.text);
           }
           else if(msg.type==="vendor"){
@@ -84,24 +126,52 @@ const handleNewUserMessage = (newMessage) => {
     if (user) {
       console.log(user.uid);
       //sending to vendor document
-    var adminchat = db.collection("User").doc(vendorid).collection('Chat').doc(user.uid);
-     var vendorchat = db.collection("User").doc(user.uid).collection('Chat').doc(vendorid);
-        adminchat.set({
-          messages:firebase.firestore.FieldValue.arrayUnion({
-            // time:firebase.firestore.FieldValue.serverTimestamp(),
-            text:newMessage,
-            type:"vendor"
+    var adminchat = db.collection("User").doc(vendor.id).collection('Chat').doc(user.uid);
+     var vendorchat = db.collection("User").doc(user.uid).collection('Chat').doc(vendor.id);
+     adminchat.get()
+      .then((docSnapshot) => {
+          if(docSnapshot.exists){
+            db.runTransaction(transaction => {
+              return transaction.get(adminchat).then(snapshot => {
+                var largerArray = snapshot.get('messages');
+                largerArray.push({text:newMessage,type:"vendor",read:false});
+                transaction.update(adminchat, 'messages', largerArray);
+              });
+            });
+          }
+          else{
+          adminchat.set({
+            messages:[{
+              text:newMessage,
+              type:"vendor",
+              read:false
+          }]
+        })
+           
+          }
+      });
+
+      vendorchat.get()
+      .then((docSnapshot) => {
+          if(docSnapshot.exists){
+            db.runTransaction(transaction => {
+              return transaction.get(vendorchat).then(snapshot => {
+                var largerArray = snapshot.get('messages');
+                largerArray.push({text:newMessage,type:"vendor",read:false});
+                transaction.update(vendorchat, 'messages', largerArray);
+              });
+            });
+          }
+          else{
+            vendorchat.set({
+              messages:[{
+                text:newMessage,
+                type:"vendor",
+                read:false
+            }]
           })
-          
-    
-         }, {merge: true});
-         vendorchat.set({
-          messages:firebase.firestore.FieldValue.arrayUnion({
-            // time:firebase.firestore.FieldValue.serverTimestamp(),
-            text:newMessage,
-            type:"vendor"
-          })
-        }, {merge: true});
+          }
+        });
     }
     else{
       console.log("logout");
@@ -116,9 +186,9 @@ const handleNewUserMessage = (newMessage) => {
     //   fullScreenMode={true}
         handleNewUserMessage={handleNewUserMessage}
       //  profileAvatar={kefi}
-        title="Lets Chat"
+        title={vendor.name}
         subtitle="And my cool subtitle"
-         badge ={setBadgeCount}
+         badge ={badgecount}
       />
     </div>
   );

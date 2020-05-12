@@ -25,7 +25,11 @@ class ProductImages extends Component{
         previewVisible: false,
         previewImage: '',
         fileList: [
-
+          {
+            uid: '-1',
+            
+            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+          },
         ],
       };
      

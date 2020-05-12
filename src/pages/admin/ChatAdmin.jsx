@@ -46,6 +46,8 @@ if(vendorid!==undefined){
                 console.log("check",querySnapshot);
                 if(querySnapshot.exists){
                   getdata(changes.messages);
+                }else{
+                  dropMessages();
                 }
                
               
@@ -96,27 +98,50 @@ const handleNewUserMessage = (newMessage) => {
       console.log("new log",vendorid,user.uid);
       var adminchat = db.collection("User").doc(vendorid).collection('Chat').doc(user.uid);
       var vendorchat = db.collection("User").doc(user.uid).collection('Chat').doc(vendorid);
-        adminchat.set({
-          messages:firebase.firestore.FieldValue.arrayUnion({
-            // time:firebase.firestore.FieldValue.serverTimestamp(),
-            text:newMessage,
-            type:"customer"
-
-          })
-          
-    
-         }, {merge: true}).then(function(){
-          console.log("msg sent");
-        }).catch(function(error) {
-          console.log("Error getting document:", error);
+      adminchat.get()
+      .then((docSnapshot) => {
+          if(docSnapshot.exists){
+            db.runTransaction(transaction => {
+              return transaction.get(adminchat).then(snapshot => {
+                var largerArray = snapshot.get('messages');
+                largerArray.push({text:newMessage,type:"customer",read:false});
+                transaction.update(adminchat, 'messages', largerArray);
+              });
+            });
+          }
+          else{
+          adminchat.set({
+            messages:[{
+              text:newMessage,
+              type:"customer",
+              read:false
+          }]
+        })
+           
+          }
       });
-         vendorchat.set({
-          messages:firebase.firestore.FieldValue.arrayUnion({
-            // time:firebase.firestore.FieldValue.serverTimestamp(),
-            text:newMessage,
-            type:"customer"
+
+      vendorchat.get()
+      .then((docSnapshot) => {
+          if(docSnapshot.exists){
+            db.runTransaction(transaction => {
+              return transaction.get(vendorchat).then(snapshot => {
+                var largerArray = snapshot.get('messages');
+                largerArray.push({text:newMessage,type:"customer",read:false});
+                transaction.update(vendorchat, 'messages', largerArray);
+              });
+            });
+          }
+          else{
+            vendorchat.set({
+              messages:[{
+                text:newMessage,
+                type:"customer",
+                read:false
+            }]
           })
-        },{merge: true});
+          }
+        });
     }
     else{
       unsubscribe();

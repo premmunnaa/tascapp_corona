@@ -4,6 +4,7 @@ import 'antd/dist/antd.css';
 import '../../css/mycss.css'
 import { List, Avatar } from 'antd';
 
+
 const MainList = props =>{
   const{
     name,
@@ -46,6 +47,7 @@ var data = [
 
 
     return(
+      <div>
         <List
         itemLayout="horizontal"
         dataSource={data}
@@ -53,7 +55,7 @@ var data = [
           <List.Item>
             <List.Item.Meta
              // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-              title={<a href="/"><div className = "font-format">{item.title}</div></a>}
+              title={<div className = "font-format">{item.title}</div>}
               description={<div>{item.detail}</div>}
              
             />
@@ -61,6 +63,7 @@ var data = [
           </List.Item>
         )}
       />
+      </div>
     )
    
 }

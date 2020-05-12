@@ -35,6 +35,13 @@ body{
     overflow: hidden;
 }
 
+.card-img-logo{
+    transform: scale(1);
+    transition: transform 0; 
+}
+.card-img-logo:hover{
+    transform: scale(2.5);
+}
 .card-img-top{
     transform: scale(1);
     transition: transform 0;
@@ -310,5 +317,17 @@ a.link:hover {
     height: -webkit-fill-available;
     object-fit: cover;
 }
+
+.ant-form-item-label > label{
+    font-weight: 500;
+}
        
-   
+.logo{
+    size: 2rem;
+    height: 10;
+    width: 10;
+}
+
+.ant-empty {
+line-height: 85px;
+}

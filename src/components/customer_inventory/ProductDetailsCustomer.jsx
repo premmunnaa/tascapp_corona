@@ -27,10 +27,10 @@ const ProductDetailsCustomer = props =>{
 
     const history = useHistory();
 
-const ToChat =()=>{
+const Tovendor =()=>{
   history.push({
-    pathname: '/check',
-    state: { id:id,vendorid:vendorid}
+    pathname: '/VendorInfo',
+    state: { toggle_variable:0,vendorid:vendorid}
 });
 }
 
@@ -69,15 +69,16 @@ const ToChat =()=>{
         
     }
     return(
-        <div>
-        <div>
+        <Col span = {24}>
 
        
-    <font className = "font-header" style = {{paddingTop:10}}> {Name}</font> </div>
+   <div> <font className = "font-header" style = {{paddingTop:10}}> {Name}</font> </div>
     <div class="ant-card-meta-description" style = {{paddingLeft:"5rem"}}>{Category} by {Company}</div>
     <div class="ant-card-meta-description" style = {{paddingLeft:"5rem",paddingTop:"1rem"}}>{ShortDes}</div>
     <br></br>
-    <Button type = "submit" style = {{width : 300, height : 50}}  className = "ant-btn ant-btn-primary" onClick = {ToCart}>Add to Cart</Button>
+  <Row> <Col span = {8}><Button type = "submit" style = {{width : 200, height : 40}}  className = "ant-btn ant-btn-primary" onClick = {ToCart}>Add to Cart</Button></Col><Col span = {2}></Col> 
+  <Col span = {8} ><Button type = "submit" style = {{width : 200, height : 40}}  className = "ant-btn ant-btn-primary" onClick = {Tovendor}>Vendor Infomation</Button></Col></Row> 
+    
  
     <br></br>
     <div style={{paddingTop : "3rem"}} ><font className = "font-subheader" >Product Details </font></div>
@@ -91,7 +92,7 @@ const ToChat =()=>{
             </ul>
         
         </p>
-    </div>
+    </Col>
     )
 }
 export default ProductDetailsCustomer

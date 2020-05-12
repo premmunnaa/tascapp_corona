@@ -34,9 +34,9 @@ const CardComp = props =>{
       shortdescription,
       vendorid
     } = props;
-   console.log("card:",Name);
+   
     const prod_description = ()=>{
-      console.log("pass params ",productdetails);
+      // console.log("pass params ",productdetails);
       history.push({
         pathname: '/Product_description',
         state: { vendorid:vendorid,id:id,product:Name,category:category,shortdescription:shortdescription,productdetails:productdetails,designdetails:designdetails,count:count,company:company,city:city,image:image}
@@ -45,8 +45,8 @@ const CardComp = props =>{
     }
    
 
-    console.log("Props are :",props)
-    console.log("My props : ",props.designdetails)
+    // console.log("Props are :",props)
+    // console.log("My props : ",props.designdetails)
  
 
     return(

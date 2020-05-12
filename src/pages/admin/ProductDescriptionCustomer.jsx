@@ -105,8 +105,8 @@ const ProductDescriptionCustomer = props=>{
                      
                  </Carousel> */}
                                             
-                                             <Col span = {2}><div class="headerDivider"></div></Col>
-                                             <Col span={6} style = {{paddingTop:"2rem",paddingRight:"1rem"}}>
+                                             <Col span = {2}></Col>
+                                             <Col span={10} style = {{paddingTop:"2rem",paddingRight:"1rem"}}>
                                              <ProductDetailsCustomer
                                                 Name = {location.state.product}
                                                 Category = {location.state.category}

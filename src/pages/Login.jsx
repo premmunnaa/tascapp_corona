@@ -135,7 +135,7 @@ class Login extends Component {
         return (
             <div className="site-card-border-less-wrapper" className="bglogin">
                 <Row  className="row-form-login">
-                    <Card title="Login" bordered={true} style={{ width: 300, height:350, color: "" }} hoverable={true}>
+                    <Card title="Login" bordered={true} style={{ width: 300, height:360, color: "" }} hoverable={true}>
                         <LoginForm />
                     </Card>
                 </Row>       

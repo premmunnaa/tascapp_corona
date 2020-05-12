@@ -59,7 +59,7 @@ const DocumentPopup = (props) => {
            <Col span = {8}><Button type="primary" htmlType="submit" onClick={whichPage} >
           Add Products
         </Button></Col>
-        <Col span ={3}></Col>
+        <Col span ={1}></Col>
         <Col span={6} style={{paddingLeft:10}}>
         <Button type="primary" htmlType="submit" onClick={OpenDocs} >
         Update Documents

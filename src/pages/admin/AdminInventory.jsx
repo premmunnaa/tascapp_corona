@@ -30,13 +30,13 @@ const [filterProduct,updateFilterProduct] = useState([]);  // category filter
 var searchFilter = [];
 var displayVendors = [];
 let StateVariable = [];
-   console.log("Search Filter first : ",searchFilter)
+//    console.log("Search Filter first : ",searchFilter)
         
     let options = [];
  
 
 
-console.log("DB data : ",DBData)
+// console.log("DB data : ",DBData)
 DBData.map((product)=>{
 options.push({value:product.sub_type});
 })
@@ -45,7 +45,7 @@ options.push({value:product.sub_type});
 
 Array.prototype.push.apply(displayVendors, DBData)
 
-console.log("Display Vendors : ",displayVendors)
+// console.log("Display Vendors : ",displayVendors)
 
 useEffect(()=>{
         
@@ -54,7 +54,7 @@ useEffect(()=>{
             var collRef = db.collection("User").where("type","==","Seller");
            
             collRef.get().then((querySnapshot) => {
-                    console.log("The query snapshot is ",querySnapshot.docs)
+                    // console.log("The query snapshot is ",querySnapshot.docs)
                     let FullData = [];
                     Promise.all(querySnapshot.docs.map((document) => {
                        return document.ref.collection("Products").get()
@@ -64,19 +64,19 @@ useEffect(()=>{
                                 var jsonData = doc.data();
                                 
                                 FullData.push(jsonData);
-                                console.log("Each Card Data : ",jsonData);
+                                // console.log("Each Card Data : ",jsonData);
                             });
                         })
-                        console.log("Before succeeding",FullData,typeof(FullData),FullData[0],Object.keys(FullData),
-                        Object.values(FullData));
-                  console.log("Full Data : ",FullData,typeof(FullData),FullData[0]);
+                        // console.log("Before succeeding",FullData,typeof(FullData),FullData[0],Object.keys(FullData),
+                        Object.values(FullData);
+                //   console.log("Full Data : ",FullData,typeof(FullData),FullData[0]);
                 
                 FullData.map((seller)=>{
-                    console.log("Seller : ",seller)
+                    // console.log("Seller : ",seller)
                    })
                   
                 UpdateLoader(true);
-                console.log("Before sending ..",typeof(FullData),FullData[0])
+                // console.log("Before sending ..",typeof(FullData),FullData[0])
                 UpdateDBData(FullData);
                     })
                     
@@ -84,10 +84,10 @@ useEffect(()=>{
                   
 },[])
 
-console.log("Final Data : ",DBData);
+// console.log("Final Data : ",DBData);
 
 const CategoryFilter = (value) => {
-        console.log("Category Array : ",value)
+        // console.log("Category Array : ",value)
      
         updateFilterProduct(value)
        
@@ -95,11 +95,11 @@ const CategoryFilter = (value) => {
     
     
   const onSelect = value => {
-    console.log("onSelect", value);
+    // console.log("onSelect", value);
 
     let result = [];
     result = value.trim().split(/[ ,]+/);
-    console.log("Result Array  : ",result)
+    // console.log("Result Array  : ",result)
     UpdateFilter(result);
   };
 
@@ -109,30 +109,30 @@ const CategoryFilter = (value) => {
             UpdateFilter([])
         }
         else{
-            console.log("Search Value : ", value);
+            // console.log("Search Value : ", value);
             let result = [];
             result = value.trim().split(/[ ,]+/);   
-            console.log("Result Array  : ",result)
+            // console.log("Result Array  : ",result)
             UpdateFilter(result)
         }
   }
     const SearchText = (value)=>{
         
      
-        console.log("Search Value : ", value);
+        // console.log("Search Value : ", value);
         let result = [];
        
         
        
         result = value.trim().split(/[ ,]+/);
         
-        console.log("Result Array  : ",result)
+        // console.log("Result Array  : ",result)
         UpdateFilter(result)
         
         }
 
-        console.log("The Category Filter is  ",filterProduct);
-        console.log("The Search Filter is : ",filterCards)
+        // console.log("The Category Filter is  ",filterProduct);
+        // console.log("The Search Filter is : ",filterCards)
 
 
    
@@ -143,19 +143,19 @@ const CategoryFilter = (value) => {
         let localFilter = [];
         filterProduct.map((category)=>{
 
-        console.log("Inside loop FilterProduct : ",filterProduct)
+        // console.log("Inside loop FilterProduct : ",filterProduct)
         DBData.map((vendor)=>{
            
                 if(vendor.title.toLowerCase() === category.toString().toLowerCase())
                 {
-                    console.log("match ",vendor.title)
+                    // console.log("match ",vendor.title)
                     localFilter.push(vendor)
                 }
                 
             })
         
          })
-         console.log("Category filters : ",localFilter)
+        //  console.log("Category filters : ",localFilter)
          Array.prototype.push.apply(displayVendors, localFilter)
     }
    
@@ -170,15 +170,15 @@ const CategoryFilter = (value) => {
             displayVendors = [];
     
 
-            console.log("The state variable is ",StateVariable);
-            console.log("hiii")
-            console.log("Search Parameter : ",filterCards)
+            // console.log("The state variable is ",StateVariable);
+            // console.log("hiii")
+            // console.log("Search Parameter : ",filterCards)
             filterCards.map((name)=>{
             (StateVariable.forEach((vendor,index)=>{
-               console.log("vendor search parameter..",vendor.sub_type)
+            //    console.log("vendor search parameter..",vendor.sub_type)
                if(vendor.company.toString().toLowerCase().includes(name.toString().toLowerCase()) || vendor.title.toString().toLowerCase().includes(name.toString().toLowerCase()) || vendor.sub_type.toString().toLowerCase().includes(name.toString().toLowerCase()))
                     {
-                        console.log("Filtering item ",vendor);
+                        // console.log("Filtering item ",vendor);
                         displayVendors.push(vendor);
                         return;
                        
@@ -188,13 +188,13 @@ const CategoryFilter = (value) => {
         })
          displayVendors = displayVendors.filter((item,index) =>displayVendors.indexOf(item)===index)
       
-        console.log("Display inside Search : ",displayVendors)
+        // console.log("Display inside Search : ",displayVendors)
       
     }
 
 
-        console.log("Display Vendors Oustide : ",displayVendors)
-        console.log("Search Filter last length : ",searchFilter.length)
+        // console.log("Display Vendors Oustide : ",displayVendors)
+        // console.log("Search Filter last length : ",searchFilter.length)
 
             return(
                 <div>
@@ -202,12 +202,12 @@ const CategoryFilter = (value) => {
                 <div className="site-card-wrapper">
                 <Row>
                     
-                <Col span={4} style={{paddingLeft:10,paddingTop:20}}><font className = "font-subheader">CATEGORIES</font></Col>
-                    <Col span={10} style={{paddingTop:10,paddingLeft:20}}>
+                <Col span={3} style={{paddingLeft:10,paddingTop:20}}><font className = "font-subheader">CATEGORIES</font></Col>
+                    <Col span={10} style={{paddingTop:10,paddingLeft:15}}>
                     <AutoComplete
                             options={options}
                             style={{
-                                width: 400
+                                width: 450
                             }}
                             allowClear
                             onChange = {onChange}
@@ -244,8 +244,9 @@ const CategoryFilter = (value) => {
                         <Row style = {{paddingRight:"0.5rem"}}>
                     {
                         Loader ? ( 
-                            displayVendors.length==0 ? (
-                                <Empty/>
+                            displayVendors.length===0 ? (
+                                <div>
+                               <Col span = {8}></Col> <Col style = {{paddingTop:"10rem",paddingLeft:"15rem"}}><Empty/></Col></div>
                             ) : (
                                 displayVendors.map((item) => 
                     

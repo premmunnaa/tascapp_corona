@@ -53,10 +53,12 @@ this.setState({InputData : Input})
 
 
 
-
   state = { visible: false };
 
   SubmitValues = (values)=>{
+    
+console.log("Finsih : ",this.state.InputData.firstname);
+  var a = this.state.InputData.firstname
     this.onClose();
     const db = firebase.firestore();
     firebase.auth().onAuthStateChanged(function(user) {
@@ -64,13 +66,13 @@ this.setState({InputData : Input})
         const userRef = db.collection("User").doc(user.uid);
         userRef.get().then(function(doc) {
           userRef.update({
-           firstname:values.name,
-           email:values.email,
-           address:values.address,
-           city:values.city,
-           phone:values.phone,
-           country:values.Country,
-           website:values.website
+           firstname:values.name===undefined ? (a):(values.name),
+          //  email:values.email===undefined ? (this.state.InputData.email):(values.email),
+          //  address:values.address===undefined ? (this.state.InputData.address):(values.address),
+          //  city:values.city===undefined ? (this.state.InputData.city):(values.city),
+          //  phone:values.phone===undefined ? (this.state.InputData.phone):(values.phone),
+          //  country:values.country===undefined ? (this.state.InputData.country):(values.country),
+          //  website:values.website===undefined ? (this.state.InputData.website):(values.website)
    
            }).then(function() {
              console.log("Document successfully written!");
