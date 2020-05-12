@@ -22,6 +22,9 @@
     "react-scripts": "3.4.1",
     "reactjs-popup": "^1.5.0"
   },
+  "resolutions": {
+    "material-ui/@babel/runtime": "7.0.0-beta.42"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
