@@ -8,7 +8,7 @@ import { Col,Row } from 'antd';
 import { Card,Avatar,Button } from 'antd';
 import { calculateDistance } from '../../scripts/distance_calculation';
 import mask from '../../images/company.jpg'
-
+import { Empty } from 'antd';
 import{
   EnvironmentOutlined,
   } from '@ant-design/icons';
@@ -61,7 +61,7 @@ const CardComp = props =>{
         size = "small"
         hoverable
         className = "vendorDisplayCard"
-        cover={<img alt="example" src={image[0]} className="img-border"/>}
+        cover={ image[0]===undefined ? (<Empty  />):(<img  src={image[0]} className="img-border" />)}
       >
          <Meta
      // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" className="card-img-top"/>}

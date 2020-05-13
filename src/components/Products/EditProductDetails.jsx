@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+  import React,{Component} from 'react';
 import 'antd/dist/antd.css';
 import {Row,Col} from 'antd';
 import { Form, Input, Button, Checkbox,AutoComplete} from 'antd';

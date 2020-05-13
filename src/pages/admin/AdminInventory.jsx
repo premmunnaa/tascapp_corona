@@ -281,6 +281,7 @@ const CategoryFilter = (value) => {
                     </Col>
                 </Row>
                 </div>
+                <Row style = {{paddingTop:"5rem"}}></Row>
                 </div>
                 
     );

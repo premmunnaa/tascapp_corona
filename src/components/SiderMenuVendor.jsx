@@ -49,9 +49,9 @@ class SiderMenuVendor extends React.Component {
             </Col>
             <Col span={3}>
               <Space direction={"horizontal"} size={40}>
-                <Tooltip placement="bottom" title={"Inventory"} size="2rem">
+                {/* <Tooltip placement="bottom" title={"Inventory"} size="2rem">
                   <AppstoreOutlined />
-                </Tooltip>
+                </Tooltip> */}
                 <Tooltip placement="bottom" title={"Cart"}>
                 <NavLink to='/SellerCart' activeClassName="your-active-class" className="link">  <ShoppingCartOutlined /></NavLink>
                 </Tooltip>

@@ -80,7 +80,7 @@ class ProfileImage extends React.Component {
     const uploadButton = (
       <div>
         <PlusOutlined />
-        <div style = {{lineHeight:2.0}} className="ant-upload-text">Upload Profile Image</div>
+        <div style = {{lineHeight:2.0}} className="ant-upload-text">Upload New Profile Image</div>
       </div>
     );
     return (
