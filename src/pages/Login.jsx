@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import '../css/Login.css';
 import {Card} from 'antd';
 import {Row, Col} from 'antd';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox,message } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, useHistory } from "react-router-dom";
 import * as firebase from 'firebase';
@@ -49,13 +49,13 @@ const LoginForm = () => {
                 history.replace("/SellerCart");
               }
           }).catch(function(error) {
-              console.log("Error getting document:", error);
+           
           });
             
           }
         })
         .catch(e => {
-          console.log(e.message);
+          message.error(e.message);
         });
       })
       .catch(function(error) {

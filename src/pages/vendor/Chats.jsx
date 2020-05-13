@@ -80,9 +80,6 @@ const getdata=(data,babyRef)=>{
     let obj={};
     let Seen_variable = {};
 data.forEach((change)=>{
- 
-   Seen_variable={};
-  
    value.push(change.doc.id);
    count[change.doc.id] = (count[change.doc.id]||0) + 1;
    console.log("prem",change.doc.id + " : ",count[change.doc.id]);
@@ -121,7 +118,7 @@ const dynamics = (value,item)=>{
         console.log("Names helo")
         console.log("New Data : ",msg);
         UpdateMessage(msg);
-        
+        console.log("prem",Seen_variable)
         UpdateSeen(Seen_variable);
       }
   })

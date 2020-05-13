@@ -14,7 +14,7 @@ import {
   AutoComplete,
   InputNumber
 } from 'antd';
-import {Card} from 'antd';
+import {Card,message} from 'antd';
 import '../css/Register.css';
 import { Layout} from 'antd';
 import { white } from 'material-ui/colors';
@@ -138,7 +138,7 @@ const RegistrationForm = () => {
         </Select>
       </Form.Item>
       <Form.Item
-        name="firstname"
+        name="title"
         label="Title"
         hasFeedback
         rules={[
@@ -364,6 +364,7 @@ class HeaderMenu extends React.Component {
   
 
 const LoginInRegister = () => {
+  const history = useHistory();
 const [form] = Form.useForm();
 const [, forceUpdate] = useState(); // To disable submit button at the beginning.
 
@@ -372,7 +373,38 @@ useEffect(() => {
 }, []);
 
 const onFinish = values => {
-    console.log('Finish:', values);
+  
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+  .then(function() {
+    return firebase
+    .auth()
+    .signInWithEmailAndPassword(values.username, values.password)
+    .then(res => {
+      if (res.user){
+        
+        var docRef = db.collection("User").doc(res.user.uid);
+        docRef.get().then(function(doc) {
+          if (doc.data().type === "Buyer") {
+            history.replace("/AdminInventory");
+          } else if(doc.data().type === "Seller") {
+            history.replace("/SellerCart");
+          }
+      }).catch(function(error) {
+       
+      });
+        
+      }
+    })
+    .catch(e => {
+      message.error(e.message);
+    });
+  })
+  .catch(function(error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    
+  });
 };
 
 return (
