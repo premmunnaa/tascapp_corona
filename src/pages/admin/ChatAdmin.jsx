@@ -104,8 +104,9 @@ const handleNewUserMessage = (newMessage) => {
             db.runTransaction(transaction => {
               return transaction.get(adminchat).then(snapshot => {
                 var largerArray = snapshot.get('messages');
-                largerArray.push({text:newMessage,type:"customer",read:false});
+                largerArray.push({text:newMessage,type:"customer"});
                 transaction.update(adminchat, 'messages', largerArray);
+                transaction.update(adminchat, "seen", false);
               });
             });
           }
@@ -114,8 +115,9 @@ const handleNewUserMessage = (newMessage) => {
             messages:[{
               text:newMessage,
               type:"customer",
-              read:false
-          }]
+              
+          }],
+          seen : false,
         })
            
           }
@@ -127,8 +129,9 @@ const handleNewUserMessage = (newMessage) => {
             db.runTransaction(transaction => {
               return transaction.get(vendorchat).then(snapshot => {
                 var largerArray = snapshot.get('messages');
-                largerArray.push({text:newMessage,type:"customer",read:false});
+                largerArray.push({text:newMessage,type:"customer"});
                 transaction.update(vendorchat, 'messages', largerArray);
+                transaction.update(vendorchat, "seen", false);
               });
             });
           }
@@ -137,8 +140,9 @@ const handleNewUserMessage = (newMessage) => {
               messages:[{
                 text:newMessage,
                 type:"customer",
-                read:false
-            }]
+                
+            }],
+            seen : false
           })
           }
         });

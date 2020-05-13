@@ -16,13 +16,15 @@ import { Drawer, List, Divider, Col, Row } from 'antd';
 const VendorChat=props=>  {
   const{
 vendor,
-count
+badgecount
   }=props
-console.log("vendoechat",vendor);
+console.log("vendorchat",vendor);
+console.log("bage : ",badgecount)
 
   let datacheck=0;
   let len=0;
    
+
   useEffect(()=>{
     var unsub;
     if(vendor.id!==undefined){
@@ -34,11 +36,12 @@ console.log("vendoechat",vendor);
                 UserId = user.uid;
                 console.log(UserId);
             const collRef=  db.collection("User").doc(UserId).collection("Chat").doc(vendor.id);
+           
              unsub  =  collRef.onSnapshot(querySnapshot => {
                 let changes = querySnapshot.data();
                    console.log("prem change",querySnapshot);
                    if(querySnapshot.exists){
-                    getdata(changes.messages);
+                    getdata(changes.messages,collRef);
                   }else{
                     dropMessages();
                   }
@@ -54,8 +57,10 @@ console.log("vendoechat",vendor);
     }
   })
 
-  const getdata = (data) => {
-    
+  const getdata = (data,collRef) => {
+    collRef.update({
+      seen : true
+    })
     let index = data.length;
     if(datacheck===0){
       dropMessages();
@@ -65,6 +70,7 @@ console.log("vendoechat",vendor);
       data.forEach((msg)=>{
           if(msg.type==="customer"){
             addResponseMessage(msg.text);
+          
             console.log("customer msg",msg.text);
           }
           else if(msg.type==="vendor"){
@@ -97,8 +103,9 @@ const handleNewUserMessage = (newMessage) => {
             db.runTransaction(transaction => {
               return transaction.get(adminchat).then(snapshot => {
                 var largerArray = snapshot.get('messages');
-                largerArray.push({text:newMessage,type:"vendor",read:false});
+                largerArray.push({text:newMessage,type:"vendor"});
                 transaction.update(adminchat, 'messages', largerArray);
+                transaction.update(adminchat, "seen", false);
               });
             });
           }
@@ -106,8 +113,8 @@ const handleNewUserMessage = (newMessage) => {
           adminchat.set({
             messages:[{
               text:newMessage,
-              type:"vendor",
-              read:false
+              type:"vendor"
+             
           }]
         })
            
@@ -120,8 +127,9 @@ const handleNewUserMessage = (newMessage) => {
             db.runTransaction(transaction => {
               return transaction.get(vendorchat).then(snapshot => {
                 var largerArray = snapshot.get('messages');
-                largerArray.push({text:newMessage,type:"vendor",read:false});
+                largerArray.push({text:newMessage,type:"vendor"});
                 transaction.update(vendorchat, 'messages', largerArray);
+                transaction.update(vendorchat, "seen", false);
               });
             });
           }
@@ -130,7 +138,7 @@ const handleNewUserMessage = (newMessage) => {
               messages:[{
                 text:newMessage,
                 type:"vendor",
-                read:false
+                
             }]
           })
           }
@@ -151,7 +159,7 @@ const handleNewUserMessage = (newMessage) => {
       //  profileAvatar={kefi}
         title={vendor.name}
         subtitle="And my cool subtitle"
-         badge ={vendor.count}
+         badge ={badgecount}
       />
     </div>
   );
