@@ -29,12 +29,12 @@ const [lastlength,updateindex]=useState(0);
                     // User logged in already or has just logged in.
                     UserId = user.uid;
                     // console.log(UserId);
-                var collRef=  db.collection("User").doc(UserId).collection("Chat");
-                 unsub= collRef.doc(vendorid).onSnapshot(querySnapshot => {
+                var collRef=  db.collection("User").doc(UserId).collection("Chat").doc(vendorid);
+                 unsub= collRef.onSnapshot(querySnapshot => {
                     let changes = querySnapshot.data();
                     // console.log("check",querySnapshot);
                     if(querySnapshot.exists){
-                      getdata(changes.messages);
+                      getdata(changes.messages,collRef);
                     }else{
                       dropMessages();
                     }
@@ -53,7 +53,10 @@ const [lastlength,updateindex]=useState(0);
    
   },)
 
-  const getdata = (data) => {
+  const getdata = (data,collRef) => {
+    collRef.update({
+      seen : true
+    })
     let index = data.length;
     console.log("index",index);
     console.log("new length",len);
