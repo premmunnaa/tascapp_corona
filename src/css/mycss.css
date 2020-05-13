@@ -201,14 +201,7 @@ img {flex: 1;resize : horizontal;}
     background-color:black;
     padding-left: 2rem;
 }
-.ant-upload-list-picture-card-container {
-    width: 200;
-    height: 200;
-}
-.ant-upload-list-picture-card .ant-upload-list-item {
-    width: 200;
-    height: 200;
-}
+
 
 .img-border{
     border-style: ridge;
@@ -330,4 +323,13 @@ a.link:hover {
 
 .ant-empty {
 line-height: 85px;
+}
+
+.ant-upload-list-picture-card-container{
+    width: 172px;
+}
+.ant-upload-list-picture-card .ant-upload-list-item {
+width: 165px;
+height: 150px;
+padding-right: 10;
 }
