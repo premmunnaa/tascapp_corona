@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { Component,useState } from "react";
+import Popup from "reactjs-popup";
 import 'antd/dist/antd.css';
 import '../css/Login.css';
 import {Card} from 'antd';
@@ -23,9 +24,38 @@ console.log(firebase);
 const db = firebase.firestore();
 
 
+
+const layout = {
+  labelCol: {
+    span: 8,
+  },
+  wrapperCol: {
+    span: 16,
+  },
+};
+const validateMessages = {
+  required: '${label} is required!',
+  types: {
+    email: '${label} is not validate email!',
+    number: '${label} is not a validate number!',
+  },
+  number: {
+    range: '${label} must be between ${min} and ${max}',
+  },
+};
+
+
+
+
 const LoginForm = () => {
 
+  const [isModalVisible,updateModalVisibility] = useState(false);
+
+ 
+
+  
     const history = useHistory();
+    
 
     const onFinish = values => {
       firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
@@ -49,13 +79,14 @@ const LoginForm = () => {
                 history.replace("/SellerCart");
               }
           }).catch(function(error) {
-           
+              console.log("Error getting document:", error);
           });
             
           }
         })
         .catch(e => {
           message.error(e.message);
+          console.log(e.message);
         });
       })
       .catch(function(error) {
@@ -69,8 +100,77 @@ const LoginForm = () => {
       // history.replace("/SellerCart");  // base page for Vendor 
       // // history.replace('/AdminInventory')  //base page for Customer
    
-  
+      const onSubmit = (values)=>{
+        console.log("Values : ",values)
+        var auth = firebase.auth();
+auth.sendPasswordResetEmail(values.email).then(function() {
+  message.success("check your email for reset password");
+  closeModal();
+}).catch(function(error) {
+  message.error("No user found");
+});
+       
+        }
+        const openModal = () => {
+          console.log("before",isModalVisible);
+        updateModalVisibility(true);
+        console.log("after",isModalVisible);
+        }
+        const closeModal = () => {
+          updateModalVisibility(false);
+        }
+        console.log("IsModal : ",isModalVisible)
     return (
+<div>
+      
+  <Popup
+  open={isModalVisible}
+  closeOnDocumentClick
+  onClose={closeModal}
+>
+  <div>
+    <Row style={{paddingBottom:15,paddingLeft:10}}>
+    Password Reset..!
+    </Row>
+  
+   <Row style= {{paddingLeft:10}}>
+     <Col span = {24}>
+   <Form {...layout} name="nest-messages" onFinish={onSubmit} validateMessages={validateMessages}>
+     
+      <Form.Item
+        name='email'
+      
+        rules={[
+          {
+            type: 'email',
+          },
+        ]}
+      >
+        <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder=" Enter your Registered Email" />
+      </Form.Item>
+      <Row>
+     <Col span= {8}></Col>
+     <Col span= {8}>
+      <Form.Item>
+     
+      <Button type="primary" htmlType="submit" >
+        Next
+        </Button>
+      </Form.Item></Col></Row> 
+      </Form>
+      </Col>
+    
+   </Row>
+  
+  </div>
+ 
+        
+     
+ 
+</Popup>
+
+
+
       <Form
         name="normal_login"
         className="login-form"
@@ -114,7 +214,7 @@ const LoginForm = () => {
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
   
-          <a className="login-form-forgot" href="">
+          <a className="login-form-forgot"  onClick={openModal} >
             Forgot password
           </a>
         </Form.Item>
@@ -127,6 +227,7 @@ const LoginForm = () => {
           Or <Link to='/Register'>register now!</Link>
         </Form.Item>
       </Form>
+      </div>
     );
 };
   

@@ -25,13 +25,14 @@ const {Content} = Layout;
 
 const ChatAdmin=props=>  {
 const{
-vendorid
+vendor
 }=props
   let datacheck=0;
   let len=0;
- 
+ console.log("premid:",vendor.id)
+
   useEffect(()=>{
-if(vendorid!==undefined){
+if(vendor.id!==undefined){
   let unsub;
   const db = firebase.firestore();
       var UserId;
@@ -40,12 +41,12 @@ if(vendorid!==undefined){
                 // User logged in already or has just logged in.
                 UserId = user.uid;
                 console.log(UserId);
-            var collRef=  db.collection("User").doc(UserId).collection("Chat");
-             unsub= collRef.doc(vendorid).onSnapshot(querySnapshot => {
+            const collRef=  db.collection("User").doc(UserId).collection("Chat").doc(vendor.id);
+             unsub= collRef.onSnapshot(querySnapshot => {
                 let changes = querySnapshot.data();
                 console.log("check",querySnapshot);
                 if(querySnapshot.exists){
-                  getdata(changes.messages);
+                  getdata(changes.messages,collRef);
                 }else{
                   dropMessages();
                 }
@@ -64,7 +65,10 @@ if(vendorid!==undefined){
     
   },)
 
-  const getdata = (data) => {
+  const getdata = (data,collRef) => {
+    collRef.update({
+      seen : true
+    })
     let index = data.length;
     if(datacheck===0){
       dropMessages();
@@ -95,9 +99,9 @@ const handleNewUserMessage = (newMessage) => {
     if (user) {
       console.log(user.uid);
       //sending to vendor document
-      console.log("new log",vendorid,user.uid);
-      var adminchat = db.collection("User").doc(vendorid).collection('Chat').doc(user.uid);
-      var vendorchat = db.collection("User").doc(user.uid).collection('Chat').doc(vendorid);
+      console.log("new log",vendor.id,user.uid);
+      var adminchat = db.collection("User").doc(vendor.id).collection('Chat').doc(user.uid);
+      var vendorchat = db.collection("User").doc(user.uid).collection('Chat').doc(vendor.id);
       adminchat.get()
       .then((docSnapshot) => {
           if(docSnapshot.exists){

@@ -17,7 +17,21 @@ import {
 import { NavLink, Router } from 'react-router-dom';
 const { Header} = Layout;
 const { Search } = Input;
+var count =0;
 class SiderMenuVendor extends React.Component {
+componentDidMount(){
+  const db = firebase.firestore();
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+  var  babyRef=  db.collection("User").doc(user.uid).collection("Chat").where("seen","==",false);
+  babyRef.onSnapshot(querySnapshot=>{
+     count = querySnapshot.docs.length;
+    console.log("Doc : ",count)
+  })
+    }
+});
+}
+
   render() {
    
     function Signout(){
@@ -41,7 +55,7 @@ class SiderMenuVendor extends React.Component {
               <Space direction={"horizontal"} size={40}>
               <NavLink to='/SellerCart' activeClassName="your-active-class" className="link"> <span>Home</span></NavLink>
                <NavLink to='/SellerProductReport' activeClassName="your-active-class" className="link"> <span>Product Report </span></NavLink>
-               <NavLink to='/vendorchat' activeClassName="your-active-class" className="link"> <span>Chats </span></NavLink>
+               <NavLink to='/vendorchat' activeClassName="your-active-class" className="link"> <span>{count===0?"Chats":"Chats "+count} </span></NavLink>
                
                 
                

@@ -66,7 +66,7 @@ function dataupload(user,values){
               var uref = storageRef.child(user.uid+"/"+file.name);
               uref.put(file.originFileObj).then(function(snapshot) {
               
-                 uref.getDownloadURL().then((url)=>{
+                uref.getDownloadURL().then((url)=>{
                    
                urls.push(url)
                itemsProcessed++;
@@ -77,7 +77,7 @@ function dataupload(user,values){
                     console.log("Error getting document:", error);
                 });
                  })
-            })
+            })  
            
      
            

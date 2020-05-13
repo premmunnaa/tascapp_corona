@@ -41,7 +41,7 @@ useEffect(()=>{
                 console.log(UserId);
                      
                 var  collRef=  db.collection("User").doc(UserId).collection("Chat");
-                var  babyRef=  db.collection("User").doc(UserId).collection("Chat").where("seen","==",false);
+                // var  babyRef=  db.collection("User").doc(UserId).collection("Chat").where("seen","==",false);
                 collRef.onSnapshot(querySnapshot => {
                 console.log("Chagesssssss")
                 let changes = querySnapshot.docChanges();
@@ -54,7 +54,7 @@ useEffect(()=>{
                  console.log("change",changes);
                  Array.prototype.push.apply(data,changes)
                  console.log("Data type " , data,typeof(data)); 
-                 getdata(data,babyRef)
+                 getdata(data)
               })
              
               console.log("inside",data);
@@ -69,10 +69,10 @@ useEffect(()=>{
 
 
 const getdata=(data,babyRef)=>{
-  babyRef.get().then(function (doc){
-    console.log("Doc : ",doc.docs.length)
-    UpdatePersonCount(doc.docs.length)
-  })
+  // babyRef.get().then(function (doc){
+  //   console.log("Doc : ",doc.docs.length)
+  //   UpdatePersonCount(doc.docs.length)
+  // })
   let falsecount = {};
   const db = firebase.firestore();
     let value = [];

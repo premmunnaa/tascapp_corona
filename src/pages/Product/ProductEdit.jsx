@@ -18,13 +18,36 @@ const {Content} = Layout;
 const storageRef = firebase.storage().ref();
 const db = firebase.firestore();
 var urls=[];
+var fireurl=[];
 var prodcategory='';
 const ProductEdit = props => {
  
   const history = useHistory();
   const location = useLocation();
   
- 
+  function dataupload(user,values){
+    console.log("prem url",fireurl);
+    const userRef = db.collection("User").doc(user.uid); 
+    const collRef = db.collection("User").doc(user.uid).collection('Products').doc(location.state.id);
+    userRef.get().then(function(doc) {
+      collRef.update({
+        count:values.count!==undefined ? values.count :location.state.count,
+        title: values.product_category!==undefined ? values.product_category : location.state.category,
+        imgurls:fireurl !==undefined ? fireurl :location.state.imgurls,
+        designdetails:values.designdetails !==undefined ? values.designdetails:location.state.desdetails,
+        sub_type: values.name_of_subproduct !==undefined ? values.name_of_subproduct:location.state.subprod,
+        productdetails:  values.productdetails !==undefined ? values.productdetails : location.state.proddetails ,
+        shortdescription: values.shortdescription  !==undefined ? values.shortdescription :location.state.shortdes,
+       }).then(function() {
+         console.log("Document successfully written!");
+         history.push('/SellerCart')
+     })
+     .catch(function(error) {
+         console.error("Error writing document: ", error);
+     });
+   
+    });
+  }
   
  
  
@@ -34,22 +57,31 @@ const ProductEdit = props => {
       //   console.log('Success:', values); 
         firebase.auth().onAuthStateChanged(function(user) {
           if (user) {
-            console.log(location.state.id);
-            const userRef = db.collection("User").doc(user.uid).collection("Products").doc(location.state.id);
-            userRef.update({
-            count:values.count!==undefined ? values.count :location.state.count,
-            title: values.product_category!==undefined ? values.product_category : location.state.category,
-            imgurls:urls !==undefined ? urls :location.state.imgurls,
-            designdetails:values.designdetails !==undefined ? values.designdetails:location.state.desdetails,
-            sub_type: values.name_of_subproduct !==undefined ? values.name_of_subproduct:location.state.subprod,
-            productdetails:  values.productdetails !==undefined ? values.productdetails : location.state.proddetails ,
-            shortdescription: values.shortdescription  !==undefined ? values.shortdescription :location.state.shortdes,
-            }).then(function() {
-              console.log("here .then");
-             history.push('/SellerCart');
-          })
-        
+            const storageRef = firebase.storage().ref();
+            var itemsProcessed = 0;
+            urls.forEach((file)=>{
+              if(file.status!==undefined){
+                console.log("fileobj is comming");
+                var uref = storageRef.child(user.uid+"/"+file.name);
+                uref.put(file.originFileObj).then(function(snapshot) {
+                
+                  uref.getDownloadURL().then((url)=>{
+                     
+                 fireurl.push(url)
+                 itemsProcessed++;
+                 if(itemsProcessed === fireurl.length) {
+                   console.log("dataupload calling");
+                  dataupload(user,values);
+                }
+                  }).catch(function(error) {
+                      console.log("Error getting document:", error);
+                  });
+                   })
+              }
          
+            })  
+           
+          
            
           } else {
           console.log("No user is signed in");
@@ -99,6 +131,7 @@ const layout = {
                   <Row style = {{paddingLeft:"2rem",paddingTop:"2rem"}}>
                 <Col span = {24} >
                     <Images
+                    productid={location.state.id}
                     Urlpush = {Urlpush}
                     />
                     </Col>

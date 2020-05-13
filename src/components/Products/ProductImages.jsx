@@ -6,7 +6,7 @@ import '../../css/index.css';
 
 import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import ProductDescription from '../../pages/Product/EditProductDescription';
+// import ProductDescription from '../../pages/Product/EditProductDescription';
 import '../../css/mycss.css';
 
 var img_url=[];
@@ -20,20 +20,50 @@ function getBase64(file) {
   }
   var urls=[];
 class ProductImages extends Component{
-   
-      state = {
-        previewVisible: false,
-        previewImage: '',
-        fileList: [
-          {
-            uid: '-1',
-            
-            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-          },
-        ],
-      };
-     
+constructor(props){
+  super();
+this.id=props.productid;
+this.state = {
+  previewVisible: false,
+  previewImage: '',
+  fileList: [],
+};
+}
+      
+     componentDidMount(){
 
+      if(this.id!==undefined){
+        let obj={};
+        let arr=[];
+        let array=[];
+       const db = firebase.firestore();
+       firebase.auth().onAuthStateChanged((user) => {
+         if (user) {
+       var  Ref=  db.collection("User").doc(user.uid).collection("Products").doc(this.id);
+       Ref.get().then(function(doc){
+         arr=doc.data().imgurls;
+         arr.map((url,index)=>{
+           obj["url"]=url;
+           obj["uid"]=index;
+           array.push(obj);
+         })
+       })
+       // this.setState({fileList:array})
+         }
+       });
+       console.log("prem2",this.state.fileList);
+       // this.setvar(array);
+      }
+       
+     
+     } 
+      // setvar=(array)=>{
+      //   console.log("prem1",array);
+      //   this.setState ({
+      //     fileList: [...this.state.fileList,...array]
+      //   })
+      // console.log("prem2",this.state.fileList);
+      // };
       handleCancel = () => this.setState({ previewVisible: false });
     
       handlePreview = async file => {
@@ -49,7 +79,7 @@ class ProductImages extends Component{
       };
       
       handleChange = ({ fileList,file }) => {
-       
+       console.log("prem",fileList)
         const{
             Urlpush
         }=this.props
