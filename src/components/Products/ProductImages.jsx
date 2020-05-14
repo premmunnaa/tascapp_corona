@@ -29,6 +29,8 @@ class ProductImages extends Component{
             uid: '-1',
             
             url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+
+            isSaved: true,
           },
         ],
       };
