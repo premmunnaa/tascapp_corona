@@ -26,10 +26,10 @@ const ProductEdit = props => {
   const location = useLocation();
   
   function dataupload(user,values){
+    
+    fireurl.push(...location.state.imgurls);
     console.log("prem url",fireurl);
-    const userRef = db.collection("User").doc(user.uid); 
     const collRef = db.collection("User").doc(user.uid).collection('Products').doc(location.state.id);
-    userRef.get().then(function(doc) {
       collRef.update({
         count:values.count!==undefined ? values.count :location.state.count,
         title: values.product_category!==undefined ? values.product_category : location.state.category,
@@ -46,7 +46,7 @@ const ProductEdit = props => {
          console.error("Error writing document: ", error);
      });
    
-    });
+
   }
   
  
@@ -61,6 +61,7 @@ const ProductEdit = props => {
             var itemsProcessed = 0;
             urls.forEach((file)=>{
               if(file.status!==undefined){
+                console.log("prem123",file);
                 console.log("fileobj is comming");
                 var uref = storageRef.child(user.uid+"/"+file.name);
                 uref.put(file.originFileObj).then(function(snapshot) {
@@ -71,12 +72,14 @@ const ProductEdit = props => {
                  itemsProcessed++;
                  if(itemsProcessed === fireurl.length) {
                    console.log("dataupload calling");
-                  dataupload(user,values);
+                  
                 }
                   }).catch(function(error) {
                       console.log("Error getting document:", error);
                   });
                    })
+              }else{
+                dataupload(user,values);
               }
          
             })  
