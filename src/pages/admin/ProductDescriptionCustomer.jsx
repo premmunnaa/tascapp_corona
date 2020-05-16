@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import {useLocation} from 'react-router-dom';
 import 'antd/dist/antd.css';
 import {Row,Col} from 'antd';
-
+import { Empty } from 'antd';
 import ChatComp from  '../../components/customer_inventory/ChatComp'
 import ProductDetailsCustomer from '../../components/customer_inventory/ProductDetailsCustomer'
 import '../../css/index.css';
@@ -58,20 +58,23 @@ const ProductDescriptionCustomer = props=>{
    
     <div class="carousel-inner">
         {
-             image.map((img,index)=>(
-                    index==0 ? (
-                        <div class="item active">
-                        <img src={img} alt="Los Angeles" style={{width:"100%"}}/>
-                      </div>
-                    ):(
-                        <div class="item">
-        <img src={img} alt="Los Angeles" style={{width:"100%"}}/>
-      </div>
-                    )
-      
+            image.length===0 ?(<Empty  />):
+            ( image.map((img,index)=>(
+                index==0 ? (
+                    <div class="item active">
+                    <img src={img} alt="Los Angeles" style={{width:"100%"}}/>
+                  </div>
+                ):(
+                    <div class="item">
+    <img src={img} alt="Los Angeles" style={{width:"100%"}}/>
+  </div>
+                )
+  
 
-    
-             ),)
+
+         ),))
+
+            
     }
     </div>
 

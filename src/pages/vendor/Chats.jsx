@@ -20,6 +20,8 @@ const Chats = ()=>{
     let color = "green";  
 var msgcount = [];
 
+
+const[visible_toggle,UpdateVisibility] = useState(false)
 const[message,UpdateMessage] = useState([]);
 const[PersonCount,UpdatePersonCount] = useState(0)
 const[Seen,UpdateSeen] = useState({});
@@ -82,15 +84,15 @@ const getdata=(data,babyRef)=>{
 data.forEach((change)=>{
    value.push(change.doc.id);
    count[change.doc.id] = (count[change.doc.id]||0) + 1;
-   console.log("prem",change.doc.id + " : ",count[change.doc.id]);
+  //  console.log("prem",change.doc.id + " : ",count[change.doc.id]);
    Seen_variable[change.doc.id] =  change.doc.data().seen;
-   console.log("Seen variable : ",Seen_variable);
+  //  console.log("Seen variable : ",Seen_variable);
    
 })
 
 
 value = value.filter((item,index) =>value.indexOf(item)===index)
-console.log("Values ..!,",value);
+// console.log("Values ..!,",value);
 let Names = {};
 
 const dynamics = (value,item)=>{
@@ -100,7 +102,7 @@ const dynamics = (value,item)=>{
   obj["count"] = falsecount[item]
   obj["name"] = value
   obj["seen"] = Seen_variable[item];
-  console.log("Helo",item , ":",Seen_variable[item])
+  // console.log("Helo",item , ":",Seen_variable[item])
   msg.push(obj)
 }
 
@@ -108,15 +110,15 @@ const dynamics = (value,item)=>{
     var  collRef=  db.collection("User").doc(item);
       collRef.get().then((data)=>{
       Names[item]=data.data().firstname;
-      console.log("names[item]",Names[item])
-      console.log("Names : ",Object.keys(Names)," : ",Object.values(Names));
+      // console.log("names[item]",Names[item])
+      // console.log("Names : ",Object.keys(Names)," : ",Object.values(Names));
       dynamics(Names[item],item)
-      console.log("Names path: ",index)
+      // console.log("Names path: ",index)
 
       if(index===value.length-1)
       {
-        console.log("Names helo")
-        console.log("New Data : ",msg);
+        // console.log("Names helo")
+        // console.log("New Data : ",msg);
         UpdateMessage(msg);
         console.log("prem",Seen_variable)
         UpdateSeen(Seen_variable);
@@ -126,27 +128,12 @@ const dynamics = (value,item)=>{
 })
 }
 
-console.log("getDat contents: ",message);
+// console.log("getDat contents: ",message);
 
-const ChatPopup= (item)=>{
-  console.log("Inside Chat popup : ",item)
-  var testElements = document.getElementsByClassName('App');
-  var testDivs = Array.prototype.filter.call(testElements, function(testElement){
-    return testElement.nodeName === 'DIV';
-  });
-  console.log("Test Elements ..: ",testElements)
-  console.log("Test Element chilnodes : ",testElements.childNodes)
-  console.log("The test divs are ",testDivs,testDivs[0],testDivs[0].childNodes[0],testDivs[0].childNodes[0].childNodes);
-  let temp = testDivs[0].childNodes[0].childNodes[0];
-  
-  temp.click();
- 
- 
-}
 
-console.log("Message : ",message);
-console.log("Message Vendor : ",Vendor)
-console.log("Final : ",PersonCount)
+// console.log("Message : ",message);
+// console.log("Message Vendor : ",Vendor)
+// console.log("Final : ",PersonCount)
 
 return(
 <div>
@@ -162,8 +149,8 @@ return(
       actions={[<font color="red">{item.count}</font>]}
       onClick = {() => {
         UpdateVendor(item);
+        UpdateVisibility(true)
         
-        ChatPopup(item);
       }}
       
       >
@@ -181,6 +168,8 @@ return(
   </Row>
   <VendorChat vendor = {Vendor}
    badgecount = {PersonCount}
+   visibility = {visible_toggle}
+  
   />
 </div>
 );

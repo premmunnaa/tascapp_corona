@@ -13,6 +13,9 @@ import{
 import CardComp from './CardComp';
 const { Meta } = Card;
 
+const Scroll = ()=>{
+  window.scroll(0,0)
+}
 
 const SimilarProducts =props=>{
     const history = useHistory()
@@ -94,7 +97,7 @@ const SimilarProducts =props=>{
                 DBData.map((item)=>
    <Col span = {6} style={{paddingLeft:"1rem"}}>            
             
-
+    <div onClick = {Scroll}>
     <CardComp
     
 
@@ -111,6 +114,7 @@ const SimilarProducts =props=>{
     category = {item.title}
     designdetails = {item.designdetails}
     />
+    </div>
     
     </Col> 
  )

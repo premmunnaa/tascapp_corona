@@ -4,6 +4,7 @@ import '../css/index.css';
 import * as firebase from 'firebase';
 import { Layout, Col, Row, Space, Menu, Tooltip, Input } from 'antd';
 //import { white } from 'material-ui/styles/colors';
+import { Badge } from 'antd';
 import image from '../images/TASC.jpeg'
 import {
   LogoutOutlined,
@@ -14,7 +15,20 @@ import {
 import { Link, Router,NavLink } from 'react-router-dom';
 const { Header} = Layout;
 const { Search } = Input;
+var count =0;
 class SiderMenuAdmin extends React.Component {
+  componentDidMount(){
+    const db = firebase.firestore();
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+    var  babyRef=  db.collection("User").doc(user.uid).collection("Chat").where("seen","==",false);
+    babyRef.onSnapshot(querySnapshot=>{
+       count = querySnapshot.docs.length;
+      console.log("Doc : ",count)
+    })
+      }
+  });
+  }
   render() {
     function Signout(){
       
@@ -37,8 +51,8 @@ class SiderMenuAdmin extends React.Component {
               <Space direction={"horizontal"} size={40}>
               <span> <NavLink  to="/AdminInventory" activeClassName="your-active-class" className="link">Home</NavLink></span>
               
-              <span> <NavLink  to="/AdminChat" activeClassName="your-active-class" className="link">Chats</NavLink></span>
-              
+              <NavLink to='/vendorchat' activeClassName="your-active-class" className="link" className="head-example"> 
+        <span><Badge count={count}> Chats </Badge></span> </NavLink> 
                
                
               </Space>

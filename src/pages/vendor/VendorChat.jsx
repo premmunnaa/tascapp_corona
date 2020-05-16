@@ -16,7 +16,8 @@ import { Drawer, List, Divider, Col, Row } from 'antd';
 const VendorChat=props=>  {
   const{
 vendor,
-badgecount
+badgecount,
+visibility
   }=props
 console.log("vendorchat",vendor);
 console.log("bage : ",badgecount)
@@ -27,6 +28,20 @@ console.log("bage : ",badgecount)
 
   useEffect(()=>{
     var unsub;
+    if(visibility===true)
+    {
+      console.log("Inside Chat popup : ",vendor)
+      var testElements = document.getElementsByClassName('App');
+      var testDivs = Array.prototype.filter.call(testElements, function(testElement){
+        return testElement.nodeName === 'DIV';
+      });
+      console.log("Test Elements ..: ",testElements)
+      console.log("Test Element chilnodes : ",testElements.childNodes)
+      console.log("The test divs are ",testDivs,testDivs[0],testDivs[0].childNodes[0],testDivs[0].childNodes[0].childNodes);
+      let temp = testDivs[0].childNodes[0].childNodes[0];
+      temp.click();
+      console.log("Done.>!")
+    }
     if(vendor.id!==undefined){
       const db = firebase.firestore();
       var UserId;
@@ -152,16 +167,20 @@ const handleNewUserMessage = (newMessage) => {
 }
 
   return (
-    <div className="App">
-      <Chat
-    //   fullScreenMode={true}
-        handleNewUserMessage={handleNewUserMessage}
-      //  profileAvatar={kefi}
-        title={vendor.name}
-        subtitle="And my cool subtitle"
-         badge ={badgecount}
-      />
-    </div>
+    visibility ? ( <div className="App" >
+    <Chat
+  //   fullScreenMode={true}
+       handleNewUserMessage={handleNewUserMessage}
+    //  profileAvatar={kefi}
+       title={vendor.name}
+       subtitle="And my cool subtitle"
+       badge ={badgecount}
+    />
+  </div>):
+  (<div>
+  
+  </div>)
+   
   );
 }
 

@@ -25,13 +25,30 @@ const {Content} = Layout;
 
 const ChatAdmin=props=>  {
 const{
-vendor
+vendor,
+visibility
 }=props
   let datacheck=0;
   let len=0;
  console.log("premid:",vendor.id)
 
   useEffect(()=>{
+
+    if(visibility===true)
+    {
+      var testElements = document.getElementsByClassName('App');
+      var testDivs = Array.prototype.filter.call(testElements, function(testElement){
+        return testElement.nodeName === 'DIV';
+      });
+      console.log("Test Elements ..: ",testElements)
+      console.log("Test Element chilnodes : ",testElements.childNodes)
+      console.log("The test divs are ",testDivs,testDivs[0],testDivs[0].childNodes[0],testDivs[0].childNodes[0].childNodes);
+      let temp = testDivs[0].childNodes[0].childNodes[0];
+  
+      temp.click();
+ 
+    }
+
 if(vendor.id!==undefined){
   let unsub;
   const db = firebase.firestore();
@@ -158,16 +175,20 @@ const handleNewUserMessage = (newMessage) => {
 }
 
   return (
-    <div className="App">
-      <Chat
-      // fullScreenMode={true}
-        handleNewUserMessage={handleNewUserMessage}
-      //  profileAvatar={kefi}
-        title="Lets Chat"
-        subtitle="And my cool subtitle"
-         badge ={setBadgeCount}
-      />
-    </div>
+    visibility ? ( <div className="App" >
+    <Chat
+  //   fullScreenMode={true}
+       handleNewUserMessage={handleNewUserMessage}
+    //  profileAvatar={kefi}
+       title={vendor.name}
+       subtitle="And my cool subtitle"
+       
+    />
+  </div>):
+  (<div>
+  
+  </div>)
+   
   );
 }
 

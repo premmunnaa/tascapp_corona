@@ -333,3 +333,8 @@ width: 165px;
 height: 150px;
 padding-right: 10;
 }
+
+.ant-badge-count {
+    font-size: 10px;
+    height: 20px;
+}

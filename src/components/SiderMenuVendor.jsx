@@ -5,8 +5,15 @@ import 'antd/dist/antd.css';
 import '../css/index.css';
 import '../css/mycss.css';
 import image from '../images/TASC.jpeg'
+import {BellOutlined} from '@ant-design/icons';
 // import { withRouter } from 'react-router-dom';
 import { Layout, Col, Row, Space, Menu, Tooltip, Input } from 'antd';
+import { Badge } from 'antd';
+
+import NotificationBadge from 'react-notification-badge';
+import {Effect} from 'react-notification-badge';
+ 
+
 //import { white } from 'material-ui/styles/colors';
 import {
   LogoutOutlined,
@@ -55,9 +62,11 @@ componentDidMount(){
               <Space direction={"horizontal"} size={40}>
               <NavLink to='/SellerCart' activeClassName="your-active-class" className="link"> <span>Home</span></NavLink>
                <NavLink to='/SellerProductReport' activeClassName="your-active-class" className="link"> <span>Product Report </span></NavLink>
-               <NavLink to='/vendorchat' activeClassName="your-active-class" className="link"> <span>{count===0?"Chats":"Chats "+count} </span></NavLink>
+              
                
-                
+        <NavLink to='/vendorchat' activeClassName="your-active-class" className="link" className="head-example"> 
+        <span><Badge count={count}> Chats </Badge></span> </NavLink> 
+  
                
               </Space>
             </Col>

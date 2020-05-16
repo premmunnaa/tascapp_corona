@@ -20,7 +20,7 @@ const AdminChat = ()=>{
     let status = "Read";
     let color = "green";  
 var msgcount = [];
-
+const[visible_toggle,UpdateVisibility] = useState(false)
 const[message,UpdateMessage] = useState([]);
 const[PersonCount,UpdatePersonCount] = useState(0)
 const[Seen,UpdateSeen] = useState({});
@@ -129,21 +129,6 @@ const dynamics = (value,item)=>{
 
 console.log("getDat contents: ",message);
 
-const ChatPopup= (item)=>{
-  console.log("Inside Chat popup : ",item)
-  var testElements = document.getElementsByClassName('App');
-  var testDivs = Array.prototype.filter.call(testElements, function(testElement){
-    return testElement.nodeName === 'DIV';
-  });
-  console.log("Test Elements ..: ",testElements)
-  console.log("Test Element chilnodes : ",testElements.childNodes)
-  console.log("The test divs are ",testDivs,testDivs[0],testDivs[0].childNodes[0],testDivs[0].childNodes[0].childNodes);
-  let temp = testDivs[0].childNodes[0].childNodes[0];
-  
-  temp.click();
- 
- 
-}
 
 console.log("Message : ",message);
 console.log("Message Vendor : ",Vendor)
@@ -164,7 +149,7 @@ return(
       onClick = {() => {
         UpdateVendor(item);
         
-        ChatPopup(item);
+       UpdateVisibility(true);
       }}
       
       >
@@ -180,7 +165,7 @@ return(
   />
   </Col>
   </Row>
-  <ChatAdmin vendor = {Vendor}
+  <ChatAdmin vendor = {Vendor} visibility = {visible_toggle}
   />
 </div>
 );
