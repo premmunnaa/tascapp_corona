@@ -36,43 +36,43 @@ const DescriptionItem = ({ title, content }) => (
   </div>
 );
 
-const UserProfile = ()=>{
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       InputData: [],
-//     };
-//   }
+const UserProfile = (props)=>{
+
 const[DataInp,UpdateDbdata] = useState([]);
 const[Nope,UpdateNope] = useState(0)
 console.log("DataInp : ",DataInp)
 var FireData=[];
-useEffect(()=>{
-const db = firebase.firestore();
-//    Input = this.state.InputData.slice;
-var UserId;
 
-// let Promises  = new Promise((succeed,fail)=>{
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      // User logged in already or has just logged in.
-      UserId = user.uid;
-      console.log(UserId);
-      var docRef = db.collection("User").doc(UserId);
-      docRef.get().then(function(doc) {
-        FireData = doc.data();
-       
-       console.log("Firedata: ",FireData)
-  UpdateDbdata(FireData);
-
-    }).catch(function(error) {
-        console.log("Error getting document:", error);
+const callFirebase = ()=>{
+  const db = firebase.firestore();
+  //    Input = this.state.InputData.slice;
+  var UserId;
+  
+  // let Promises  = new Promise((succeed,fail)=>{
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // User logged in already or has just logged in.
+        UserId = user.uid;
+        console.log(UserId);
+        var docRef = db.collection("User").doc(UserId);
+        docRef.onSnapshot(querySnapshot=> {
+          FireData = querySnapshot.data()
+         
+         console.log("Firedata: ",FireData)
+    UpdateDbdata(FireData);
+  
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+      });
+        
+      } else {
+        // User not logged in or has just logged out.
+      }
     });
-      
-    } else {
-      // User not logged in or has just logged out.
-    }
-  });
+}
+
+useEffect(()=>{
+   callFirebase();
 },[])
     return (
       

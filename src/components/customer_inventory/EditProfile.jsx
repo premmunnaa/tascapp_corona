@@ -6,7 +6,7 @@ import { Drawer, Form, Button, Col, Row, Input, Select, DatePicker } from 'antd'
 import { PlusOutlined } from '@ant-design/icons';
 import * as firebase from 'firebase';
 
-
+var flag = true;
 function onChange(date, dateString) {
     console.log(date, dateString);
   }
@@ -14,6 +14,8 @@ function onChange(date, dateString) {
 class EditProfile extends React.Component {
   constructor(props) {
     super(props);
+    
+    
     this.state = {
       InputData: [],
     };
@@ -57,8 +59,23 @@ this.setState({InputData : Input})
 
   SubmitValues = (values)=>{
     
+    console.log("Values : ",values,values.name)
+    Object.values(values).map(item =>{
+      if(item!==undefined)
+      {
+        console.log("yess");
+        
+      }
+    })
+
 console.log("Finsih : ",this.state.InputData.firstname);
   var a = this.state.InputData.firstname
+  var b = this.state.InputData.email
+  var c = this.state.InputData.address
+  var d = this.state.InputData.city
+  var e = this.state.InputData.phone
+  var f = this.state.InputData.country
+  var g = this.state.InputData.website
     this.onClose();
     const db = firebase.firestore();
     firebase.auth().onAuthStateChanged(function(user) {
@@ -67,13 +84,13 @@ console.log("Finsih : ",this.state.InputData.firstname);
         userRef.get().then(function(doc) {
           userRef.update({
            firstname:values.name===undefined ? (a):(values.name),
-          //  email:values.email===undefined ? (this.state.InputData.email):(values.email),
-          //  address:values.address===undefined ? (this.state.InputData.address):(values.address),
-          //  city:values.city===undefined ? (this.state.InputData.city):(values.city),
-          //  phone:values.phone===undefined ? (this.state.InputData.phone):(values.phone),
-          //  country:values.country===undefined ? (this.state.InputData.country):(values.country),
-          //  website:values.website===undefined ? (this.state.InputData.website):(values.website)
-   
+           email:values.email===undefined ? (b):(values.email),
+           address:values.address===undefined ? (c):(values.address),
+           city:values.city===undefined ? (d):(values.city),
+           phone:values.phone===undefined ? (e):(values.phone),
+           country:values.country===undefined ? (f):(values.country),
+           website:values.website===undefined ? (g):(values.website)
+           
            }).then(function() {
              console.log("Document successfully written!");
            

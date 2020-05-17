@@ -51,7 +51,7 @@ class SiderMenuAdmin extends React.Component {
               <Space direction={"horizontal"} size={40}>
               <span> <NavLink  to="/AdminInventory" activeClassName="your-active-class" className="link">Home</NavLink></span>
               
-              <NavLink to='/vendorchat' activeClassName="your-active-class" className="link" className="head-example"> 
+              <NavLink to='/ChatAdmin' activeClassName="your-active-class" className="link" className="head-example"> 
         <span><Badge count={count}> Chats </Badge></span> </NavLink> 
                
                
