@@ -44,7 +44,7 @@ class SiderMenuAdmin extends React.Component {
             <Col span={4}>
               <Space direction={"horizontal"} size={"large"} style = {{color:"white"}}>
               
-              <span><a href = "https://www.worldometers.info/coronavirus/" target="_blank" activeClassName="your-active-class" className="link"><img style={{width:70,height:45}} className = "card-img-logo" src = {image}></img></a></span>
+              <span><img style={{width:70,height:45}} className = "card-img-logo" src = {image}></img></span>
               </Space>
             </Col>
             <Col span={17}>

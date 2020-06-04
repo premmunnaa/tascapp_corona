@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Recaptcha from 'react-recaptcha';
 import 'antd/dist/antd.css';
 import * as firebase from 'firebase';
 import {
@@ -61,9 +62,26 @@ const tailFormItemLayout = {
 
 const RegistrationForm = () => {
   const history = useHistory();
+  const[captcha,updateCaptcha] = useState(0);
   const [form] = Form.useForm();
 
+  const CaptchaLoader = () => {
+   console.log("Ready");
+    
+  }
+
+  const VerifyCaptcha = (response) => {
+    console.log("Verify Captcha..!");
+    console.log("Response : ",response);
+    if(response)
+    {
+      updateCaptcha(1);
+    }
+  }
+
   const onFinish = values => {
+    if(captcha)
+    {
     firebase
     .auth()
     .createUserWithEmailAndPassword(values.email, values.password)
@@ -92,6 +110,11 @@ const RegistrationForm = () => {
       console.log(e.message);
     });
     console.log('Received values of form: ', values);
+    }
+    else
+    {
+      alert("Please Confirm you are Human !")
+    }
   };
 
   const prefixSelector = (
@@ -305,27 +328,22 @@ const RegistrationForm = () => {
         </AutoComplete>
       </Form.Item>
         
-      <Form.Item label="Captcha" extra="We must make sure that your are a human.">
+      
         <Row gutter={8}>
+          <Col span = {5}></Col>
           <Col span={12}>
-            <Form.Item
-              name="captcha"
-              noStyle
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input the captcha you got!',
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Button>Get captcha</Button>
+
+                  <Recaptcha
+                    sitekey="6Lfuz_8UAAAAAMaIaGMILKVvNgmPRWqwtBQeMnAo"
+                    render="explicit"
+                    onloadCallback={CaptchaLoader}
+                    verifyCallback={VerifyCaptcha}
+                  />
+
+         
           </Col>
         </Row>
-      </Form.Item>
+      
 
       <Form.Item
         name="agreement"
@@ -355,7 +373,7 @@ class HeaderMenu extends React.Component {
     render() {
       return (
           <Header className="site-layout-background" className="headerLogin" style={{ color: white }}>
-          <p style={{fontSize: 22, margin: 5}}>Corona Essentials</p>
+          <p style={{fontSize: 22, margin: 5}}><font color = "white">T.A.S.C</font></p>
           <LoginInRegister />
           </Header>
       );

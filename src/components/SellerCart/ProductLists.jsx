@@ -6,6 +6,7 @@ import * as firebase from 'firebase';
 import { Col, Row ,Button,Form,InputNumber,Input} from "antd";
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { Empty } from 'antd';
 const db = firebase.firestore();
 const layout = {
   labelCol: {
@@ -32,8 +33,9 @@ const ViewProducts = props=>{
   }=props;
 
   const[ProductArray,UpdateProducts] = useState(products)
-
+  
   const [EditMode,UpdateMode] = useState(false)
+  console.log("Product Array Length : ",products.length)
   console.log("ProductArray : ",ProductArray)
   console.log("Products : ",props.products)
  
@@ -100,8 +102,12 @@ const Update = ()=>{
               EditMode ? (
               <Col style = {{paddingLeft:10}} span= {4}><Button type = "submit" className = "ant-btn ant-btn-primary" onClick={Update}>Clear</Button></Col>
               ):(
+                products.length === 0 ? 
+                  (
+                    <div><Empty /></div>
+                  ):(
                 <Col span ={4}><Button type = "submit" className = "ant-btn ant-btn-primary" onClick={ChangeMode}>Edit</Button></Col>
-                
+                  )
               )
             }
             
@@ -122,16 +128,10 @@ const Update = ()=>{
                                 </Col>
                                 <Col span={12}>
                             <Form.Item
-                      // name={["Count",product.count]}
+                      
                       name = {[product.id,"count"]}
                       label={product.sub_type}
-                      // rules={[
-                      //   {
-                      //     type: 'number',
-                      //     min: 0,
-                      //     max: 50000,
-                      //   },
-                      // ]}
+                      
                       >
                     <Col span={6}>     
                       <Input 

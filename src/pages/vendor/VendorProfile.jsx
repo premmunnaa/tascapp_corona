@@ -20,7 +20,7 @@ const VendorProfile = ()=>{
                     <Col style = {{paddingRight:20}} span= {2} ><ProfileImage/></Col>
                     <Col span={1}></Col>
                     </Row>
-                    <Row style = {{paddingTop : 20}}>
+                    <Row style = {{paddingTop : 50}}>
 
                     
                     <Col span= {16}>
