@@ -106,9 +106,9 @@ const RegistrationForm = () => {
       });
        
     }})
-    .catch(e => {
-      console.log(e.message);
-    });
+    // .catch(e => {
+    //   console.log(e.message);
+    // });
     console.log('Received values of form: ', values);
     }
     else
