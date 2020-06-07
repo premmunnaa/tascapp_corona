@@ -288,13 +288,17 @@ const RegistrationForm = () => {
         />
       </Form.Item>
 
-      <Form.Item label="Country Code" rules={[
+      <Form.Item label="Country" rules={[
         {
           required: true, 
-          message: 'Please Provide Country Code!'
+          message: 'Please Provide Country '
         }]
       }>
-          <InputNumber />
+          <Input
+          style={{
+            width: '100%',
+          }}
+        />
       </Form.Item>
 
       <Form.Item
@@ -319,7 +323,7 @@ const RegistrationForm = () => {
         label="Website"
         rules={[
           {
-            required: false,
+            required: true,
             message: 'Please input website!',
           },
         ]}
