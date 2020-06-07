@@ -86,6 +86,7 @@ const RegistrationForm = () => {
     .auth()
     .createUserWithEmailAndPassword(values.email, values.password)
     .then(res => {
+      console.log("The response is ",res);
       if (res.user){
         const userRef = db.collection("User").doc(res.user.uid).set({
           firstname: values.firstname,
