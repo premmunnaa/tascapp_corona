@@ -17,9 +17,11 @@ import Cart from '../../components/SellerCart/Cart'
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import ViewDoc from '../../components/customer_inventory/ViewDocuments';
+import { Empty } from 'antd';
 const { Meta } = Card;
 const {Content} = Layout;
 const antIcon = <LoadingOutlined style={{ fontSize: 50,paddingLeft:"20rem",paddingTop:"10rem" }} spin />
+
 var Name_of_organisation = "Athena Technologies"
 var Emailid = "Athena@gmail.com"
 var Contact_number = "567890"
@@ -43,7 +45,7 @@ const VendorInfo =props=>{
     const[Products,UpdateProducts] = useState([]);
     console.log("Toggle : ",toggle_variable)
     console.log("Vendorid : ",vendorid)
-console.log("DataInp : ",DataInp)
+console.log("DataInppp : ",DataInp)
 var FireData=[];
 let dataarr=[];
 console.log("user : ",UserId)
@@ -164,10 +166,10 @@ useEffect(()=>{
                             <div style = {{paddingTop:20}} className = "container-fluid.row" >
                     <Card
 
-                    hoverable
+                    
                     className = "vendorDisplayCard"
                     
-                    cover={Loader ?(<img alt="example" src={DataInp.profileImg} className="card-img-top"/>):(<Spin indicator={antIcon} />)}
+                    cover={Loader ?( DataInp.profileImg ? ( <img  src={DataInp.profileImg} className="card-img-top"/>) : (<Empty/>) ):(<Spin indicator={antIcon} />)}
                     >
                     <Meta
 
@@ -235,10 +237,10 @@ useEffect(()=>{
                             
                             <div className = "container-fluid.row" >
                     <Card
-                    hoverable
+                    
                     className = "vendorDisplayCard"
                     // cover = {<Col span={20} style = {{paddingRight:10}}><ProfileImage/></Col>}
-                    cover={Loader ?(<img alt="example" src={DataInp.profileImg} className="card-img-top"/>):(<Spin indicator={antIcon} />)}
+                    cover={Loader ?( DataInp.profileImg ? ( <img  src={DataInp.profileImg} className="card-img-top"/>) : (<Empty/>) ):(<Spin indicator={antIcon} />)}
                     >
                     <Meta
 

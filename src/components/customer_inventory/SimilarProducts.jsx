@@ -7,6 +7,7 @@ import mask from '../../images/facemask.jpg'
 import location from '../../images/location.png'
 import '../../css/mycss.css'
 import * as firebase from 'firebase';
+import { Empty } from 'antd';
 import{
     EnvironmentOutlined,
     } from '@ant-design/icons';
@@ -81,47 +82,41 @@ const SimilarProducts =props=>{
        
 },[])
     return (
-       
-
-       
         <div className = "row-form" style={{width:"100%",height:"100%"}}>
-
-
-
-                <Row style={{paddingLeft:10,paddingTop:"1rem",paddingBottom:"5rem"}}  >
+        <Row style={{paddingLeft:10,paddingTop:"1rem",paddingBottom:"5rem"}}  >
        
             {
                
-
+              DBData.length === 0 ? (<Empty/>)
+              :
+              (
                
                 DBData.map((item)=>
-   <Col span = {6} style={{paddingLeft:"1rem"}}>            
-            
-    <div onClick = {Scroll}>
-    <CardComp
-    
-
-    imgsrc = {item.image} 
-                               
-    Name = {item.sub_type} 
-    count = {item.count}
-    city ={item.city}
-    company = {item.company}
-    id = {item.id}
-    image = {item.imgurls}
-    productdetails = {item.productdetails}
-    shortdescription = {item.shortdescription}
-    category = {item.title}
-    designdetails = {item.designdetails}
-    />
-    </div>
-    
-    </Col> 
- )
-               
-}
-</Row>
-  </div>
-    )
+                  <Col span = {6} style={{paddingLeft:"1rem"}}>            
+                            
+                    <div onClick = {Scroll}>
+                    <CardComp
+                        imgsrc = {item.image} 
+                        Name = {item.sub_type} 
+                        count = {item.count}
+                        city ={item.city}
+                        company = {item.company}
+                        id = {item.id}
+                        image = {item.imgurls}
+                        productdetails = {item.productdetails}
+                        shortdescription = {item.shortdescription}
+                        category = {item.title}
+                        designdetails = {item.designdetails}
+                    />
+                    </div>
+                    
+                    </Col> 
+                )
+              )             
+                }
+                </Row>
+                  </div>
+                    
+  )
 }
 export default SimilarProducts

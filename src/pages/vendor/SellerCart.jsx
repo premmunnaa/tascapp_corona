@@ -3,10 +3,11 @@ import React from 'react'
 import  '../../css/mycss.css'
 import 'antd/dist/antd.css';
 import Cart from '../../components/SellerCart/Cart'
-import { Col, Row } from "antd";
+import { Col, Row, Empty } from "antd";
 import SiderMenuVendor from '../../components/SiderMenuVendor'
 import Popup from '../../components/SellerCart/DocumentPopup'
 import * as firebase from 'firebase';
+
 var Input = [];
 class ProductCart extends React.Component {
     constructor(props) {
@@ -71,6 +72,7 @@ componentDidMount(){
             </Row>
         <Row style = {{paddingLeft:"1rem"}}>
         {
+          this.state.InputData.length === 0 ? (<Col style = {{paddingLeft:"20rem",paddingTop:"5rem"}}><Empty/></Col>):(
          this.state.InputData.map((item)=>
         
                  
@@ -92,8 +94,8 @@ componentDidMount(){
 
      </Col>
           )
-         
-        }
+        )
+      }
         </Row>
         </div>
     )

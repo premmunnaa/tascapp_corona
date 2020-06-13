@@ -61,7 +61,7 @@ const callFirebase = ()=>{
          console.log("Firedata: ",FireData)
     UpdateDbdata(FireData);
   
-      }).catch(function(error) {
+      }).catch((error) => {
           console.log("Error getting document:", error);
       });
         
