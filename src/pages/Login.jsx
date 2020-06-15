@@ -71,8 +71,10 @@ const LoginForm = () => {
         .then(res => {
           if (res.user){
             
-            var docRef = db.collection("User").doc(res.user.uid);
-            docRef.get().then(function(doc) {
+              var docRef = db.collection("User").doc(res.user.uid);
+              console.log("User Login : ",res.user.id,docRef)
+              docRef.get().then(function(doc) {
+               
               if (doc.data().type === "Buyer") {
                 history.replace("/AdminInventory");
               } else if(doc.data().type === "Seller") {
@@ -82,7 +84,8 @@ const LoginForm = () => {
               console.log("Error getting document:", error);
           });
             
-          }
+          }//if
+         
         })
         .catch(e => {
           message.error(e.message);

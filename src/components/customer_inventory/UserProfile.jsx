@@ -91,7 +91,7 @@ useEffect(()=>{
        
           <Row style = {{paddingTop:"1rem"}}>
             <Col span={8}>
-              <DescriptionItem title="Full Name" content={DataInp.firstname} />
+              <DescriptionItem title="Full Name" content={DataInp.firstname + " "+DataInp.lastname} />
             </Col>
             <Col span={8}>
               <DescriptionItem title="Account" content={DataInp.email} />

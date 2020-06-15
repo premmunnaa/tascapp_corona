@@ -112,6 +112,7 @@ const RegistrationForm = () => {
       if (res.user){
         const userRef = db.collection("User").doc(res.user.uid).set({
           firstname: values.firstname,
+          lastname : values.lastname,
           email: values.email,
           phone:values.phone,
           website:values.website,
@@ -119,6 +120,8 @@ const RegistrationForm = () => {
           company:values.companyname,
           city:values.Adress,
           Products:[],
+          country:values.country,
+          address:values.Adress,
           documents:false
         }).then(function() {
           console.log("Document successfully written!");

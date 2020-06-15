@@ -68,7 +68,7 @@ this.setState({InputData : Input})
       }
     })
 
-console.log("Finsih : ",this.state.InputData.firstname);
+console.log("Finsih : ",this.state.InputData);
   var a = this.state.InputData.firstname
   var b = this.state.InputData.email
   var c = this.state.InputData.address
