@@ -2,7 +2,7 @@ import React from 'react'
 import {useLocation} from 'react-router-dom';
 import 'antd/dist/antd.css';
 
-import { Col,Row,Card} from 'antd';
+import { Col,Row,Card,Empty} from 'antd';
 import CustomerCart from '../../components/customer_inventory/CustomerCart'
 import SiderMenuAdmin from '../../components/SiderMenuAdmin'
 import CardComp from '../../components/customer_inventory/CardComp'
@@ -57,8 +57,9 @@ const AdminCart =props =>{
                 <SiderMenuAdmin />
                 <Content>
                 <div style = {{paddingLeft:"1rem",paddingTop:"1rem"}} className  = "font-header">WISHLIST</div>
-                <Row style = {{paddingLeft:"2rem",paddingTop:"2rem"}}>{
-
+                <Row style = {{paddingLeft:"2rem",paddingTop:"2rem"}}>
+                  {
+                    FinalCartData.length === 0 ? (<Empty/>):(
                 FinalCartData.map((item)=>
                 <Col span = {6} style = {{paddingLeft:10,paddingTop:10}}>
               <CardComp 
@@ -76,7 +77,7 @@ const AdminCart =props =>{
                                 />
                </Col>
               )
-
+                    )
                 }
       </Row>
      <Row style = {{height:"40%"}}>

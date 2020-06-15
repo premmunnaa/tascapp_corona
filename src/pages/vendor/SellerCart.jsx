@@ -60,6 +60,7 @@ componentDidMount(){
 }
 
     render(){
+      
     return(
        
         <div>
@@ -89,7 +90,7 @@ componentDidMount(){
              proddetails={item.productdetails}
              desdetails={item.designdetails}
              shortdes = {item.shortdescription}
-             
+             shipping = {item.shipping_details}
              />
 
      </Col>

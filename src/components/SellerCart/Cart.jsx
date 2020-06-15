@@ -27,19 +27,20 @@ const Cart = props =>{
         desdetails,
         toggle,
         shortdes,
-        vendorid
+        vendorid,
+        shipping
     } = props
      console.log("Cart Props ",props)
     const prod_edit = ()=>{
         history.push({
             pathname: '/Product_edit',
-            state: { imgurls:imgsrc,id:id,subprod:Name,category:category,shortdes:shortdes,proddetails:proddetails,desdetails:desdetails,count:count }
+            state: { imgurls:imgsrc,id:id,subprod:Name,category:category,shortdes:shortdes,proddetails:proddetails,desdetails:desdetails,count:count,shipping:shipping }
         });
     }
       const prod_description = ()=>{
             history.push({
                 pathname: '/Product_description',
-                state: { vendorid:vendorid,id:id,product:Name,category:category,shortdescription:shortdes,productdetails:proddetails,designdetails:desdetails,count:count,company:company,city:city,image:imgsrc}
+                state: { vendorid:vendorid,id:id,product:Name,category:category,shortdescription:shortdes,productdetails:proddetails,designdetails:desdetails,count:count,company:company,city:city,image:imgsrc,shipping:shipping}
             });
         }
     //  history.push('Product_edit',{id:id,subprod:Name,category:category,shortdes:shortdes,proddetails:proddetails,desdetails:desdetails,count:count})
@@ -47,9 +48,9 @@ const Cart = props =>{
     
     let status;
     let color;
-     if(count>100)
+     if(count>=100)
      {
-         status = "OutOfstock"
+         status = "Instock"
          color = "green";
      }
      else if(count>10 && count<100)

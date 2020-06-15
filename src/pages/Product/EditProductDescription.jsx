@@ -1,10 +1,10 @@
-import React,{Component} from 'react';
+import React,{Component,useState} from 'react';
 import { Link, useHistory } from "react-router-dom";
 import 'antd/dist/antd.css';
 import {Row,Col} from 'antd';
 import EditProductDetails from '../../components/Products/EditProductDetails'
 import '../../css/index.css';
-import { Upload, Modal } from 'antd';
+import { Upload, Modal,message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import SiderMenuAdmin from '../../components/SiderMenuAdmin';
 import {Form,Layout,Button} from 'antd';
@@ -22,24 +22,25 @@ var urls =[];
 
 const ProductDescription = ()=>{
     const history = useHistory()
-    
+    const [submit,updateButton] = useState(true)
 
 function dataupload(user,values){
   const userRef = db.collection("User").doc(user.uid); 
   const collRef = db.collection("User").doc(user.uid).collection('Products').doc();
   userRef.get().then(function(doc) {
     collRef.set({
-         title: values.product_category,
-              id:collRef.id,
-              vendorid:user.uid,
-              city:doc.data().city,
-              company:doc.data().company,
+             title: values.product_category,
+             id:collRef.id,
+             vendorid:user.uid,
+             city:doc.data().city,
+             company:doc.data().company,
              count: values.count,
              designdetails:values.designdetails ,
              sub_type: values.name_of_subproduct,
              productdetails:  values.productdetails,
              shortdescription: values.shortdescription,
              imgurls:urls,
+             shipping_details : values.shipping_details,
 
      }).then(function() {
        console.log("Document successfully written!");
@@ -53,9 +54,20 @@ function dataupload(user,values){
 }
 
     const onFinish = values => {
-  var uniqueurls=[];
-  // uniqueurls=  urls.filter(unique);
-        console.log('Success:', uniqueurls);
+  
+        console.log('Success:', values);
+        console.log('files : ',files)
+       
+        if(files.length===0)
+        {
+          console.log("up check")
+          message.error("please upload an image");
+        }
+        if(files.length)
+        {
+          console.log("down check")
+          updateButton(false)
+        }
         const rand =  Math.floor(Math.random() * 1000);  
         firebase.auth().onAuthStateChanged(function(user) {
           if (user) {
@@ -71,6 +83,7 @@ function dataupload(user,values){
                urls.push(url)
                itemsProcessed++;
                if(itemsProcessed === files.length) {
+                 console.log("Data upload happened")
                 dataupload(user,values);
               }
                 }).then(function(error) {
@@ -156,10 +169,18 @@ const Urlpush = (fileList)=>{
                             </Row>
                             <Row>
                               <Col span = {8}></Col>
+                              
                             <Form.Item {...tailLayout}  style={{paddingTop:"4rem"}}>
+                              {
+                                submit ? (
                               <Button style={{width:200,height:50}}   type="primary" htmlType="submit">
                                 Submit
+                              </Button>):(
+                                <Button style={{width:200,height:50}}   type="primary" htmlType="submit" disabled>
+                                Submit
                               </Button>
+                              )
+                              }
                             </Form.Item>
 
                         

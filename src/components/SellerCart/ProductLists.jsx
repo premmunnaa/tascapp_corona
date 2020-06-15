@@ -50,8 +50,8 @@ const onFinish = (values)=>{
   console.log("prem Values : ",values);
 
   ProductArray.map((product)=>{
-    console.log("prem vendor id",product.vendorid);
-    console.log("prem product id",product.id);
+  //  console.log("prem vendor id",product.vendorid);
+   // console.log("prem product id",product.id);
     const ref = db.collection('User').doc(product.vendorid).collection('Products').doc(product.id);
     ref.update({
       count:values[product.id].count ===undefined ? product.count : values[product.id].count
@@ -82,13 +82,18 @@ const onFinish = (values)=>{
   
   
 }
- 
-   console.log("Props are ...",props)
+ console.log("shreya : ",ProductArray)
+  // console.log("Props are ...",props)
 const Update = ()=>{
-  console.log("Cleared")
+  //console.log("Cleared")
   UpdateMode(false)
 }
-   
+
+const handleChange = (event) => {
+  console.log("Change : ",event.target.name,event.target.value)
+  
+}
+
     return (
       
     <div >
@@ -127,7 +132,7 @@ const Update = ()=>{
                         
                                 </Col>
                                 <Col span={12}>
-                            <Form.Item
+                      <Form.Item
                       
                       name = {[product.id,"count"]}
                       label={product.sub_type}
@@ -137,7 +142,7 @@ const Update = ()=>{
                       <Input 
                         style = {{width:200}}
                         defaultValue = {Number(product.count)}
-                        
+                        onChange = {handleChange}
                         />
                       </Col>
                       

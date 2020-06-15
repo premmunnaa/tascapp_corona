@@ -55,15 +55,18 @@ const callFirebase = ()=>{
         UserId = user.uid;
         console.log(UserId);
         var docRef = db.collection("User").doc(UserId);
-        docRef.onSnapshot(querySnapshot=> {
-          FireData = querySnapshot.data()
-         
-         console.log("Firedata: ",FireData)
-    UpdateDbdata(FireData);
-  
-      }).catch((error) => {
+        try{
+          docRef.onSnapshot(querySnapshot=> {
+            FireData = querySnapshot.data()
+           
+           console.log("Firedata: ",FireData)
+           UpdateDbdata(FireData);
+    
+        })
+        }
+       catch(error)  {
           console.log("Error getting document:", error);
-      });
+      }
         
       } else {
         // User not logged in or has just logged out.

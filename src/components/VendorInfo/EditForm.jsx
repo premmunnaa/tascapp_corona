@@ -36,6 +36,7 @@ const EditProfile = () => {
 
   const history = useHistory()  
   const[temp,updatetemp] = useState({});
+  const[submit,updateButton] =useState(true)
  let object = [];
   useEffect(()=>{
     const db = firebase.firestore();
@@ -57,6 +58,7 @@ const EditProfile = () => {
 
   const onFinish = values => {
     console.log('Success:', values);
+    updateButton(false)
     const db = firebase.firestore();
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
@@ -64,13 +66,13 @@ const EditProfile = () => {
 
         userRef.get().then(function(doc) {
           userRef.update({
-           company:values.name_of_organisation===undefined ? (temp.company):(values.name_of_organisation),
-           email:values.emailid === undefined ? temp.email:values.emailid,
-           address:values.address===undefined? temp.address: values.address,
-           shortdescription:values.short_description===undefined ? temp.shortdescription:values.short_description,
-           phone:values.contact_number ===undefined ? temp.phone:values.contact_number,
-           description:values.description===undefined ? temp.description:values.description,
-           website:values.website===undefined ? temp.website:values.website
+           company:values.name_of_organisation===undefined ? ( (temp.company) ? (temp.company) : (" ") ) :(values.name_of_organisation),
+           email:values.emailid === undefined ? ( (temp.emailid) ? (temp.emailid) : (" ") ):values.emailid,
+           address:values.address===undefined? ( (temp.address) ? (temp.address) : (" ") ): values.address,
+           shortdescription:values.short_description===undefined ? ( (temp.short_description) ? (temp.short_description) : (" ") ) :values.short_description,
+           phone:values.contact_number ===undefined ? ( (temp.contact_number) ? (temp.contact_number) : (" ") ) : values.contact_number,
+           description:values.description===undefined ? ( (temp.description) ? (temp.description) : (" ") ):values.description,
+           website:values.website===undefined ? ( (temp.website) ? (temp.website) : (" ") ):values.website
            }).then(function() {
              console.log("Document successfully written!");
               history.push({
@@ -181,9 +183,18 @@ const EditProfile = () => {
       </Form.Item>
       
       <Form.Item {...tailLayout} style = {{paddingLeft:"2rem",paddingTop:"2rem"}}>
-      <Button style={{width:200,height:50}}   type="primary" htmlType="submit">
+        {
+          submit ? (
+            <Button style={{width:200,height:50}}   type="primary" htmlType="submit">
+            Submit
+          </Button>
+          ):(
+            <Button style={{width:200,height:50}}   type="primary" htmlType="submit" disabled>
                                 Submit
                               </Button>
+          )
+      
+        }
       </Form.Item>
      
   </Form>

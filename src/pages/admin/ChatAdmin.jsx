@@ -4,7 +4,7 @@ import { Link, useHistory,useLocation } from "react-router-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 //import dp from './../images/surya_cris.jpg'
 //import kefi from './../images/company.jpg'
-import { Avatar, Input } from 'antd';
+import { Avatar, Input,Empty} from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import * as firebase from 'firebase';
 import  { useEffect, useState } from 'react';
@@ -30,7 +30,7 @@ visibility
 }=props
   let datacheck=0;
   let len=0;
- console.log("premid:",vendor.id)
+ console.log("premid:",vendor)
 
   useEffect(()=>{
 
@@ -49,7 +49,7 @@ visibility
  
     }
 
-if(vendor.id!==undefined){
+if( vendor!==undefined && vendor.id!==undefined  ){
   let unsub;
   const db = firebase.firestore();
       var UserId;
@@ -175,6 +175,7 @@ const handleNewUserMessage = (newMessage) => {
 }
 
   return (
+    vendor === undefined ? (<Row style = {{paddingTop:"10rem"}}><Empty/></Row>) : (
     visibility ? ( <div className="App" >
     <Chat
   //   fullScreenMode={true}
@@ -188,7 +189,7 @@ const handleNewUserMessage = (newMessage) => {
   (<div>
   
   </div>)
-   
+    )
   );
 }
 

@@ -51,6 +51,7 @@ let dataarr=[];
 console.log("user : ",UserId)
 useEffect(()=>{
 
+    
     if(toggle_variable===0){
         const db = firebase.firestore();
        let vendorid = location.state.vendorid;
@@ -105,7 +106,7 @@ useEffect(()=>{
           UpdateDbdata(FireData);
           UpdateProducts(dataarr);
           UpdateLoader(true);
-        
+                    console.log("check")
             }).catch(function(error) {
                 console.log("Error getting document:", error);
             });
@@ -169,7 +170,7 @@ useEffect(()=>{
                     
                     className = "vendorDisplayCard"
                     
-                    cover={Loader ?( DataInp.profileImg ? ( <img  src={DataInp.profileImg} className="card-img-top"/>) : (<Empty/>) ):(<Spin indicator={antIcon} />)}
+                    cover={Loader ?( DataInp.profileImg ? ( <img  src={DataInp.profileImg} />) : (<Empty/>) ):(<Spin indicator={antIcon} />)}
                     >
                     <Meta
 
@@ -240,7 +241,7 @@ useEffect(()=>{
                     
                     className = "vendorDisplayCard"
                     // cover = {<Col span={20} style = {{paddingRight:10}}><ProfileImage/></Col>}
-                    cover={Loader ?( DataInp.profileImg ? ( <img  src={DataInp.profileImg} className="card-img-top"/>) : (<Empty/>) ):(<Spin indicator={antIcon} />)}
+                    cover={Loader ?( DataInp.profileImg ? ( <img  src={DataInp.profileImg} />) : (<Empty/>) ):(<Spin indicator={antIcon} />)}
                     >
                     <Meta
 

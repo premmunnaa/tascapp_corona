@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Recaptcha from 'react-recaptcha';
 import 'antd/dist/antd.css';
+import countryList from 'react-select-country-list'
 import * as firebase from 'firebase';
 import {
   Form,
@@ -61,9 +62,17 @@ const tailFormItemLayout = {
 };
 
 const RegistrationForm = () => {
+
+  const Options = countryList().getData()
+  const [countryname, setcountryname] = useState(null)
   const history = useHistory();
   const[captcha,updateCaptcha] = useState(0);
   const [form] = Form.useForm();
+
+  const handleCountry = (event) => {
+        console.log("country : ",event.target.value)
+        setcountryname(event.target.value)
+  }
 
   const CaptchaLoader = () => {
    console.log("Ready");
@@ -80,6 +89,10 @@ const RegistrationForm = () => {
   }
 
   const onFinish = values => {
+    if(values.password.length<6)
+    {
+      message.error("Password should me minimum of 6 charecters")
+    }
     if(captcha)
     {
     firebase
@@ -288,17 +301,31 @@ const RegistrationForm = () => {
         />
       </Form.Item>
 
-      <Form.Item label="Country" rules={[
-        {
-          required: true, 
-          message: 'Please Provide Country '
-        }]
-      }>
-          <Input
-          style={{
-            width: '100%',
-          }}
-        />
+      <Form.Item
+        
+        name="country"
+        label="Country"
+        hasFeedback
+        rules={[
+          {
+            required: true,
+            message: 'Please select country!',
+          },
+        ]}
+      >
+        
+       <Select
+                        style={{ width: 300 }}
+                        options={Options}
+                        value = {countryname}
+                        placeholder="Choose Country"
+                        onchange = {handleCountry}
+                        // filterOption={(inputValue, options) =>
+                        // options.value.toUpperCase().startsWith(inputValue.toUpperCase())
+                           
+                      //  }
+                      /> 
+     
       </Form.Item>
 
       <Form.Item
@@ -334,7 +361,7 @@ const RegistrationForm = () => {
       </Form.Item>
         
       
-        <Row gutter={8}>
+        <Row gutter={8} style = {{paddingBottom:"2rem"}}>
           <Col span = {5}></Col>
           <Col span={12}>
 
@@ -350,7 +377,7 @@ const RegistrationForm = () => {
         </Row>
       
 
-      <Form.Item
+      {/* <Form.Item
         name="agreement"
         valuePropName="checked"
         rules={[
@@ -364,7 +391,7 @@ const RegistrationForm = () => {
         <Checkbox>
           I have read the <a href="">agreement</a>
         </Checkbox>
-      </Form.Item>
+      </Form.Item> */}
       <Form.Item {...tailFormItemLayout}>
         <Button type="primary" htmlType="submit">
           Register

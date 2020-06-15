@@ -4,7 +4,7 @@ import { Link, useHistory,useLocation } from "react-router-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 //import dp from './../images/surya_cris.jpg'
 //import kefi from './../images/company.jpg'
-import { Avatar, Input } from 'antd';
+import { Avatar, Input,Empty } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import * as firebase from 'firebase';
 import  { useEffect, useState } from 'react';
@@ -167,19 +167,25 @@ const handleNewUserMessage = (newMessage) => {
 }
 
   return (
-    visibility ? ( <div className="App" >
-    <Chat
-  //   fullScreenMode={true}
-       handleNewUserMessage={handleNewUserMessage}
-    //  profileAvatar={kefi}
-       title={vendor.name}
-       subtitle="And my cool subtitle"
-       badge ={badgecount}
-    />
-  </div>):
-  (<div>
+   
+              visibility ? (
+                 <div className="App" >
+              <Chat
+            //   fullScreenMode={true}
+                  handleNewUserMessage={handleNewUserMessage}
+              //  profileAvatar={kefi}
+                  title={vendor.name}
+                  subtitle="And my cool subtitle"
+                  badge ={badgecount}
+              />
+            </div>)
+            : (
+              <div>
   
-  </div>)
+              </div>
+              )
+     
+    
    
   );
 }

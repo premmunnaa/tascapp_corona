@@ -85,31 +85,31 @@ const DocumentPopup = (props) => {
             closeOnDocumentClick
             onClose={closeModal}
           >
-            <div className="modal">
-              <Row>
-              Please Upload the Necessary documents 
-              </Row>
-            
-             <Row>
-              <Col span={2}></Col>
-              <Col> Neccessary Docs :  For Eg </Col>
-              
-             </Row>
-             <Row>
-             <Col span={4}></Col>
-               <Col span={8}>
-                 1. w9 form
-                
-               </Col>
-             </Row>
+            <div >
+                          <Row>
+                          Please Upload the Necessary documents 
+                          </Row>
+                        
+                        <Row>
+                          <Col span={2}></Col>
+                          <Col> Neccessary Docs :  For Eg </Col>
+                          
+                        </Row>
+                        <Row>
+                        <Col span={4}></Col>
+                          <Col span={8}>
+                            1. w9 form
+                            
+                          </Col>
+                        </Row>
 
-             <Row>
-             <Col span={4}></Col>
-               <Col span={8}>
-                 2. ss4 form  
-                
-               </Col>
-             </Row>
+                        <Row>
+                        <Col span={4}></Col>
+                          <Col span={8}>
+                            2. ss4 form  
+                            
+                          </Col>
+                        </Row>
 
 
             </div>

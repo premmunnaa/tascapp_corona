@@ -26,6 +26,15 @@ const { Header} = Layout;
 const { Search } = Input;
 var count =0;
 class SiderMenuVendor extends React.Component {
+
+// setTimeout(() => {
+//   firebase.auth().signOut().then(function() {
+//     console.log("Hi buddy")
+//   }, function(error) {
+//     // An error happened.
+//   });
+// }, 5000);  
+
 componentDidMount(){
   const db = firebase.firestore();
   firebase.auth().onAuthStateChanged((user) => {

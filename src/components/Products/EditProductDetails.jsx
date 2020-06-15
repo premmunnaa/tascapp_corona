@@ -1,4 +1,4 @@
-  import React,{Component} from 'react';
+import React,{Component} from 'react';
 import 'antd/dist/antd.css';
 import {Row,Col} from 'antd';
 import { Form, Input, Button, Checkbox,AutoComplete} from 'antd';
@@ -51,10 +51,11 @@ const EditProductDetails = props =>{
     id,
     proddetails,
     desdetails,
-    shortdes
+    shortdes,
+    shipping
 } = props
 
-console.log("check:"+category);
+console.log("check:"+shipping);
  return(
      
   <div>
@@ -63,19 +64,9 @@ console.log("check:"+category);
        <Col span = {24}>
        <Form.Item
        name = "product_category"
-        // name={["p", "ProductName"]}
-        // fieldKey={["p", "ProductName"]}
-        // rules={[
-        //   {
-        //   required : true,
-        //   message : "Enter the product name"
-        //   }
-        // ]}
+       
       >
-        
-      
-         
-          <AutoComplete
+       <AutoComplete
                         style={{
                           
                           height:30,
@@ -164,7 +155,7 @@ console.log("check:"+category);
         
       >
           <div>
-          <Input.TextArea defaultValue = "Shipping..!" /> </div>
+          <Input.TextArea defaultValue = {shipping} /> </div>
       </Form.Item>
       </Col>
      

@@ -17,27 +17,41 @@ const {Content} = Layout;
 
 const storageRef = firebase.storage().ref();
 const db = firebase.firestore();
-var urls=[];
-var fireurl=[];
+var urls = [];
+var fireurl = [];
 var prodcategory='';
 const ProductEdit = props => {
  
   const history = useHistory();
   const location = useLocation();
   
-  function dataupload(user,values){
-    
-    fireurl.push(...location.state.imgurls);
-    console.log("prem url",fireurl);
+  function dataupload(user,values,ImagesUrl){
+    console.log("CounterDataUpload 1 : ",ImagesUrl,typeof(ImagesUrl))
+    console.log("Counter Location : ",location.state.imgurls,typeof(location.state.imgurls))
+    Array.prototype.push.apply(ImagesUrl,location.state.imgurls)
+    console.log("CounterDataUpload 2 : ",ImagesUrl,typeof(ImagesUrl))
+    console.log("Image urls : ",urls,typeof(urls));
+    console.log("Image fire type : ",typeof(fireurl))
+   // fireurl.push(...location.state.imgurls);
+   console.log("Image Location : ",location.state.imgurls,typeof(location.state.imgurls))
+    location.state.imgurls.forEach((url)=>{
+      fireurl.push(url)
+    })
+    // Array.prototype.push.apply(fireurl,location.state.imgurls)
+    console.log("Image after",fireurl,typeof(fireurl));
+    const resultImg = Object.keys(ImagesUrl).map((key) => ImagesUrl[key]);
+   // const resultImg = Object.values(ImagesUrl);
+    console.log("Image values : ",resultImg)
     const collRef = db.collection("User").doc(user.uid).collection('Products').doc(location.state.id);
       collRef.update({
         count:values.count!==undefined ? values.count :location.state.count,
         title: values.product_category!==undefined ? values.product_category : location.state.category,
-        imgurls:fireurl !==undefined ? fireurl :location.state.imgurls,
+        imgurls:resultImg,
         designdetails:values.designdetails !==undefined ? values.designdetails:location.state.desdetails,
         sub_type: values.name_of_subproduct !==undefined ? values.name_of_subproduct:location.state.subprod,
         productdetails:  values.productdetails !==undefined ? values.productdetails : location.state.proddetails ,
         shortdescription: values.shortdescription  !==undefined ? values.shortdescription :location.state.shortdes,
+        shipping_details : values.shipping_details !==undefined ? values.shipping_details : location.state.shipping
        }).then(function() {
          console.log("Document successfully written!");
          history.push('/SellerCart')
@@ -54,38 +68,40 @@ const ProductEdit = props => {
     const onFinish = values => {
       //values.filter((data)=>data===undefined);
       // console.log("Data : ",urls);
-      //   console.log('Success:', values); 
+        console.log('Success:', values); 
         firebase.auth().onAuthStateChanged(function(user) {
+          console.log("Helo : ")
           if (user) {
+            console.log("User : ",user)
             const storageRef = firebase.storage().ref();
             var itemsProcessed = 0;
+            let images = [];
             urls.forEach((file)=>{
-              if(file.status!==undefined){
-                console.log("prem123",file);
-                console.log("fileobj is comming");
-                var uref = storageRef.child(user.uid+"/"+file.name);
-                uref.put(file.originFileObj).then(function(snapshot) {
-                
-                  uref.getDownloadURL().then((url)=>{
-                     
-                 fireurl.push(url)
-                 itemsProcessed++;
-                 if(itemsProcessed === fireurl.length) {
-                   console.log("dataupload calling");
-                  
-                }
-                  }).catch(function(error) {
-                      console.log("Error getting document:", error);
-                  });
-                   })
-              }else{
-                dataupload(user,values);
-              }
-         
-            })  
-           
-          
-           
+                  console.log("url")
+                  if(file.status!==undefined){
+                        console.log("counter")
+                        var uref = storageRef.child(user.uid+"/"+file.name);
+                        uref.put(file.originFileObj).then(function(snapshot) {
+                        
+                            uref.getDownloadURL().then((imageurl)=>{
+                                  console.log("Countercheck ",itemsProcessed,imageurl)
+                                  images.push(imageurl);
+                                  console.log("Counterbefore : ",fireurl,typeof(fireurl))
+                                  fireurl.push(imageurl)
+                                  itemsProcessed++;
+                                  console.log("CounterFire : ",itemsProcessed,fireurl,typeof(fireurl))
+                                  
+                           }).catch(function(error) {
+                          console.log("Error getting document:", error);
+                      });
+                   })  
+               }
+            })  // foreach
+            
+            console.log("FireUrl : ",fireurl,typeof(fireurl))
+            console.log("Data upload second ")
+            dataupload(user,values,images);
+
           } else {
           console.log("No user is signed in");
           }
@@ -122,8 +138,10 @@ const layout = {
     };
   
     const Urlpush = (url)=>{
-      urls=url;
-      console.log("url :",urls);
+      urls=url
+     // Array.prototype.push.apply(urls,url)
+      console.log("url : ",url)
+      console.log("urls :",urls);
     }
     return (
 
@@ -164,7 +182,7 @@ const layout = {
                    desdetails={location.state.desdetails}
                    count={location.state.count}
                    category={location.state.category}
-                    
+                   shipping = {location.state.shipping} 
                     />
                     </Col>
                 </Row>
