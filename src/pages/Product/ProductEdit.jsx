@@ -39,14 +39,17 @@ const ProductEdit = props => {
     })
     // Array.prototype.push.apply(fireurl,location.state.imgurls)
     console.log("Image after",fireurl,typeof(fireurl));
+
+
     const resultImg = Object.keys(ImagesUrl).map((key) => ImagesUrl[key]);
    // const resultImg = Object.values(ImagesUrl);
-    console.log("Image values : ",resultImg)
+    
     const collRef = db.collection("User").doc(user.uid).collection('Products').doc(location.state.id);
+      console.log("Image values : ",resultImg.toString(),fireurl.toString())
       collRef.update({
         count:values.count!==undefined ? values.count :location.state.count,
         title: values.product_category!==undefined ? values.product_category : location.state.category,
-        imgurls:resultImg,
+        imgurls:fireurl,
         designdetails:values.designdetails !==undefined ? values.designdetails:location.state.desdetails,
         sub_type: values.name_of_subproduct !==undefined ? values.name_of_subproduct:location.state.subprod,
         productdetails:  values.productdetails !==undefined ? values.productdetails : location.state.proddetails ,
@@ -100,6 +103,7 @@ const ProductEdit = props => {
             
             console.log("FireUrl : ",fireurl,typeof(fireurl))
             console.log("Data upload second ")
+           
             dataupload(user,values,images);
 
           } else {

@@ -64,15 +64,24 @@ const tailFormItemLayout = {
 const RegistrationForm = () => {
 
   const Options = countryList().getData()
-  const [countryname, setcountryname] = useState(null)
+  let Country = [];
+  Options.forEach((country,index)=>{
+    
+    console.log("Options inside : ",Options[index].label)
+   
+    Country.push({
+      value : Options[index].label
+    })
+  })
+
+  console.log("Options : ",Options[0].toString(),Options[0].label)
+  console.log("Optionsssss: ",Country[0])
+  
   const history = useHistory();
   const[captcha,updateCaptcha] = useState(0);
   const [form] = Form.useForm();
 
-  const handleCountry = (event) => {
-        console.log("country : ",event.target.value)
-        setcountryname(event.target.value)
-  }
+ 
 
   const CaptchaLoader = () => {
    console.log("Ready");
@@ -137,7 +146,7 @@ const RegistrationForm = () => {
     </Form.Item>
   );
   const [autoCompleteResult, setAutoCompleteResult] = useState([]);
-
+  
   const onWebsiteChange = value => {
     if (!value) {
       setAutoCompleteResult([]);
@@ -314,16 +323,17 @@ const RegistrationForm = () => {
         ]}
       >
         
-       <Select
+       <AutoComplete
                         style={{ width: 300 }}
-                        options={Options}
-                        value = {countryname}
+                        
+                        options={Country}
+                        //value = {countryname}
                         placeholder="Choose Country"
-                        onchange = {handleCountry}
-                        // filterOption={(inputValue, options) =>
-                        // options.value.toUpperCase().startsWith(inputValue.toUpperCase())
+                        //onchange = {handleCountry}
+                        filterOption={(inputValue, options) =>
+                        options.value.toUpperCase().startsWith(inputValue.toUpperCase())
                            
-                      //  }
+                       }
                       /> 
      
       </Form.Item>

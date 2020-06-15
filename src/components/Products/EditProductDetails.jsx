@@ -59,7 +59,7 @@ console.log("check:"+shipping);
  return(
      
   <div>
-       <div  className = "font-subheader">Product Category </div>
+       <div  className = "font-subheader" style = {{paddingTop:20}}>Product Category </div>
        <div style = {{paddingTop:15}}></div>
        <Col span = {24}>
        <Form.Item
