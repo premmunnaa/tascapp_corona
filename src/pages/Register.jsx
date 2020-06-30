@@ -67,30 +67,31 @@ const RegistrationForm = () => {
   let Country = [];
   Options.forEach((country,index)=>{
     
-    console.log("Options inside : ",Options[index].label)
+    // console.log("Options inside : ",Options[index].label)
    
     Country.push({
       value : Options[index].label
     })
   })
 
-  console.log("Options : ",Options[0].toString(),Options[0].label)
-  console.log("Optionsssss: ",Country[0])
+  // console.log("Options : ",Options[0].toString(),Options[0].label)
+  // console.log("Optionsssss: ",Country[0])
   
   const history = useHistory();
   const[captcha,updateCaptcha] = useState(0);
+  const[submit,updateButton] =useState(true)
   const [form] = Form.useForm();
 
  
 
   const CaptchaLoader = () => {
-   console.log("Ready");
+  //  console.log("Ready");
     
   }
 
   const VerifyCaptcha = (response) => {
-    console.log("Verify Captcha..!");
-    console.log("Response : ",response);
+    // console.log("Verify Captcha..!");
+    // console.log("Response : ",response);
     if(response)
     {
       updateCaptcha(1);
@@ -98,9 +99,11 @@ const RegistrationForm = () => {
   }
 
   const onFinish = values => {
+    updateButton(false);
     if(values.password.length<6)
     {
       message.error("Password should me minimum of 6 charecters")
+      updateButton(true);
     }
     if(captcha)
     {
@@ -108,7 +111,7 @@ const RegistrationForm = () => {
     .auth()
     .createUserWithEmailAndPassword(values.email, values.password)
     .then(res => {
-      console.log("The response is ",res);
+      // console.log("The response is ",res);
       if (res.user){
         const userRef = db.collection("User").doc(res.user.uid).set({
           firstname: values.firstname,
@@ -128,18 +131,21 @@ const RegistrationForm = () => {
           history.replace("/");
       })
       .catch(function(error) {
+
           console.error("Error writing document: ", error);
+          updateButton(true)
       });
        
     }})
     // .catch(e => {
     //   console.log(e.message);
     // });
-    console.log('Received values of form: ', values);
+    // console.log('Received values of form: ', values);
     }
     else
     {
       alert("Please Confirm you are Human !")
+      updateButton(true)
     }
   };
 
@@ -406,9 +412,18 @@ const RegistrationForm = () => {
         </Checkbox>
       </Form.Item> */}
       <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit">
-          Register
-        </Button> 
+      {
+          submit ? (
+            <Button style={{width:200,height:50}}   type="primary" htmlType="submit">
+            Register
+          </Button>
+          ):(
+            <Button style={{width:200,height:50}}   type="primary" htmlType="submit" disabled>
+                                Register
+                              </Button>
+          )
+      
+        }
       </Form.Item>
     </Form>
   );
